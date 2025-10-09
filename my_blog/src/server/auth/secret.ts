@@ -1,5 +1,7 @@
 import { randomBytes } from 'node:crypto';
 
+import { randomBytes } from 'node:crypto';
+
 /**
  * 生成秘钥
  */
