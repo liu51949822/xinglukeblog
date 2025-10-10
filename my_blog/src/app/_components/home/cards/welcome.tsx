@@ -1,12 +1,12 @@
 'use client';
 import type { FC } from 'react';
 
-import Link from 'next/link';
+// import Link from 'next/link';
 
-import { RainbowButton } from '../../magicui/rainbow-button';
-import { TextAnimate } from '../../text/animate';
-import { SparklesText } from '../../text/sparkles';
-import $styles from './welcome.module.css';
+// import { RainbowButton } from '../../magicui/rainbow-button';
+// import { TextAnimate } from '../../text/animate';
+// import { SparklesText } from '../../text/sparkles';
+// import $styles from './welcome.module.css';
 export interface HomeWelcomeCardType {
     title: string;
     colorTitle?: string;
@@ -19,8 +19,8 @@ export const HomeWelcomeCard: FC<Props> = ({ title, colorTitle, content }) => {
     return (
         <div className="tw-flex tw-h-full tw-w-full tw-flex-col">
             <div className="tw-flex tw-items-center tw-justify-center tw-text-3xl lg:tw-justify-start lg:tw-text-left lg:tw-text-5xl">
-                {title}
-                <SparklesText
+                {"修改  全都不要"}
+                 {/* <SparklesText
                     as={
                         <span>
                             {colorTitle && <span className={$styles.colorTitle}>{colorTitle}</span>}
@@ -38,8 +38,8 @@ export const HomeWelcomeCard: FC<Props> = ({ title, colorTitle, content }) => {
                     <Link href="https://3rcd.com/classroom/" target="_blank">
                         点此购买课程🤝
                     </Link>
-                </RainbowButton>
-            </div>
+                </RainbowButton> */}
+            </div> 
         </div>
     );
 };
