@@ -7,7 +7,7 @@
 }
 
 .nav > .menus .menu-item > a {
-    @apply tw-bg-transparent hover:tw-bg-transparent tw-duration-200 tw-transition-all tw-inline-flex tw-py-0 tw-text-base;
+    @apply tw-bg-transparent hover:tw-bg-transparent tw-duration-200 tw-transition-all tw-inline-flex tw-py-0 tw-text-base tw-ml-4;
 
     &:hover {
         @apply tw-font-semibold;
