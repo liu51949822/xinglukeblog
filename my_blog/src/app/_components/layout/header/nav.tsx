@@ -1,7 +1,7 @@
 import type { FC } from 'react';
 
 import { cn } from '@/app/_components/shadcn/utils';
-import { House, PlaneTakeoff } from 'lucide-react';
+import { House, BookOpen, User, Link as LinkIcon, Compass, MessageSquare } from 'lucide-react';
 import Link from 'next/link';
 
 import {
@@ -22,7 +22,28 @@ const items = [
     {
         title: '博客',
         href: '/blog',
-        icon: PlaneTakeoff,
+        icon: BookOpen,
+    },
+    {
+        title: '关于我',
+        href: '/blog',
+        icon: User,
+    },
+    {
+        title: '友链',
+        href: '/blog',
+        icon: LinkIcon,
+    },
+        
+    {
+        title: '导航',
+        href: '/blog',
+        icon: Compass,
+    },
+    {
+        title: '留言',
+        href: '/blog',
+        icon: MessageSquare,
     },
 ];
 export const HeaderNav: FC = () => (

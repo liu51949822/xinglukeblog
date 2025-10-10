@@ -30,7 +30,7 @@ import { Suspense, useCallback } from 'react';
 
 import { useAuth, useAuthSetChecked, useSetAuth } from '../../../auth/hooks';
 import { useToast } from '../../../shadcn/hooks/use-toast';
-import UserAvatar from './avatar.svg';
+
 import $styles from './user-action.module.css';
 
 export const UserActionButton: FC = () => {
@@ -85,8 +85,8 @@ export const UserActionButton: FC = () => {
                 <DropdownMenu modal={false}>
                     <DropdownMenuTrigger asChild>
                         <Avatar className={$styles.avatar}>
-                            <AvatarImage src={UserAvatar.src} />
-                            <AvatarFallback>CN</AvatarFallback>
+                            {/* <AvatarImage src={UserAvatar.src} /> */}
+                            {/* <AvatarFallback>CN</AvatarFallback> */}
                         </Avatar>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
