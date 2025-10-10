@@ -31,18 +31,18 @@ const items = [
     },
     {
         title: '友链',
-        href: '/blog',
+        href: '/bylink',
         icon: LinkIcon,
     },
         
     {
         title: '导航',
-        href: '/blog',
+        href: '/daohang',
         icon: Compass,
     },
     {
         title: '留言',
-        href: '/blog',
+        href: '/mesage',
         icon: MessageSquare,
     },
 ];

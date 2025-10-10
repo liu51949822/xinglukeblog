@@ -8,7 +8,6 @@ import { createPortal } from 'react-dom';
 
 import { Button } from '../../shadcn/ui/button';
 import { cn } from '../../shadcn/utils';
-import { HeaderLogo } from './logo';
 import $styles from './mobile.module.css';
 import { MobileNav } from './nav';
 const Modal: FC<{ close: MouseEventHandler<HTMLDivElement>; open: boolean }> = ({
@@ -39,7 +38,6 @@ export const MobileHeader: FC<{ open: boolean; setOpen: (value: boolean) => void
         <>
             <div className={cn($styles.side, { [$styles.open]: open })}>
                 <div className={$styles.top}>
-                    <HeaderLogo />
                     <Button
                         variant="outline"
                         size="icon"

@@ -9,7 +9,6 @@ import { List } from 'lucide-react';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 
 import { Button } from '../../shadcn/ui/button';
-import { HeaderLogo } from './logo';
 import { MobileHeader } from './mobile';
 import { HeaderNav } from './nav';
 import $styles from './styles.module.css';
@@ -48,7 +47,6 @@ export const Header: FC = () => {
                         >
                             <List />
                         </Button>
-                        <HeaderLogo />
                     </div>
                     <div className={cn($styles.nav)}>
                         <HeaderNav />

@@ -6,7 +6,7 @@ import type { FC, PropsWithChildren } from 'react';
 
 export const metadata: Metadata = {
     title: 'nextapp',
-    description: '3r教室Next.js全栈开发课程',
+    description: '行路客的小站',
 };
 
 const RootLayout: FC<PropsWithChildren> = ({ children }) => (

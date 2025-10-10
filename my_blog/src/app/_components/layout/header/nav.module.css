@@ -1,5 +1,5 @@
 .nav {
-    @apply tw-flex tw-items-center tw-justify-start tw-w-full tw-h-full;
+    @apply tw-flex tw-items-center tw-justify-center tw-w-full tw-h-full;
 }
 
 .nav > .menus {
