@@ -26,7 +26,7 @@
         "postinstall": "pnpm run setEnv && pnpm run dbm && pnpm run dbs && pnpm run dbg",
         "------------------ app command": "----",
         "------------setEnv": "cross-env NODE_OPTIONS='--no-warnings=ExperimentalWarning' ts-node -r tsconfig-paths/register --compilerOptions '{\"module\":\"CommonJS\"}' src/install.ts",
-        "setEnv": "cross-env NODE_OPTIONS='--no-warnings=ExperimentalWarning' ts-node -r tsconfig-paths/register src/install.ts"
+        "setEnv": "cross-env NODE_OPTIONS='--no-warnings=ExperimentalWarning' ts-node -r tsconfig-paths/register --compilerOptions \"{\\\"module\\\":\\\"CommonJS\\\"}\"  src/install.ts"
     },
     "dependencies": {
         "@ant-design/cssinjs": "^1.23.0",

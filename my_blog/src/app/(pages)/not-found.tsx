@@ -11,7 +11,7 @@ const NotFoundPage: FC = () => (
                 404错误意味着这个页面已经不存在了,您可以
                 <b>
                     <Link className="tw-animate-decoration" href="/">
-                        返回首页
+                        Back to Home
                     </Link>
                 </b>
             </p>
