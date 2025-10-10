@@ -8,7 +8,7 @@ export const createUserData = async () => {
         select: { id: true },
         data: {
             username: 'pincman',
-            password: hashPassword('12345678aA$'),
+            password: hashPassword('12345678'),
             email: 'pincman@example.com',
         },
     });
