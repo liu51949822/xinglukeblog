@@ -2,46 +2,46 @@ import type { HomePageConfig } from '@/app/_components/home/type';
 
 export const homeConfig: HomePageConfig = {
     welcome: {
-        title: '欢迎学习',
-        colorTitle: '3R课程！',
-        content: `本站为3R教室《新版TS全栈开发课 - web篇》项目源码的线上示例 \n采用Next.js+Hono+Prisma开发,并运行在vercel与supabase之上! \n \n 本示例的迭代将与课程更新进度保持同步...`,
+        title: '欢迎朋友',
+        colorTitle: '行路客的小站',
+        content: `本站为个人博客，记录个人学习和生活，欢迎朋友们来访，一起交流学习，共同进步`,
     },
-    video: {
-        image: 'url(https://cn-nb1.rains3.com/3rcd/media/1739813698418.png)',
-        video: 'https://cn-nb1.rains3.com/3rcd/media/1739846041317.mp4',
-    },
-    list: {
-        first: {
-            title: '3R教室',
-            data: [
-                {
-                    href: '#',
-                    text: 'TS全栈开发(React/Nextjs+Node.js+CICD/运维)教学',
-                },
-                { href: '#', text: '远程工作求职指导及职业规划' },
-                { href: '#', text: '海外项目谈判技巧与渠道拓展' },
-                { href: '#', text: '独立开发者与被动收入实现方案' },
-            ],
-            button: { href: 'https://3rcd.com/classroom/', text: '购买会员' },
-        },
-        second: {
-            title: '3R工作室',
-            data: [
-                { href: '#', text: '最专业的远程外包项目开发团队' },
-                { href: '#', text: '可做移动/桌面/前端/后端/3D/设计等' },
-                { href: '#', text: '丰富的的海外项目开发经验' },
-                {
-                    href: '#',
-                    text: '提供长期维护、升级服务，为您的梦想保驾护航',
-                },
-            ],
-            button: {
-                href: 'https://3rcd.com/workroom/',
-                text: '立即咨询',
-                outline: true,
-            },
-        },
-    },
+    // video: {
+    //     image: 'url(https://cn-nb1.rains3.com/3rcd/media/1739813698418.png)',
+    //     video: 'https://cn-nb1.rains3.com/3rcd/media/1739846041317.mp4',
+    // },
+    // list: {
+    //     first: {
+    //         title: '3R教室',
+    //         data: [
+        //         {
+        //             href: '#',
+        //             text: 'TS全栈开发(React/Nextjs+Node.js+CICD/运维)教学',
+        //         },
+        //         { href: '#', text: '远程工作求职指导及职业规划' },
+        //         { href: '#', text: '海外项目谈判技巧与渠道拓展' },
+        //         { href: '#', text: '独立开发者与被动收入实现方案' },
+        //     ],
+        //     button: { href: 'https://3rcd.com/classroom/', text: '购买会员' },
+        // },
+    //     second: {
+    //         title: '3R工作室',
+    //         data: [
+    //             { href: '#', text: '最专业的远程外包项目开发团队' },
+    //             { href: '#', text: '可做移动/桌面/前端/后端/3D/设计等' },
+    //             { href: '#', text: '丰富的的海外项目开发经验' },
+    //             {
+    //                 href: '#',
+    //                 text: '提供长期维护、升级服务，为您的梦想保驾护航',
+    //             },
+    //         ],
+    //         button: {
+    //             href: 'https://3rcd.com/workroom/',
+    //             text: '立即咨询',
+    //             outline: true,
+    //         },
+    //     },
+    // },
     typed: [
         'fix' ,
     ],
