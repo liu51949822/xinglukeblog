@@ -9,7 +9,9 @@
            tw-transition-transform tw-duration-300 tw-ease-out  -tw-translate-x-full;
 
     & > .top {
-        @apply tw-flex tw-flex-none tw-items-center tw-justify-between tw-px-4 tw-h-10 tw-shadow-[rgba(0_0_0/0.1)_0px_1px_2px_0px];
+        @apply tw-flex tw-flex-none tw-items-center 
+        tw-justify-between 
+        tw-px-4 tw-h-10 tw-shadow-[rgba(0_0_0/0.1)_0px_1px_2px_0px];
     }
 
     & > .content {
