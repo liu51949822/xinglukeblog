@@ -6,7 +6,7 @@ import { useAuth } from '@/app/_components/auth/hooks';
 import { Button } from '@/app/_components/shadcn/ui/button';
 import { cn } from '@/app/_components/shadcn/utils';
 import { useUrlQuery } from '@/libs/url';
-import { Plus } from 'lucide-react';
+import { FilePlus } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
 
@@ -27,7 +27,7 @@ export const PostCreateButton: FC<{ iconBtn?: boolean }> = ({ iconBtn = false })
                         variant="outline"
                     >
                         <Link href={`/blog/create${urlQuery}`}>
-                            <Plus />
+                            <FilePlus />
                             {!iconBtn && '创建'}
                         </Link>
                     </Button>

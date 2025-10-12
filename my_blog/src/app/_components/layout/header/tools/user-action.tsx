@@ -23,7 +23,7 @@ import { cn } from '@/app/_components/shadcn/utils';
 import { deleteCookie } from '@/libs/coolkies';
 import { ACCESS_TOKEN_COOKIE_NAME } from '@/server/auth/token';
 import { isNil } from 'lodash';
-import { User } from 'lucide-react';
+import { LogIn } from 'lucide-react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 import { Suspense, useCallback } from 'react';
@@ -71,7 +71,7 @@ export const UserActionButton: FC = () => {
                                     variant="outline"
                                 >
                                     <Link href="/auth/login">
-                                        <User />
+                                        <LogIn />
                                     </Link>
                                 </Button>
                             </TooltipTrigger>

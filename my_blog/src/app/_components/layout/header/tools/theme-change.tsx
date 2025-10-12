@@ -8,7 +8,7 @@ import {
     TooltipTrigger,
 } from '@/app/_components/shadcn/ui/tooltip';
 import { useThemeActions, useThemeColor } from '@/app/_components/theme/hooks';
-import { Moon, Sun } from 'lucide-react';
+import { MoonStar, Lightbulb } from 'lucide-react';
 import { Suspense, useCallback } from 'react';
 
 export const ThemeChangeButton: FC = () => {
@@ -25,7 +25,7 @@ export const ThemeChangeButton: FC = () => {
                             variant="outline"
                             onClick={toggleMode}
                         >
-                            {color === 'light' ? <Sun /> : <Moon />}
+                            {color === 'light' ? <Lightbulb /> : <MoonStar />}
                         </Button>
                     </TooltipTrigger>
                     <TooltipContent>
