@@ -1,5 +1,7 @@
 .header {
-    @apply tw-fixed tw-top-0 tw-w-full tw-z-[--z-index-header]  tw-mt-0 tw-bg-white/40 dark:tw-bg-zinc-900/10 tw-transition-[background-color] tw-ease-in-out tw-duration-300;
+    @apply tw-fixed tw-top-0 tw-w-full tw-z-[--z-index-header]  
+    tw-mt-0 tw-bg-white/20 dark:tw-bg-zinc-900/10 
+    tw-transition-[background-color] tw-ease-in-out tw-duration-300;
 }
 
 .header-scrolled {
@@ -9,19 +11,20 @@
 .header > .container {
     @apply tw-flex tw-flex-nowrap tw-h-14 tw-w-full tw-items-center 
     /* tw-justify-between  */
-    tw-mb-0 tw-mx-auto tw-max-w-[90%] 
-    md:tw-max-w-[80%] lg:tw-max-w-full    
+    tw-mb-0 tw-mx-auto tw-max-w-[100%] 
+    md:tw-max-w-[100%] lg:tw-max-w-full    
     tw-transition-[height] tw-ease-in-out tw-duration-300;
 
     & > .tools {
-        @apply tw-justify-end tw-pr-0 lg:tw-pr-4 xl:tw-pr-8;
+        @apply tw-pr-0 
+        tw-ml-auto        lg:tw-pr-4 xl:tw-pr-8;
     }
 
    & > .nav {
     /* border: 2px solid red !important;
     background: blue !important; */
-    @apply tw-flex tw-flex-row tw-items-center 
-    tw-justify-around tw-gap-x-6
+    @apply tw-flex tw-flex-row  tw-flex tw-items-center 
+    tw-justify-start tw-gap-x-6  
            tw-hidden lg:tw-flex lg:tw-max-w-[70%] 
            xl:tw-max-w-[60%] tw-w-full;
 }

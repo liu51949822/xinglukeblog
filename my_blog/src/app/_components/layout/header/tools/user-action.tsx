@@ -51,7 +51,7 @@ export const UserActionButton: FC = () => {
             } else {
                 toast({
                     variant: 'destructive',
-                    title: '服务器错误,请重试！',
+                    title: '服务器error,请重试！',
                     description: (await res.json()).message,
                 });
             }
@@ -85,8 +85,8 @@ export const UserActionButton: FC = () => {
                 <DropdownMenu modal={false}>
                     <DropdownMenuTrigger asChild>
                         <Avatar className={$styles.avatar}>
-                            {/* <AvatarImage src={UserAvatar.src} /> */}
-                            {/* <AvatarFallback>CN</AvatarFallback> */}
+                            <AvatarImage src={UserAvatar.src} />
+                            <AvatarFallback>CN</AvatarFallback>
                         </Avatar>
                     </DropdownMenuTrigger>
                     <DropdownMenuContent
