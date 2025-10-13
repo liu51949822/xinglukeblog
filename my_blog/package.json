@@ -100,6 +100,7 @@
         "segmentit": "^2.0.3",
         "tailwind-merge": "^3.2.0",
         "tailwindcss-animate": "^1.0.7",
+        "three": "^0.180.0",
         "typed.js": "^2.1.0",
         "unist-util-visit": "^5.0.0",
         "utility-types": "^3.11.0",

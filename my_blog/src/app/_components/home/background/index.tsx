@@ -1,13 +1,24 @@
 import type { FC } from 'react';
+import LiquidEther from './liquid'; 
 
-import { MouseMoveEffect } from './mouse-move-effect';
-
-export const HomeBackground: FC = () => (
-    <>
-        <div className="tw-pointer-events-none tw-fixed tw-inset-0">
-            <div className="tw-absolute tw-right-0 tw-top-0 tw-h-[30rem] tw-w-[30rem] tw-bg-orange-500/10 tw-blur-[100px]" />
-            <div className="tw-absolute tw-bottom-0 tw-left-0 tw-h-[30rem] tw-w-[30rem] tw-bg-blue-500/10 tw-blur-[100px]" />
-        </div>
-        <MouseMoveEffect />
-    </>
+export const HomeBackground: FC = () =>  (
+ <div style={{ width: '100%', height: '100%', position: 'relative' }}>
+  <LiquidEther
+    colors={[ '#5227FF', '#FF9FFC', '#B19EEF' ]}
+    mouseForce={20}
+    cursorSize={100}
+    isViscous={false}
+    viscous={30}
+    iterationsViscous={32}
+    iterationsPoisson={32}
+    resolution={0.5}
+    isBounce={false}
+    autoDemo={true}
+    autoSpeed={0.5}
+    autoIntensity={2.2}
+    takeoverDuration={0.25}
+    autoResumeDelay={3000}
+    autoRampDuration={0.6}
+  />
+</div>
 );

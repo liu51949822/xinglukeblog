@@ -19,7 +19,12 @@ const { welcome, video, list, typed, timeline } = homeConfig;
 export const Home: FC = () => (
     <>
         <HomeBackground />
-        <Suspense fallback={<HomeSeketon />}>
+        
+    </>
+
+);
+
+<Suspense fallback={<HomeSeketon />}>
             <div className={$styles.home}>
                 {(welcome || video) && (
                     <HomeContainer>
@@ -73,5 +78,3 @@ export const Home: FC = () => (
                 )}
             </div>
         </Suspense>
-    </>
-);

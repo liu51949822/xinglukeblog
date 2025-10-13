@@ -12,13 +12,15 @@ import { Webhook } from 'lucide-react';
 import Link from 'next/link';
 import { Suspense } from 'react';
 
-export const ApiDocButton: FC = () => (
+export const ApiDocButton: FC = () => null;
+
+(
     <Suspense fallback={null}>
         <TooltipProvider>
             <Tooltip>
                 <TooltipTrigger asChild>
                     <Button
-                        className="tw-ml-auto tw-size-9 tw-justify-center"
+                        className="tw-ml-auto tw-size-9 tw-justify-center "
                         variant="outline"
                         asChild
                     >
