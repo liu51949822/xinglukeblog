@@ -9,7 +9,7 @@ import { HomeWelcomeCard } from './cards/welcome';
 import { HomeBlock, HomeContainer } from './container';
 import { HomeSeketon } from './skeleton';
 import $styles from './style.module.css';
-import { HomeTimeline } from './timeline';
+import { HomeTimeline } from '../../(pages)/myself/timeline';
 const { welcome, list, typed, timeline } = homeConfig;
 export const Home: FC = () => (
     <>

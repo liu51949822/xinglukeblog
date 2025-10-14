@@ -1,8 +1,8 @@
 import type { FC, JSX } from 'react';
 
-import type { FadeInMotionProps } from '../motion/fadeIn';
+import type { FadeInMotionProps } from '../../_components/motion/fadeIn';
 
-import { FadeInMotion } from '../motion/fadeIn';
+import { FadeInMotion } from '../../_components/motion/fadeIn';
 import {
     Timeline,
     TimelineContent,
@@ -10,7 +10,7 @@ import {
     TimelineHeading,
     TimelineItem,
     TimelineLine,
-} from '../shadcn/ui/timeline';
+} from '../../_components/shadcn/ui/timeline';
 
 export interface HomeTimelineType {
     title: string | JSX.Element;

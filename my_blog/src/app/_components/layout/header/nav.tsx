@@ -42,7 +42,7 @@ const items = [
     },
     {
         title: '留言',
-        href: '/mesage',
+        href: '/message',
         icon: MessageSquare,
     },
 ];

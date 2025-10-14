@@ -1,7 +1,7 @@
 import type { HomeListCardType } from './cards/list';
 // import type { HomeVideoCardType } from './cards/video';
 import type { HomeWelcomeCardType } from './cards/welcome';
-import type { HomeTimelineType } from './timeline';
+import type { HomeTimelineType } from '../../(pages)/myself/timeline';
 
 export interface HomePageConfig {
     welcome?: HomeWelcomeCardType;
