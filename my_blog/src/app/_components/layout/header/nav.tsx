@@ -29,11 +29,11 @@ const items = [
         href: '/myself',
         icon: User,
     },
-    {
-        title: '友链',
-        href: '/bylink',
-        icon: LinkIcon,
-    },
+    // {
+    //     title: '友链',
+    //     href: '/bylink',
+    //     icon: LinkIcon,
+    // },
         
     {
         title: '导航',

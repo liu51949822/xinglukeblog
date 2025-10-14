@@ -3,10 +3,6 @@ import { homeConfig } from '@/config/home';
 import { Suspense } from 'react';
 import { FadeInMotion } from '../motion/fadeIn';
 import { TypedText } from '../text/typed';
-<<<<<<< HEAD
-
-=======
->>>>>>> 567ccd5 (u)
 import { HomeBackground } from './background';
 import { HomeListCard } from './cards/list';
 import { HomeWelcomeCard } from './cards/welcome';
