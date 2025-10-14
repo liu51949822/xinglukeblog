@@ -3,12 +3,13 @@
 import type { FC } from 'react';
 import Link from 'next/link';
 import styles from './web-nav.module.css';
+import type { WeblinkType } from "@/libs/weblink";
 
 interface WebNavLink {
     name: string;
     url: string;
     description?: string;
-    type: string; // 用于分组
+    type: WeblinkType; // 用于分组
 }
 
 interface WebNavProps {
