@@ -1,21 +1,17 @@
 import type { FC } from 'react';
-
 import { homeConfig } from '@/config/home';
 import { Suspense } from 'react';
-
 import { FadeInMotion } from '../motion/fadeIn';
 import { TypedText } from '../text/typed';
-// import { FadeInMotion } from '../motion/fadeIn';
-// import { TypedText } from '../text/typed';
+
 import { HomeBackground } from './background';
 import { HomeListCard } from './cards/list';
-// import { HomeVideoCard } from './cards/video';
 import { HomeWelcomeCard } from './cards/welcome';
 import { HomeBlock, HomeContainer } from './container';
 import { HomeSeketon } from './skeleton';
 import $styles from './style.module.css';
 import { HomeTimeline } from './timeline';
-const { welcome, video, list, typed, timeline } = homeConfig;
+const { welcome, list, typed, timeline } = homeConfig;
 export const Home: FC = () => (
     <>
         <HomeBackground />
@@ -26,7 +22,7 @@ export const Home: FC = () => (
 
 <Suspense fallback={<HomeSeketon />}>
             <div className={$styles.home}>
-                {(welcome || video) && (
+                {(welcome ) && (
                     <HomeContainer>
                         {welcome && (
                             <HomeBlock>
@@ -35,16 +31,7 @@ export const Home: FC = () => (
                                 </FadeInMotion>
                             </HomeBlock>
                         )}
-                        {video && (
-                            <HomeBlock>
-                                <FadeInMotion
-                                    className="tw-flex tw-h-auto tw-w-full"
-                                    side="top-right"
-                                >
-                                    {/* <HomeVideoCard {...video} /> del*/}
-                                </FadeInMotion>
-                            </HomeBlock>
-                        )}
+                
                     </HomeContainer>
                 )}
                 {typed && (

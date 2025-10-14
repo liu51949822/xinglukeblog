@@ -26,7 +26,7 @@ const items = [
     },
     {
         title: '关于我',
-        href: '/blog',
+        href: '/myself',
         icon: User,
     },
     {
@@ -37,7 +37,7 @@ const items = [
         
     {
         title: '导航',
-        href: '/daohang',
+        href: '/webnav',
         icon: Compass,
     },
     {
