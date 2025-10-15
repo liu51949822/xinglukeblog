@@ -19,11 +19,11 @@ const items = [
         href: '/',
         icon: House,
     },
-    {
-        title: '博客',
-        href: '/blog',
-        icon: BookOpen,
-    },
+    // {
+    //     title: '博客',
+    //     href: '/blog',
+    //     icon: BookOpen,
+    // },
     {
         title: '关于我',
         href: '/myself',
