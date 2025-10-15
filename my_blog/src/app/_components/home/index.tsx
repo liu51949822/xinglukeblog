@@ -11,7 +11,7 @@ import { HomeWelcomeCard } from './cards/welcome';
 import { HomeBlock, HomeContainer } from './container';
 import { HomeSeketon } from './skeleton';
 import $styles from './style.module.css';
-const { welcome,  list, typed, timeline } = homeConfig;
+const { welcome,  list, typed } = homeConfig;
 export const Home: FC = () => (
     <>
         <HomeBackground />

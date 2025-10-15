@@ -4,7 +4,7 @@ import { getRandomInt } from '@/libs/random';
 import { generateLowerString } from '@/libs/utils';
 import { isNil } from 'lodash';
 import { readFileSync } from 'node:fs';
-import path from 'node:path';
+// import path from 'node:path';
 
 import { prisma } from '../client';
 

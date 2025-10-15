@@ -1,7 +1,9 @@
 import type { FC } from 'react';
 
 import { cn } from '@/app/_components/shadcn/utils';
-import { House, BookOpen, User, Link as LinkIcon, Compass, MessageSquare } from 'lucide-react';
+// import { House, BookOpen, User, Link as LinkIcon, Compass, MessageSquare } from 'lucide-react';
+import { House, User,  Compass, MessageSquare } from 'lucide-react';
+
 import Link from 'next/link';
 
 import {

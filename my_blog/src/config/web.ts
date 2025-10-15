@@ -1,4 +1,4 @@
-import type { WeblinkConfig } from "@/libs/weblink";
+import type { WeblinkConfig } from '@/libs/weblink';
 
 export const weblinkConfig: WeblinkConfig[] = [
   // 🔹 React 官方 & 核心
