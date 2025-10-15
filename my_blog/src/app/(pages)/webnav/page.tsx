@@ -1,6 +1,6 @@
 import { WebNav } from "@/app/_components/web_nav/WebNav";
 import { weblinkConfig } from "@/config/web";
-import { WeblinkConfig, WeblinkType } from "@/libs/weblink";
+import { WeblinkConfig } from "@/libs/weblink";
 
 interface DaohangPageProps {
   links: WeblinkConfig[];
