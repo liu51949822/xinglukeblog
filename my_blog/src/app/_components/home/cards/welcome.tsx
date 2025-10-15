@@ -1,5 +1,7 @@
 'use client';
 import type { FC } from 'react';
+import { useState, useEffect } from 'react';
+
 export interface HomeWelcomeCardType {
     title: string;
     colorTitle?: string;

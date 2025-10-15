@@ -9,9 +9,9 @@ import { Toaster } from '../_components/shadcn/ui/toaster';
 import Theme from '../_components/theme';
 import $styles from './layout.module.css';
 export const metadata: Metadata = {
-    title: 'pincman的博客',
+    title: '行路客的小站',
     description:
-        'pincman的个人博客,提供一些ts、react、node.js、php、golang相关的技术文档以及分享一些生活琐事',
+        '行路客的小站,记录技术文档和分享生活点滴,专注于全栈开发、编程语言、数据库、云计算等技术领域的知识分享与交流。',
 };
 
 const AppLayout: FC<PropsWithChildren<{ modal: ReactNode }>> = ({ children, modal }) => (
