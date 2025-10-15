@@ -1,6 +1,5 @@
 import type { FC, PropsWithChildren } from 'react';
 
-import { ShineBorder } from '../magicui/shine-border';
 import { Card } from '../shadcn/ui/card';
 import { cn } from '../shadcn/utils';
 
@@ -57,18 +56,8 @@ export const StackCard: FC<PropsWithChildren<StackCardProps>> = ({
                             '!tw-rounded-sm',
                         )}
                     >
-                        {shine ? (
-                            <ShineBorder
-                                className="tw-relative tw-h-full tw-w-full tw-rounded-sm"
-                                color={['#A07CFE', '#FE8FB5', '#FFBE7B']}
-                                always={shine.always}
-                                padding={padding}
-                            >
-                                {children}
-                            </ShineBorder>
-                        ) : (
+
                             children
-                        )}
                     </Card>
                 </div>
             </div>

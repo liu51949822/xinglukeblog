@@ -1,6 +1,5 @@
 import type { FC, PropsWithChildren } from 'react';
 
-import { ShineBorder } from '../magicui/shine-border';
 import { Card } from '../shadcn/ui/card';
 import { cn } from '../shadcn/utils';
 
@@ -14,15 +13,8 @@ export const ShineCard: FC<
                 `!tw-rounded-[${borderRadius}]`,
                 className,
             )}
-        >
-            <ShineBorder
-                className="tw-h-full tw-w-full"
-                color={['#A07CFE', '#FE8FB5', '#FFBE7B']}
-                always={always}
-                borderRadius={borderRadius}
-            >
-                {children}
-            </ShineBorder>
+        >              
+                {children}     
         </Card>
     );
 };
