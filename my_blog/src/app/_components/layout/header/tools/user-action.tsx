@@ -3,7 +3,7 @@
 import type { FC, MouseEventHandler } from 'react';
 
 import { authApi } from '@/api/auth';
-import { Avatar, AvatarFallback, AvatarImage } from '@/app/_components/shadcn/ui/avatar';
+import { Avatar, AvatarFallback } from '@/app/_components/shadcn/ui/avatar';
 import { Button } from '@/app/_components/shadcn/ui/button';
 import {
     DropdownMenu,
@@ -85,7 +85,6 @@ export const UserActionButton: FC = () => {
                 <DropdownMenu modal={false}>
                     <DropdownMenuTrigger asChild>
                         <Avatar className={$styles.avatar}>
-                            <AvatarImage src={UserAvatar.src} />
                             <AvatarFallback>CN</AvatarFallback>
                         </Avatar>
                     </DropdownMenuTrigger>
