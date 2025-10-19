@@ -64,3 +64,4 @@ export const Home: FC = () => (
         </Suspense>
     </>
 );
+// export const Home: FC = () => <HomeSeketon />;

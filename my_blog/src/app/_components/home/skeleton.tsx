@@ -29,7 +29,7 @@ const TwoBlock: FC = () => (
 export const HomeSeketon: FC = () => (
     <>
         <TwoBlock />
-        <OneBlock />
-        <TwoBlock />
+        {/* <OneBlock /> */}
+        {/* <TwoBlock /> */}
     </>
 );
