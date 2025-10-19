@@ -9,15 +9,15 @@ export interface HomeWelcomeCardType {
 }
 
 type Props = HomeWelcomeCardType;
-const fullTetx = `🤝 欢迎来到行路客的小站！👋/n
-这里是记录技术思考与生活感悟的角落，每一篇文章都源于真实的探索与体验。/n
-无论是代码的乐趣、旅途的风景，还是生活的点滴，我都希望能与您分享。/n
+const fullTetx = `🤝 欢迎来到行路客的小站！👋
+这里是记录技术思考与生活感悟的角落，每一篇文章都源于真实的探索与体验。
+无论是代码的乐趣、旅途的风景，还是生活的点滴，我都希望能与您分享。
 感谢您的停留，愿这里能为您带来一点灵感或温暖。`;
 
 export const HomeWelcomeCard: FC<Props> = ({ title, colorTitle, content }) => {
     return (
         <div className="tw-flex tw-h-full tw-w-full tw-flex-col">
-                <div className="tw-absolute">
+                <div className="tw-absolutes">
                 {fullTetx}
                 </div>
             </div> 
