@@ -17,7 +17,7 @@ export const Home: FC = () => (
         <HomeBackground />
         <Suspense fallback={<HomeSeketon />}>
             <div className={$styles.home}>
-                {(welcome) && (
+                {/* {(welcome) && (
                     <HomeContainer>
                         {welcome && (
                             <HomeBlock>
@@ -44,17 +44,16 @@ export const Home: FC = () => (
                             data={typed}
                         />
                     </HomeContainer>
-                )}
-                {list && (
+                )} */}
+                {typed && (
                     <HomeContainer>
-                        <HomeBlock className="lg:tw-px-5">
-                            <FadeInMotion className="tw-h-full tw-w-full" side="left">
-                                <HomeListCard {...list.first} />
-                            </FadeInMotion>
-                        </HomeBlock>
+                              <TypedText
+                            className="tw-flex tw-w-full tw-items-center tw-justify-center tw-font-lxgw tw-text-xl"
+                            data={typed}
+                        />
                         <HomeBlock className="lg:tw-px-5">
                             <FadeInMotion className="tw-h-full tw-w-full" side="right">
-                                <HomeListCard {...list.second} />
+                                {/* <HomeListCard {...list.second} /> */}
                             </FadeInMotion>
                         </HomeBlock>
                     </HomeContainer>
