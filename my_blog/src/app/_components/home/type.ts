@@ -5,4 +5,9 @@ export interface HomePageConfig {
     welcome?: HomeWelcomeCardType;
     list?: HomeListCardType;
     typed?: string[];
+    video?: {
+        image: string;
+        video: string;
+    };
+    
 }

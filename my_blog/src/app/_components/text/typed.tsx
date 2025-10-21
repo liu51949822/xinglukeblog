@@ -19,10 +19,10 @@ export const TypedText: FC<{ className?: string; data: (string | ReactNode)[] }>
         if (!isNil(ref.current) && !isNil(el.current)) {
             typed = new Typed(ref.current, {
                 stringsElement: el.current,
-                typeSpeed: 50,
+                typeSpeed: 100,
                 backDelay: 1700,
                 smartBackspace: true,
-                startDelay: 500,
+                startDelay: 300,
                 onStart: (_a, _s) => {
                     setShow(true);
                 },
