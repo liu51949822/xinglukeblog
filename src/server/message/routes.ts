@@ -2,13 +2,14 @@ import { describeRoute } from 'hono-openapi';
 import { validator } from 'hono-openapi/zod';
 
 import { createHonoApp } from '@/server/common/app';
-import { createErrorResult } from '@/server/common/error';
+import { createErrorResult, defaultValidatorErrorHandler } from '@/server/common/error';
 import {
+    create201SuccessResponse,
     createServerErrorResponse,
     createSuccessResponse,
     createValidatorErrorResponse,
 } from '@/server/common/response';
-import { messageCreateSchema, messageListSchema } from './schema';
+import { messageCreateSchema, messageListSchema, messageSchema } from './schema';
 import { createMessage, queryMessageList } from './service';
 
 const app = createHonoApp();
@@ -30,7 +31,7 @@ export const messageRoutes = app
         },
     }), async (c) => {
         try {
-            const { items } = await queryMessageList();
+            const items = await queryMessageList();
             return c.json(items, 200);
         } catch (error) {
             return c.json(createErrorResult('查询留言列表数据失败', error), 500);
@@ -56,18 +57,11 @@ export const messageRoutes = app
             },
         },
         responses: {
-            ...createSuccessResponse(messageListSchema, '留言成功'),
+            ...create201SuccessResponse(messageSchema, '留言成功'),
             ...createValidatorErrorResponse(),
             ...createServerErrorResponse('留言失败'),
         },
-    }), validator('json', messageCreateSchema, async (result, c) => {
-        if (!result.success) {
-            return c.json(
-                createErrorResult('请求数据格式错误', result.error.issues),
-                400,
-            );
-        }
-    }), async (c) => {
+    }), validator('json', messageCreateSchema, defaultValidatorErrorHandler), async (c) => {
         try {
             const data = c.req.valid('json');
             const message = await createMessage(data);

@@ -45,42 +45,62 @@ export const deepseekRoutes = app.post('/chat', describeRoute({
         content: {
             'application/json': {
                 schema: {
-                    type: 'string',
-                    description: '流式文本响应',
+                    type: 'object',
+                    properties: {
+                        messages: {
+                            type: 'array',
+                            items: {
+                                type: 'object',
+                                properties: {
+                                    role: {
+                                        type: 'string',
+                                        enum: ['user', 'assistant', 'system'],
+                                    },
+                                    content: { type: 'string' },
+                                },
+                            },
+                        },
+                    },
+                    required: ['messages'],
                 },
             },
         },
     },
     responses: {
         200: {
-            description: '成功返回流式聊天响应',
+            description: '流式聊天响应',
             content: {
                 'text/plain': {
                     schema: {
                         type: 'string',
-                        description: '流式文本响应',
                     },
                 },
             },
         },
         400: {
-            description: '请求格式错误',
+            description: '请求数据格式错误',
             content: {
                 'application/json': {
                     schema: {
-                        type: 'string',
-                        description: '流式文本响应',
+                        type: 'object',
+                        properties: {
+                            code: { type: 'number' },
+                            message: { type: 'string' },
+                        },
                     },
                 },
             },
         },
         500: {
-            description: '服务器内部错误',
+            description: 'DeepSeek API 调用失败',
             content: {
                 'application/json': {
                     schema: {
-                        type: 'string',
-                        description: '流式文本响应',
+                        type: 'object',
+                        properties: {
+                            code: { type: 'number' },
+                            message: { type: 'string' },
+                        },
                     },
                 },
             },

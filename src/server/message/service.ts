@@ -5,22 +5,13 @@ import type { Message, Prisma } from '@prisma/client';
 
 type MessageCreateInput = Prisma.MessageCreateInput;
 
-/** Query paginated message list (newest first) */
-export const queryMessageList = async (page = 1, limit = 20) => {
+/** Query message list (newest first, limited to 50) */
+export const queryMessageList = async () => {
     const data = await db.message.findMany({
         orderBy: { createdAt: 'desc' },
-        skip: (page - 1) * limit,
-        take: limit,
+        take: 50,
     });
-    const total = await db.message.count();
-    return {
-        items: data.map(formatMessage),
-        meta: {
-            total,
-            currentPage: page,
-            totalPages: Math.ceil(total / limit),
-        },
-    };
+    return data.map(formatMessage);
 };
 
 /** Create a new message */
