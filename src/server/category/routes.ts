@@ -45,7 +45,7 @@ export const categoryRoutes = app
 
                 return c.json(result, 200);
             } catch (error) {
-                return c.json(createErrorResult('查询分类树数据失败', error), 500);
+                return c.json(createErrorResult('查询分类列表数据失败', error), 500);
             }
         },
     )
@@ -68,7 +68,7 @@ export const categoryRoutes = app
                 const result = await queryCategoryTree(parent);
                 return c.json(result, 200);
             } catch (error) {
-                return c.json(createErrorResult('查询分类列表(扁平树)数据失败', error), 500);
+                return c.json(createErrorResult('查询分类树数据失败', error), 500);
             }
         },
     )
