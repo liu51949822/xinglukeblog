@@ -1,8 +1,7 @@
 import type { FC } from 'react';
 
 import { cn } from '@/app/_components/shadcn/utils';
-// import { House, BookOpen, User, Link as LinkIcon, Compass, MessageSquare } from 'lucide-react';
-import { House, User,  Compass, MessageSquare } from 'lucide-react';
+import { House, BookOpen, User, Link as LinkIcon, Compass, MessageSquare } from 'lucide-react';
 
 import Link from 'next/link';
 
@@ -21,21 +20,21 @@ const items = [
         href: '/',
         icon: House,
     },
-    // {
-    //     title: '博客',
-    //     href: '/blog',
-    //     icon: BookOpen,
-    // },
+    {
+        title: '博客',
+        href: '/blog',
+        icon: BookOpen,
+    },
     {
         title: '关于我',
         href: '/myself',
         icon: User,
     },
-    // {
-    //     title: '友链',
-    //     href: '/bylink',
-    //     icon: LinkIcon,
-    // },
+    {
+        title: '友链',
+        href: '/webnav#links',
+        icon: LinkIcon,
+    },
         
     {
         title: '导航',

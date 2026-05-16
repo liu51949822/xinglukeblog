@@ -6,15 +6,21 @@ import { openAPISpecs } from 'hono-openapi';
 import { authPath, authRoutes } from './auth/routes';
 import { categoryPath, categoryRoutes } from './category/routes';
 import { createHonoApp } from './common/app';
+import { deepseekPath, deepseekRoutes } from './deepseek/routes';
+import { messagePath, messageRoutes } from './message/routes';
 import { postPath, postRoutes } from './post/routes';
 import { tagPath, tagRoutes } from './tag/routes';
+import { testPath, testRoutes } from './test/routes';
 const app = createHonoApp().basePath(appConfig.apiPath);
-app.get('/', (c) => c.text('3R Blog API'));
+app.get('/', (c) => c.text('行路客的小站 API'));
 app.notFound((c) => c.json({ message: 'Not Found', ok: false }, 404));
 app.route(tagPath, tagRoutes)
     .route(categoryPath, categoryRoutes)
     .route(postPath, postRoutes)
-    .route(authPath, authRoutes);
+    .route(authPath, authRoutes)
+    .route(messagePath, messageRoutes)
+    .route(deepseekPath, deepseekRoutes)
+    .route(testPath, testRoutes);
 
 app.get(
     '/data',
@@ -31,8 +37,8 @@ app.get(
             },
             info: {
                 version: 'v1',
-                title: 'Toome API',
-                description: '3R TS全栈课程项目 - Toome的后端API',
+                title: '行路客的小站 API',
+                description: '行路客的小站 后端API',
             },
         },
     }),
