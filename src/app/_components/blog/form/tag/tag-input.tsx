@@ -16,6 +16,8 @@ import type { tagVariants } from './tag';
 
 import { Autocomplete } from './autocomplete';
 import { TagList } from './tag-list';
+
+const devWarn = process.env.NODE_ENV === 'development' ? devWarn : () => {};
 // import { CommandInput } from '../ui/command';
 
 export enum Delimiter {
@@ -158,7 +160,7 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>((props, ref) 
         (maxTags !== undefined && maxTags < 0) ||
         (props.minTags !== undefined && props.minTags < 0)
     ) {
-        console.warn('maxTags and minTags cannot be less than 0');
+        devWarn('maxTags and minTags cannot be less than 0');
         // error
         return null;
     }
@@ -180,22 +182,22 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>((props, ref) 
                     restrictTagsToAutocompleteOptions &&
                     !autocompleteOptions?.some((option) => option.text === newTagText)
                 ) {
-                    console.warn('Tag not allowed as per autocomplete options');
+                    devWarn('Tag not allowed as per autocomplete options');
                     return;
                 }
 
                 if (validateTag && !validateTag(newTagText)) {
-                    console.warn('Invalid tag as per validateTag');
+                    devWarn('Invalid tag as per validateTag');
                     return;
                 }
 
                 if (minLength && newTagText.length < minLength) {
-                    console.warn(`Tag "${newTagText}" is too short`);
+                    devWarn(`Tag "${newTagText}" is too short`);
                     return;
                 }
 
                 if (maxLength && newTagText.length > maxLength) {
-                    console.warn(`Tag "${newTagText}" is too long`);
+                    devWarn(`Tag "${newTagText}" is too long`);
                     return;
                 }
 
@@ -209,10 +211,10 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>((props, ref) 
                         setTags((prevTags) => [...prevTags, newTag]);
                         onTagAdd?.(newTagText);
                     } else {
-                        console.warn('Reached the maximum number of tags allowed');
+                        devWarn('Reached the maximum number of tags allowed');
                     }
                 } else {
-                    console.warn(`Duplicate tag "${newTagText}" not added`);
+                    devWarn(`Duplicate tag "${newTagText}" not added`);
                 }
             });
             setInputValue('');
@@ -236,12 +238,12 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>((props, ref) 
             }
 
             if (minLength && newTagText.length < minLength) {
-                console.warn('Tag is too short');
+                devWarn('Tag is too short');
                 return;
             }
 
             if (maxLength && newTagText.length > maxLength) {
-                console.warn('Tag is too long');
+                devWarn('Tag is too long');
                 return;
             }
 
@@ -283,7 +285,7 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>((props, ref) 
             }
 
             if (minLength && newTagText.length < minLength) {
-                console.warn('Tag is too short');
+                devWarn('Tag is too short');
                 // error
                 return;
             }
@@ -291,7 +293,7 @@ const TagInput = React.forwardRef<HTMLInputElement, TagInputProps>((props, ref) 
             // Validate maxLength
             if (maxLength && newTagText.length > maxLength) {
                 // error
-                console.warn('Tag is too long');
+                devWarn('Tag is too long');
                 return;
             }
 

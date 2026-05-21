@@ -35,7 +35,7 @@ passport.use(
             const user = await validateUser(credential, password);
             if (typeof user === 'boolean' && !user) done({ message: '密码错误', code: 401 });
             if (isNil(user)) done({ message: '用户不存在', code: 401 });
-            done(null, user as any);
+            done(null, user);
         } catch (error) {
             done(error);
         }

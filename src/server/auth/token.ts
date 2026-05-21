@@ -1,6 +1,7 @@
 import type { AuthItem } from '@/server/auth/type';
 import type { SerializeOptions as CookieSerializeOptions } from 'cookie';
 import type { DurationUnitsObjectType } from 'dayjs/plugin/duration';
+import type { JwtPayload } from 'jsonwebtoken';
 
 import { authConfig } from '@/config/auth';
 import { deleteCookie, setCookie } from '@/libs/coolkies';
@@ -44,7 +45,7 @@ export const generateAccessToken = (user: AuthItem) => {
  * @param token
  */
 const getTokenExpirationTime = (token: string): number => {
-    const payload = jwt.decode(token) as any;
+    const payload = jwt.decode(token) as JwtPayload | null;
     if (!isNil(payload?.exp)) {
         const expiresIn = Number(payload.exp) - Math.floor(Date.now() / 1000);
         if (expiresIn <= 0) {

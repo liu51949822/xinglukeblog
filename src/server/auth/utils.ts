@@ -5,6 +5,7 @@ import { authConfig } from '@/config/auth';
 import { redis } from '@/libs/redis';
 import { getTime, localTime } from '@/libs/time';
 import jwt from 'jsonwebtoken';
+import type { JwtPayload } from 'jsonwebtoken';
 import { isNil } from 'lodash';
 
 import type { AuthItem, AuthLoginResponse } from './type';
@@ -23,8 +24,7 @@ const BLACKLIST_KEY = 'token:blacklist';
 export const addTokenToBlacklist = async (token: string): Promise<boolean> => {
     'use server';
     try {
-        // 先用decode获取过期时间，不验证签名
-        const payload = jwt.decode(token) as any;
+        const payload = jwt.decode(token) as JwtPayload | null;
         if (isNil(payload?.exp)) return false;
 
         // 计算剩余时间（秒）
@@ -42,7 +42,7 @@ export const addTokenToBlacklist = async (token: string): Promise<boolean> => {
         if (error instanceof jwt.TokenExpiredError || error instanceof jwt.JsonWebTokenError) {
             return false;
         }
-        throw new Error(error as any);
+        throw error instanceof Error ? error : new Error(String(error));
     }
 };
 
@@ -56,7 +56,7 @@ export const isTokenInBlacklist = async (token: string): Promise<boolean> => {
         const exists = await redis.exists(`${BLACKLIST_KEY}:${token}`);
         return exists === 1;
     } catch (error) {
-        throw new Error(error as any);
+        throw error instanceof Error ? error : new Error(String(error));
     }
 };
 

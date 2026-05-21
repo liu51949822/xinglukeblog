@@ -1,4 +1,4 @@
-import type { Metadata } from 'next';
+import type { Metadata, Viewport } from 'next';
 
 import './styles/index.css';
 
@@ -21,6 +21,15 @@ export const metadata: Metadata = {
         description:
             '记录技术文档和分享生活点滴的个人博客，专注于全栈开发、编程语言、数据库、云计算等技术领域。',
     },
+};
+
+export const viewport: Viewport = {
+    width: 'device-width',
+    initialScale: 1,
+    themeColor: [
+        { media: '(prefers-color-scheme: light)', color: '#ffffff' },
+        { media: '(prefers-color-scheme: dark)', color: '#0a0a0a' },
+    ],
 };
 
 const RootLayout: FC<PropsWithChildren> = ({ children }) => (

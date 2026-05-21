@@ -23,7 +23,7 @@
         "dbs": "prisma db seed",
         "dbmd": "cross-env NODE_ENV=production prisma migrate deploy",
         "dbo": "prisma studio",
-        "postinstall": "pnpm run setEnv && pnpm run dbm && pnpm run dbs && pnpm run dbg",
+        "postinstall": "cross-env NODE_OPTIONS='--no-warnings=ExperimentalWarning' ts-node -r tsconfig-paths/register --compilerOptions '{\"module\":\"CommonJS\"}' src/install.ts",
         "------------------ app command": "----",
         "------------setEnv": "cross-env NODE_OPTIONS='--no-warnings=ExperimentalWarning' ts-node -r tsconfig-paths/register --compilerOptions '{\"module\":\"CommonJS\"}' src/install.ts",
         "setEnv": "cross-env NODE_OPTIONS='--no-warnings=ExperimentalWarning' ts-node -r tsconfig-paths/register --compilerOptions \"{\\\"module\\\":\\\"CommonJS\\\"}\"  src/install.ts"

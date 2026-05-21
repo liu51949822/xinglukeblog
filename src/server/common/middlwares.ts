@@ -17,7 +17,11 @@ export const AuthProtected = createMiddleware(async (c, next) => {
         await next();
     } catch (error) {
         throw new HTTPException(500, {
-            res: new Response(JSON.stringify(createErrorResult(error as any))),
+            res: new Response(
+                JSON.stringify(
+                    createErrorResult(error instanceof Error ? error.message : '服务器错误'),
+                ),
+            ),
         });
     }
 });
