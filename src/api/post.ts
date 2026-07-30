@@ -1,0 +1,60 @@
+import type { PostApiType } from '@/server/post/routes';
+import type {
+    PostCreateOrUpdateData,
+    PostPaginateNumberRequestQuery,
+    PostPaginateRequestQuery,
+} from '@/server/post/type';
+
+import { buildClient, fetchApi } from '@/libs/hono';
+import { postPath } from '@/server/post/routes';
+import { isNil } from 'lodash';
+
+export const postClient = buildClient<PostApiType>(postPath);
+
+export const postApi = {
+    /**
+ * 分页查询文章列表
+ * @param {PostPaginateRequestQuery} [query] - 分页查询参数，包含页码和每页数量
+ * @returns {Promise<any>} 返回分页查询结果
+ * @throws {Error} 当API请求失败时抛出错误
+ */
+paginate: async (query: PostPaginateRequestQuery = {}) => {
+        const page = isNil(query.page) || Number(query.page) < 1 ? 1 : Number(query.page);
+        return fetchApi(postClient, async (c) =>
+            c.index.$get({
+                query: {
+                    ...query,
+                    page: page.toString(),
+                    limit: (query.limit ?? 8).toString(),
+                },
+            }),
+        );
+    },
+
+    detail: async (item: string) =>
+        fetchApi(postClient, async (c) => c[':item'].$get({ param: { item } })),
+
+    detailBySlug: async (slug: string) =>
+        fetchApi(postClient, async (c) => c.byslug[':slug'].$get({ param: { slug } })),
+
+    detailById: async (id: string) =>
+        fetchApi(postClient, async (c) => c.byid[':id'].$get({ param: { id } })),
+
+    pageNumbers: async (query: PostPaginateNumberRequestQuery = {}) =>
+        fetchApi(postClient, async (c) =>
+            c['page-numbers'].$get({
+                query: { ...query, limit: (query.limit ?? 8).toString() },
+            }),
+        ),
+    create: async (data: PostCreateOrUpdateData) =>
+        fetchApi(postClient, async (c) => c.index.$post({ json: data })),
+    update: async (id: string, data: PostCreateOrUpdateData) =>
+        fetchApi(postClient, async (c) =>
+            c[':id'].$patch({
+                param: { id },
+                json: data,
+            }),
+        ),
+    delete: async (id: string) =>
+        fetchApi(postClient, async (c) => c[':id'].$delete({ param: { id } })),
+};
