@@ -1,5 +1,8 @@
 name: Syndate Android Build
 
+permissions:
+  contents: write
+
 on:
   push:
     branches: [synDate]
