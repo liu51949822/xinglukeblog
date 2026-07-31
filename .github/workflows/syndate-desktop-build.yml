@@ -31,6 +31,7 @@ jobs:
 
       - name: Install dependencies
         working-directory: syndate/desktop
+        shell: bash
         env:
           ELECTRON_MIRROR: https://npmmirror.com/mirrors/electron/
           ELECTRON_BUILDER_BINARIES_MIRROR: https://npmmirror.com/mirrors/electron-builder-binaries/
@@ -38,11 +39,12 @@ jobs:
 
       - name: Build Electron app
         working-directory: syndate/desktop
+        shell: bash
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           ELECTRON_MIRROR: https://npmmirror.com/mirrors/electron/
           ELECTRON_BUILDER_BINARIES_MIRROR: https://npmmirror.com/mirrors/electron-builder-binaries/
-        run: npx electron-builder --publish never 2>&1 || (echo "=== BUILD FAILED, showing dist contents ==="; ls -la dist/ 2>/dev/null || true; exit 1)
+        run: npx electron-builder --publish never
 
       - name: Upload artifacts
         uses: actions/upload-artifact@v4

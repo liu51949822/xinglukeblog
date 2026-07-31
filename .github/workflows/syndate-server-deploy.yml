@@ -56,29 +56,30 @@ jobs:
           port: ${{ secrets.SERVER_PORT }}
           script: |
             set -e
+            # 解压上传的代码（scp 目标保留 deploy_tmp 目录）
             cd /opt/syndate
             mkdir -p server
-            tar xzf /opt/syndate/syndate-server.tar.gz -C server
-            rm -f /opt/syndate/syndate-server.tar.gz
-            cd server
-            [ ! -d node_modules ] && npm install --omit=dev || true
+            tar xzf /opt/syndate/deploy_tmp/syndate-server.tar.gz -C server
+            rm -rf /opt/syndate/deploy_tmp
 
             # 停止旧容器
             docker rm -f syndate 2>/dev/null || true
 
-            # 启动新容器
+            # 启动新容器（代码挂载进容器，容器内装依赖并启动）
             docker run -d --name syndate \
-              -p ${SYNDATE_PORT:-8787}:8787 \
+              -p 8787:8787 \
               --restart unless-stopped \
               -v /opt/syndate/server:/app \
               -w /app \
               -e PORT=8787 \
-              node:22-alpine sh -c "npm install --omit=dev && npm start" 2>/dev/null || \
-            docker run -d --name syndate \
-              -p ${SYNDATE_PORT:-8787}:8787 \
-              --restart unless-stopped \
-              -e PORT=8787 \
-              node:22-alpine sh -c "cd /opt/syndate/server && npm install --omit=dev && npm start" || true
+              node:22-alpine \
+              /bin/sh -c 'npm install --omit=dev --silent && node src/index.js'
 
-            sleep 3
-            curl -sS -o /dev/null -w "Health: %{http_code}\n" http://localhost:${SYNDATE_PORT:-8787}/api/health || echo "health check warning"
+            sleep 8
+            CODE=$(curl -sS -o /dev/null -w "%{http_code}" http://localhost:8787/api/health || echo 000)
+            echo "Health: $CODE"
+            if [ "$CODE" != "200" ]; then
+              echo "=== container logs ==="
+              docker logs syndate --tail 20
+              exit 1
+            fi
