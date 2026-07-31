@@ -15,7 +15,13 @@ const crypto = require('crypto');
 const Store = require('electron-store');
 
 const store = new Store();
-const cryptoUtil = require('../shared/crypto.js');
+// 加密模块：优先加载打包后的 extraResources 副本，否则回退到开发目录
+let cryptoUtil;
+try {
+  cryptoUtil = require(path.join(process.resourcesPath, 'shared', 'crypto.js'));
+} catch (e) {
+  cryptoUtil = require('../shared/crypto.js');
+}
 
 let mainWindow = null;
 

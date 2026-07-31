@@ -32,7 +32,8 @@ jobs:
       - name: Create deployment archive
         working-directory: syndate/server
         run: |
-          tar czf /tmp/syndate-server.tar.gz \
+          mkdir -p ../../deploy_tmp
+          tar czf ../../deploy_tmp/syndate-server.tar.gz \
             --exclude=node_modules \
             package.json src/
 
@@ -43,7 +44,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
-          source: /tmp/syndate-server.tar.gz
+          source: deploy_tmp/syndate-server.tar.gz
           target: /opt/syndate/
 
       - name: Restart service on server
@@ -57,7 +58,8 @@ jobs:
             set -e
             cd /opt/syndate
             mkdir -p server
-            tar xzf syndate-server.tar.gz -C server
+            tar xzf /opt/syndate/syndate-server.tar.gz -C server
+            rm -f /opt/syndate/syndate-server.tar.gz
             cd server
             [ ! -d node_modules ] && npm install --omit=dev || true
 

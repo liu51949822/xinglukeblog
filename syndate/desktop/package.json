@@ -18,20 +18,33 @@
   "build": {
     "appId": "com.syndate.desktop",
     "productName": "SynData",
+    "directories": {
+      "output": "dist"
+    },
     "files": [
       "main.js",
       "preload.js",
       "renderer/**/*",
-      "package.json"
+      "package.json",
+      "../shared/crypto.js"
+    ],
+    "extraResources": [
+      {
+        "from": "../shared",
+        "to": "shared"
+      }
     ],
     "win": {
-      "target": ["nsis"]
+      "target": ["nsis"],
+      "artifactName": "syndate-${version}-win.${ext}"
     },
     "mac": {
-      "target": ["dmg"]
+      "target": ["dmg"],
+      "artifactName": "syndate-${version}-mac.${ext}"
     },
     "linux": {
-      "target": ["AppImage"]
+      "target": ["AppImage"],
+      "artifactName": "syndate-${version}-linux.${ext}"
     }
   }
 }

@@ -34,19 +34,19 @@ jobs:
 
       - name: Install dependencies
         working-directory: syndate/android
-        run: npm install
-
-      - name: Prebuild native android project
-        working-directory: syndate/android
-        env:
-          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
         run: |
-          npx expo prebuild --platform android --no-install || \
-          npx expo prebuild --platform android
+          npm install
+          npx expo install --fix
+
+      - name: Prebuild android project
+        working-directory: syndate/android
+        run: npx expo prebuild --platform android --clean
 
       - name: Build debug APK
         working-directory: syndate/android/android
-        run: ./gradlew assembleDebug
+        run: |
+          chmod +x gradlew
+          ./gradlew assembleDebug --no-daemon
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
