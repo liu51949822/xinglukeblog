@@ -24,15 +24,9 @@
     "files": [
       "main.js",
       "preload.js",
+      "lib/**/*",
       "renderer/**/*",
-      "package.json",
-      "../shared/crypto.js"
-    ],
-    "extraResources": [
-      {
-        "from": "../shared",
-        "to": "shared"
-      }
+      "package.json"
     ],
     "win": {
       "target": ["nsis"],
