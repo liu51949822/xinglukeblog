@@ -6,12 +6,19 @@
     "orientation": "portrait",
     "userInterfaceStyle": "light",
     "newArchEnabled": true,
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#ffffff"
+    },
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.syndate.android"
     },
     "android": {
       "package": "com.syndate.android",
+      "adaptiveIcon": {
+        "backgroundColor": "#4a90d9"
+      },
       "permissions": [
         "READ_EXTERNAL_STORAGE",
         "WRITE_EXTERNAL_STORAGE"
