@@ -1,0 +1,21 @@
+{
+  "expo": {
+    "name": "SynData",
+    "slug": "syndate-android",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "newArchEnabled": true,
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "com.syndate.android"
+    },
+    "android": {
+      "package": "com.syndate.android",
+      "permissions": [
+        "READ_EXTERNAL_STORAGE",
+        "WRITE_EXTERNAL_STORAGE"
+      ]
+    }
+  }
+}

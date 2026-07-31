@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SynData 数据同步</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; font-family: -apple-system, "Segoe UI", "Microsoft YaHei", sans-serif; }
+    body { background: #f5f7fa; color: #333; }
+    .header { background: linear-gradient(135deg, #4a90d9, #7b68ee); color: #fff; padding: 16px 20px; }
+    .header h1 { font-size: 18px; font-weight: 600; }
+    .header p { font-size: 12px; opacity: 0.85; margin-top: 4px; }
+    .container { padding: 16px; }
+    .card { background: #fff; border-radius: 10px; padding: 16px; margin-bottom: 14px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+    .card h2 { font-size: 14px; color: #555; margin-bottom: 10px; border-left: 3px solid #4a90d9; padding-left: 8px; }
+    .input { width: 100%; padding: 10px 12px; border: 1px solid #ddd; border-radius: 8px; font-size: 14px; margin-bottom: 8px; }
+    .btn { padding: 10px 16px; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; font-weight: 500; }
+    .btn-primary { background: #4a90d9; color: #fff; }
+    .btn-success { background: #52c41a; color: #fff; }
+    .btn-warn { background: #faad14; color: #fff; }
+    .btn-secondary { background: #f0f0f0; color: #333; }
+    .btn-sm { padding: 6px 12px; font-size: 12px; }
+    .btn:disabled { opacity: 0.5; cursor: not-allowed; }
+    .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+    .status { margin-top: 8px; font-size: 12px; color: #888; }
+    .status.ok { color: #52c41a; }
+    .status.err { color: #f5222d; }
+    .file-list { margin-top: 8px; }
+    .file-item { display: flex; justify-content: space-between; align-items: center; padding: 8px 10px; background: #fafafa; border-radius: 6px; margin-bottom: 6px; font-size: 13px; }
+    .file-item .fname { flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .file-item .fsize { color: #999; font-size: 12px; margin: 0 8px; }
+    .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #333; color: #fff; padding: 10px 18px; border-radius: 6px; font-size: 13px; opacity: 0; transition: opacity 0.3s; pointer-events: none; z-index: 99; }
+    .toast.show { opacity: 1; }
+    .settings-btn { position: absolute; right: 16px; top: 16px; background: rgba(255,255,255,0.2); color: #fff; border: none; border-radius: 6px; padding: 6px 12px; cursor: pointer; font-size: 12px; }
+    .hidden { display: none; }
+    .dialog { position: fixed; inset: 0; background: rgba(0,0,0,0.4); display: flex; align-items: center; justify-content: center; z-index: 100; }
+    .dialog-box { background: #fff; border-radius: 12px; padding: 20px; width: 320px; }
+    .dialog-box h3 { font-size: 15px; margin-bottom: 12px; }
+    .dialog-box .row { justify-content: flex-end; margin-top: 12px; }
+    label { font-size: 12px; color: #666; display: block; margin: 6px 0 3px; }
+  </style>
+</head>
+<body>
+  <div class="header" style="position:relative;">
+    <h1>🔄 SynData 数据同步</h1>
+    <p>端到端加密 · 服务器只存密文</p>
+    <button class="settings-btn" onclick="openSettings()">⚙️ 设置</button>
+  </div>
+
+  <div class="container">
+    <!-- 连接状态 -->
+    <div class="card">
+      <h2>连接状态</h2>
+      <div class="row">
+        <span id="connStatus" class="status" style="font-size:13px;margin:0;">未连接</span>
+        <button class="btn btn-sm btn-primary" id="btnConnect" onclick="connect()">连接</button>
+      </div>
+      <div class="status" id="connInfo" style="margin-top:6px;"></div>
+    </div>
+
+    <!-- 剪贴板同步 -->
+    <div class="card">
+      <h2>📋 剪贴板同步</h2>
+      <div class="row" style="margin-bottom:8px;">
+        <button class="btn btn-sm btn-success" onclick="pushClipboard()">📤 推送当前剪贴板</button>
+        <button class="btn btn-sm btn-warn" onclick="pullClipboard()">📥 拉取最新剪贴板</button>
+      </div>
+      <textarea id="clipPreview" class="input" rows="3" placeholder="推送到其他设备的文本将在此显示..." style="font-size:13px;margin:0;"></textarea>
+      <div class="status" id="clipStatus"></div>
+    </div>
+
+    <!-- 文件传输 -->
+    <div class="card">
+      <h2>📁 文件传输</h2>
+      <div class="row" style="margin-bottom:8px;">
+        <button class="btn btn-sm btn-success" onclick="uploadFile()">📤 选择文件并上传</button>
+        <button class="btn btn-sm btn-secondary" onclick="refreshFiles()">🔄 刷新列表</button>
+      </div>
+      <div class="file-list" id="fileList"></div>
+      <div class="status" id="fileStatus"></div>
+    </div>
+  </div>
+
+  <!-- 设置弹窗 -->
+  <div class="dialog hidden" id="settingsDialog">
+    <div class="dialog-box">
+      <h3>⚙️ 设置</h3>
+      <label>服务器地址</label>
+      <input class="input" id="setServer" placeholder="http://服务器IP:8787">
+      <label>房间码（即加密密钥）</label>
+      <input class="input" id="setRoom" placeholder="例如 Ab12Cd">
+      <div class="row">
+        <button class="btn btn-secondary" onclick="closeSettings()">取消</button>
+        <button class="btn btn-primary" onclick="saveSettings()">保存</button>
+      </div>
+    </div>
+  </div>
+
+  <div class="toast" id="toast"></div>
+
+  <script src="app.js"></script>
+</body>
+</html>

@@ -1,0 +1,37 @@
+{
+  "name": "syndate-desktop",
+  "version": "1.0.0",
+  "description": "SynData 桌面端 - 剪贴板同步 + 文件传输",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder"
+  },
+  "dependencies": {
+    "electron-store": "^8.2.0"
+  },
+  "devDependencies": {
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.syndate.desktop",
+    "productName": "SynData",
+    "files": [
+      "main.js",
+      "preload.js",
+      "renderer/**/*",
+      "package.json"
+    ],
+    "win": {
+      "target": ["nsis"]
+    },
+    "mac": {
+      "target": ["dmg"]
+    },
+    "linux": {
+      "target": ["AppImage"]
+    }
+  }
+}
