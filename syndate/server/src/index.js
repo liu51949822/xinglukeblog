@@ -40,6 +40,17 @@ const upload = multer({
 
 app.use(express.json({ limit: '10mb' }));
 
+// ─── CORS（网页端可能托管在 GitHub Pages / 其他域名，需允许跨域） ───
+app.use((req, res, next) => {
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'GET,POST,DELETE,OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(204);
+  }
+  next();
+});
+
 // ─── 辅助函数 ───
 function ensureRoom(code) {
   if (!rooms.has(code)) {

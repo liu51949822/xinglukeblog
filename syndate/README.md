@@ -36,6 +36,10 @@ syndate/
 ├── android/         # 安卓端（React Native + Expo）
 │   ├── App.js
 │   └── crypto.js
+├── web/             # 网页端（React + Vite）
+│   └── src/
+│       ├── App.jsx
+│       └── crypto.js
 ├── shared/
 │   └── crypto.js    # 共享加密模块（Node/Electron 用）
 └── docs/
@@ -74,6 +78,20 @@ npx expo start
 
 用 Expo Go 扫码运行，填写相同的服务器地址 + 房间码。
 
+### 4. 网页端（无需安装）
+
+本地开发：
+```bash
+cd web
+npm install
+npm run dev
+```
+
+生产部署：push `syndate/web/` 后 GitHub Actions 自动构建并部署到 **GitHub Pages**。
+访问 `https://<用户名>.github.io/xinglukeblog/` 即可使用（需在仓库 Settings → Pages 启用）。
+
+> **网页端剪贴板说明**：浏览器安全限制，需用户点击「推送/拉取」按钮才可读写剪贴板（无法后台自动轮询写入）。
+
 > **房间码即加密密钥**：两端必须使用相同房间码才能解密；建议 6 位以上含大小写数字。
 
 ## 使用场景
@@ -94,13 +112,14 @@ npx expo start
 
 ## CI/CD 自动化
 
-项目提供 3 条 GitHub Actions 工作流（触发条件为 push 到 `syndate/` 目录）：
+项目提供 4 条 GitHub Actions 工作流（触发条件为 push 到 `syndate/` 目录）：
 
 | 工作流 | 触发 | 产物 |
 |--------|------|------|
 | `syndate-server-deploy.yml` | push 服务器代码 | 自动部署到服务器 |
 | `syndate-desktop-build.yml` | push 桌面端代码 + 打 tag | 桌面安装包 (exe/dmg/AppImage) |
 | `syndate-android-build.yml` | push 安卓端代码 + 打 tag | 安卓 APK |
+| `syndate-web-build.yml` | push 网页端代码 | 自动构建 + 部署到 GitHub Pages |
 
 ### 服务器自动部署（Secrets 配置）
 
