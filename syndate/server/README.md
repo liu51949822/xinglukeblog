@@ -12,6 +12,12 @@ npm start
 
 默认监听 `0.0.0.0:8787`，可通过环境变量 `PORT` 修改。
 
+## 自动部署（CI）
+
+push `syndate/server/` 目录后，GitHub Actions 自动部署到服务器。
+需在仓库 Secrets 配置：`SERVER_HOST`、`SERVER_USER`、`SERVER_PASSWORD`、`SERVER_PORT`。
+详见 [docs/ci-cd.md](../docs/ci-cd.md)。
+
 ## 部署到你的服务器（Docker 方式）
 
 ```bash

@@ -1,0 +1,82 @@
+name: Syndate Server Deploy
+
+on:
+  push:
+    branches: [synDate]
+    paths:
+      - 'syndate/server/**'
+  workflow_dispatch:
+
+concurrency:
+  group: syndate-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Install dependencies
+        working-directory: syndate/server
+        run: npm install --omit=dev
+
+      - name: Create deployment archive
+        working-directory: syndate/server
+        run: |
+          tar czf /tmp/syndate-server.tar.gz \
+            --exclude=node_modules \
+            package.json src/
+
+      - name: Deploy to server
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.SERVER_PORT }}
+          source: /tmp/syndate-server.tar.gz
+          target: /opt/syndate/
+
+      - name: Restart service on server
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SERVER_HOST }}
+          username: ${{ secrets.SERVER_USER }}
+          password: ${{ secrets.SERVER_PASSWORD }}
+          port: ${{ secrets.SERVER_PORT }}
+          script: |
+            set -e
+            cd /opt/syndate
+            mkdir -p server
+            tar xzf syndate-server.tar.gz -C server
+            cd server
+            [ ! -d node_modules ] && npm install --omit=dev || true
+
+            # 停止旧容器
+            docker rm -f syndate 2>/dev/null || true
+
+            # 启动新容器
+            docker run -d --name syndate \
+              -p ${SYNDATE_PORT:-8787}:8787 \
+              --restart unless-stopped \
+              -v /opt/syndate/server:/app \
+              -w /app \
+              -e PORT=8787 \
+              node:22-alpine sh -c "npm install --omit=dev && npm start" 2>/dev/null || \
+            docker run -d --name syndate \
+              -p ${SYNDATE_PORT:-8787}:8787 \
+              --restart unless-stopped \
+              -e PORT=8787 \
+              node:22-alpine sh -c "cd /opt/syndate/server && npm install --omit=dev && npm start" || true
+
+            sleep 3
+            curl -sS -o /dev/null -w "Health: %{http_code}\n" http://localhost:${SYNDATE_PORT:-8787}/api/health || echo "health check warning"

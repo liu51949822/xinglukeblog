@@ -92,7 +92,43 @@ npx expo start
 - 所有数据 24h 自动清理
 - 单文件上限 500MB
 
+## CI/CD 自动化
+
+项目提供 3 条 GitHub Actions 工作流（触发条件为 push 到 `syndate/` 目录）：
+
+| 工作流 | 触发 | 产物 |
+|--------|------|------|
+| `syndate-server-deploy.yml` | push 服务器代码 | 自动部署到服务器 |
+| `syndate-desktop-build.yml` | push 桌面端代码 + 打 tag | 桌面安装包 (exe/dmg/AppImage) |
+| `syndate-android-build.yml` | push 安卓端代码 + 打 tag | 安卓 APK |
+
+### 服务器自动部署（Secrets 配置）
+
+仓库 `Settings → Secrets and variables → Actions` 添加：
+
+| Secret | 说明 |
+|--------|------|
+| `SERVER_HOST` | 服务器公网 IP |
+| `SERVER_USER` | SSH 用户名 |
+| `SERVER_PASSWORD` | SSH 密码 |
+| `SERVER_PORT` | SSH 端口（默认 22） |
+
+push 服务器代码后自动执行：SSH 连接服务器 → 拉取/同步代码 → 安装依赖 → 重启服务。
+
+### 客户端打包（Tag 触发）
+
+打 tag 触发打包，例如：
+
+```bash
+git tag v1.0.0 && git push origin v1.0.0
+```
+
+构建产物可在 Actions 页面 Artifacts 中下载：
+- **桌面端**：Windows `.exe`、macOS `.dmg`、Linux `.AppImage`
+- **安卓端**：`syndate.apk`
+
 ## 文档
 
 - [加密规范](docs/crypto-spec.md) — AES-256-GCM 密钥派生与数据格式
 - [服务器 API](server/README.md) — 中转服务 API 与部署
+- [CI/CD 工作流说明](docs/ci-cd.md) — 自动化部署与打包详情

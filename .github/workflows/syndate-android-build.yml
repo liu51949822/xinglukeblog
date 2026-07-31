@@ -1,0 +1,56 @@
+name: Syndate Android Build
+
+on:
+  push:
+    branches: [synDate]
+    paths:
+      - 'syndate/android/**'
+      - 'syndate/shared/**'
+  workflow_dispatch:
+
+concurrency:
+  group: syndate-android
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    timeout-minutes: 40
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Setup Java 17
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: '17'
+
+      - name: Install dependencies
+        working-directory: syndate/android
+        run: npm install
+
+      - name: Prebuild native android project
+        working-directory: syndate/android
+        env:
+          EXPO_TOKEN: ${{ secrets.EXPO_TOKEN }}
+        run: |
+          npx expo prebuild --platform android --no-install || \
+          npx expo prebuild --platform android
+
+      - name: Build debug APK
+        working-directory: syndate/android/android
+        run: ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: syndate-android-apk
+          path: syndate/android/android/app/build/outputs/apk/debug/*.apk
+          if-no-files-found: warn
