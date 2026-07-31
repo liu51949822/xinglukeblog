@@ -63,7 +63,7 @@ ssh root@<服务器IP> "chmod +x /opt/xinglukeblog/deploy.sh"
 
 | Secret 名称 | 值 | 必填 |
 |-------------|-----|------|
-| `SERVER_HOST` | 服务器 IP，如 `47.101.158.217` | ✅ |
+| `SERVER_HOST` | 服务器公网 IP（在阿里云控制台查看） | ✅ |
 | `SERVER_USER` | SSH 用户名，如 `root` | ✅ |
 | `SERVER_PASSWORD` | SSH 密码 | ✅ |
 | `SERVER_PORT` | SSH 端口，默认 `22` | ✅ |
