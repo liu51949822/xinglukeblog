@@ -54,7 +54,7 @@ jobs:
 
       - name: Prepare deployment package
         run: |
-          tar czf /tmp/deploy.tar.gz \
+          tar czf deploy.tar.gz \
             .next/standalone .next/static .next/BUILD_ID \
             .next/app-build-manifest.json .next/app-path-routes-manifest.json .next/build-manifest.json \
             .next/export-marker.json .next/images-manifest.json .next/next-minimal-server.js.nft.json \
@@ -69,7 +69,7 @@ jobs:
           username: ${{ secrets.SERVER_USER }}
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
-          source: /tmp/deploy.tar.gz
+          source: deploy.tar.gz
           target: /tmp/
           strip_components: 0
 
