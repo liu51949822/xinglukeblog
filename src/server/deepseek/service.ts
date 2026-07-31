@@ -4,8 +4,9 @@ import { streamText } from 'ai';
 import type { ChatRequestInput} from './schema';
 
 
-const apiKey = 'sk-76ad0f1d9d89480495f575a062aaec21'; // 确保有 sk- 前缀
-const baseURL = 'https://api.deepseek.com/v1';
+// 从环境变量读取 API Key，避免硬编码导致密钥泄露
+const apiKey = process.env.DEEPSEEK_API_KEY || '';
+const baseURL = process.env.OPENAI_BASE_URL || 'https://api.deepseek.com/v1';
 
 const deepseek = createOpenAI({
   apiKey: apiKey,
