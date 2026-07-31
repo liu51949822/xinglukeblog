@@ -83,9 +83,12 @@ jobs:
           body: |
             SynData 桌面端安装包
 
-            - Windows: `*.exe`（NSIS 安装包）
-            - macOS: `*.dmg`
-            - Linux: `*.AppImage`
-          files: /tmp/artifacts/**/*
+            - Windows: `syndate-*-win.exe`（NSIS 安装包）
+            - macOS: `syndate-*-mac.dmg`
+            - Linux: `syndate-*-linux.AppImage`
+          files: |
+            /tmp/artifacts/*.exe
+            /tmp/artifacts/*.dmg
+            /tmp/artifacts/*.AppImage
           draft: false
           prerelease: false
