@@ -16,7 +16,7 @@
     "expo-status-bar": "~1.12.1",
     "react": "18.2.0",
     "react-native": "0.74.5",
-    "react-native-quick-crypto": "^0.6.0"
+    "crypto-js": "^4.2.0"
   },
   "devDependencies": {
     "@babel/core": "^7.24.0"

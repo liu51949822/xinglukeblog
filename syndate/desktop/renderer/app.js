@@ -139,7 +139,7 @@ async function uploadFile() {
     const fd = new FormData();
     fd.append('room', settings.roomCode);
     fd.append('iv', result.iv);
-    fd.append('tag', result.tag);
+
     fd.append('file', blob, result.name + '.enc');
     const res = await fetch(settings.serverUrl + '/api/file', { method: 'POST', body: fd });
     const data = await res.json();
@@ -169,7 +169,7 @@ async function refreshFiles() {
       div.innerHTML = `
         <span class="fname">📄 ${escapeHtml(f.name)}</span>
         <span class="fsize">${fmtSize(f.size)}</span>
-        <button class="btn btn-sm btn-primary" onclick="downloadFile('${f.fileId}','${escapeHtml(f.name)}','${f.iv}','${f.tag}')">下载</button>
+        <button class="btn btn-sm btn-primary" onclick="downloadFile('${f.fileId}','${escapeHtml(f.name)}','${f.iv}')">下载</button>
         <button class="btn btn-sm btn-warn" onclick="deleteFile('${f.fileId}')">删</button>
       `;
       list.appendChild(div);
@@ -177,7 +177,7 @@ async function refreshFiles() {
   } catch (e) { /* ignore */ }
 }
 
-async function downloadFile(fileId, name, iv, tag) {
+async function downloadFile(fileId, name, iv) {
   try {
     const res = await fetch(settings.serverUrl + '/api/file/' + settings.roomCode + '/' + fileId);
     if (!res.ok) { toast('下载失败'); return; }
@@ -187,7 +187,7 @@ async function downloadFile(fileId, name, iv, tag) {
     for (let i = 0; i < bytes.length; i++) bin += String.fromCharCode(bytes[i]);
     const encB64 = btoa(bin);
 
-    const result = await api.decryptSave(encB64, iv, tag, settings.roomCode, name.replace(/\.enc$/, ''));
+    const result = await api.decryptSave(encB64, iv, settings.roomCode, name.replace(/\.enc$/, ''));
     if (result.canceled) return;
     if (result.error) toast(result.error);
     else toast('已保存: ' + result.saved);

@@ -16,7 +16,7 @@ contextBridge.exposeInMainWorld('syndate', {
 
   // 文件
   pickEncrypt: (room) => ipcRenderer.invoke('file:pickEncrypt', room),
-  decryptSave: (enc, iv, tag, room, name) => ipcRenderer.invoke('file:decryptSave', enc, iv, tag, room, name),
+  decryptSave: (enc, iv, room, name) => ipcRenderer.invoke('file:decryptSave', enc, iv, room, name),
 
   // 设置
   getSettings: () => ipcRenderer.invoke('settings:get'),

@@ -66,12 +66,11 @@ ipcMain.handle('file:pickEncrypt', async (event, room) => {
     size: buf.length,
     data: enc.buf.toString('base64'),
     iv: enc.iv.toString('base64'),
-    tag: enc.tag.toString('base64'),
   };
 });
 
 // ─── 解密文件并保存 ───
-ipcMain.handle('file:decryptSave', async (event, encData, ivB64, tagB64, room, defaultName) => {
+ipcMain.handle('file:decryptSave', async (event, encData, ivB64, room, defaultName) => {
   const result = await dialog.showSaveDialog(mainWindow, {
     defaultPath: defaultName || 'download.bin',
   });
@@ -82,7 +81,6 @@ ipcMain.handle('file:decryptSave', async (event, encData, ivB64, tagB64, room, d
     const dec = cryptoUtil.decryptBuffer(
       Buffer.from(encData, 'base64'),
       Buffer.from(ivB64, 'base64'),
-      Buffer.from(tagB64, 'base64'),
       room
     );
     fs.writeFileSync(result.filePath, dec);

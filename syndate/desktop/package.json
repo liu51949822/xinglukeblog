@@ -2,6 +2,12 @@
   "name": "syndate-desktop",
   "version": "1.0.0",
   "description": "SynData 桌面端 - 剪贴板同步 + 文件传输",
+  "author": "liu51949822",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/liu51949822/xinglukeblog.git"
+  },
   "main": "main.js",
   "scripts": {
     "start": "electron .",
@@ -9,6 +15,7 @@
     "build": "electron-builder"
   },
   "dependencies": {
+    "crypto-js": "^4.2.0",
     "electron-store": "^8.2.0"
   },
   "devDependencies": {
@@ -29,16 +36,23 @@
       "package.json"
     ],
     "win": {
-      "target": ["nsis"],
+      "target": [
+        "nsis"
+      ],
       "artifactName": "syndate-${version}-win.${ext}"
     },
     "mac": {
-      "target": ["dmg"],
+      "target": [
+        "dmg"
+      ],
       "artifactName": "syndate-${version}-mac.${ext}"
     },
     "linux": {
-      "target": ["AppImage"],
-      "artifactName": "syndate-${version}-linux.${ext}"
+      "target": [
+        "AppImage"
+      ],
+      "artifactName": "syndate-${version}-linux.${ext}",
+      "category": "Utility"
     }
   }
 }
