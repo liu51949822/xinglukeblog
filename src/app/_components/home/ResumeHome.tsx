@@ -12,6 +12,7 @@ import { getTranslation } from '@/i18n/translations';
 import { HomeBackground } from './background';
 import { TypedText } from '../text/typed';
 import { RadarChart } from './RadarChart';
+import { ContactWchat } from '../layout/footer/wchat';
 
 /**
  * 简历式主页
@@ -23,15 +24,9 @@ export const ResumeHome: FC = () => {
   const t = getTranslation(locale);
   const experiences = useResumeExperiences();
   const status = useResumeStatus();
-  const [copied, setCopied] = useState(false);
+  const [showWechat, setShowWechat] = useState(false);
 
-  const copyWechat = async () => {
-    try {
-      await navigator.clipboard.writeText(resumeConfig.contact.wechat);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 1500);
-    } catch { /* ignore */ }
-  };
+  const openWechat = () => setShowWechat(true);
 
   // 技能分组
   const skillGroups = [
@@ -97,24 +92,23 @@ export const ResumeHome: FC = () => {
             />
           </div>
 
-          {/* 联系方式卡片 */}
+          {/* 联系方式卡片：微信弹二维码，邮箱显示完整地址可点击 */}
           <div className="tw-flex tw-justify-center tw-gap-3 tw-pt-2 tw-flex-wrap">
-            {/* 微信 */}
+            {/* 微信：点击弹二维码弹窗 */}
             <button
-              onClick={copyWechat}
+              onClick={openWechat}
               className="tw-inline-flex tw-items-center tw-gap-2 tw-px-4 tw-py-2 tw-rounded-lg tw-bg-green-600 tw-text-white hover:tw-bg-green-700 tw-transition-colors tw-text-sm"
-              title={copied ? t.home.copyTip : `${t.home.wechatLabel}: ${resumeConfig.contact.wechat}`}
             >
               <MessageCircle className="tw-size-4" />
-              {copied ? t.home.copyTip : t.home.wechatLabel}
+              {t.home.wechatLabel}
             </button>
-            {/* 邮箱 */}
+            {/* 邮箱：显示完整邮箱，点击打开邮件客户端 */}
             <a
               href={`mailto:${resumeConfig.contact.email}`}
               className="tw-inline-flex tw-items-center tw-gap-2 tw-px-4 tw-py-2 tw-rounded-lg tw-bg-blue-600 tw-text-white hover:tw-bg-blue-700 tw-transition-colors tw-text-sm"
             >
               <Mail className="tw-size-4" />
-              {t.home.emailLabel}
+              {resumeConfig.contact.email}
             </a>
             {/* GitHub */}
             <a
@@ -147,7 +141,7 @@ export const ResumeHome: FC = () => {
             <h2 className="tw-text-2xl tw-font-bold tw-text-gray-900 dark:tw-text-gray-100">{t.home.radarTitle}</h2>
             <span className="tw-h-px tw-flex-1 tw-bg-gray-300/50 dark:tw-bg-gray-600/50" />
           </div>
-          <div className="tw-flex tw-justify-center tw-bg-white/70 dark:tw-bg-gray-800/70 tw-backdrop-blur tw-rounded-xl tw-p-6 tw-shadow-md">
+          <div className="tw-flex tw-justify-center tw-bg-white tw-rounded-xl tw-p-6 tw-shadow-md dark:tw-bg-gray-800">
             <RadarChart data={resumeConfig.radar} />
           </div>
         </section>
@@ -304,6 +298,12 @@ export const ResumeHome: FC = () => {
           </div>
         </section>
       </div>
+
+      {/* 微信二维码弹窗 */}
+      <ContactWchat
+        visible={showWechat}
+        onClose={() => setShowWechat(false)}
+      />
     </>
   );
 };
