@@ -139,10 +139,10 @@ export const resumeConfig: ResumeConfig = {
   },
   radar: [
     { label: 'Java 后端', value: 90 },
-    { label: '前端开发', value: 80 },
-    { label: '数据库/中间件', value: 85 },
-    { label: 'DevOps 运维', value: 75 },
-    { label: 'AI 编程', value: 85 },
-    { label: '项目管理', value: 80 },
+    { label: '前端开发', value: 70 },
+    { label: '数据库/中间件', value: 78 },
+    { label: 'DevOps 运维', value: 72 },
+    { label: 'AI 编程', value: 84 },
+    { label: '项目管理', value: 62 },
   ],
 };
