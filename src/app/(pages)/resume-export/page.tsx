@@ -38,6 +38,19 @@ const ResumeExportPage: FC = () => {
     { title: content.devops, data: panels?.devOps?.data || [] },
   ];
 
+  // 项目（跟随简历语言：中文用 zh 字典，英文用 en 字典）
+  const projectList = resumeLang === 'zh'
+    ? getTranslation('zh').home.projects
+    : getTranslation('en').home.projects;
+
+  // 经历（跟随简历语言：中文用配置经历，英文用 en 字典；无英文时回退中文）
+  const expList = resumeLang === 'en'
+    ? getTranslation('en').home.experiences.map((content, i) => {
+        const time = experiences[i]?.time || '';
+        return { time, content };
+      })
+    : experiences;
+
   const handlePrint = () => {
     window.print();
   };
@@ -129,7 +142,7 @@ const ResumeExportPage: FC = () => {
             <div className="tw-mb-6">
               <h2 className="tw-text-lg tw-font-bold tw-border-l-4 tw-border-purple-600 tw-pl-2 tw-mb-3">{content.projectsTitle}</h2>
               <div className="tw-space-y-3">
-                {resumeConfig.projects.map((p) => (
+                {projectList.map((p) => (
                   <div key={p.title}>
                     <h3 className="tw-text-sm tw-font-semibold">{p.title}</h3>
                     <p className="tw-text-sm tw-text-gray-600 dark:tw-text-gray-400">{p.desc}</p>
@@ -144,7 +157,7 @@ const ResumeExportPage: FC = () => {
             <div className="tw-mb-6">
               <h2 className="tw-text-lg tw-font-bold tw-border-l-4 tw-border-green-600 tw-pl-2 tw-mb-3">{content.experienceTitle}</h2>
               <div className="tw-space-y-3">
-                {experiences.map((e) => (
+                {expList.map((e) => (
                   <div key={`${e.time}-${e.content}`} className="tw-flex tw-items-start tw-gap-2">
                     <span className="tw-text-sm tw-font-semibold tw-text-gray-700 tw-w-40 tw-flex-shrink-0">{e.time}</span>
                     <span className="tw-text-sm tw-text-gray-700 dark:tw-text-gray-300">{e.content}</span>

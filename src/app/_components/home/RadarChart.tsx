@@ -40,16 +40,16 @@ export const RadarChart: FC<Props> = ({ data, size = 340 }) => {
     .join(' ');
 
   return (
-    <div className="tw-select-none">
-      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
+    <div className="tw-select-none tw-overflow-visible">
+      <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ overflow: 'visible' }}>
         {/* 网格层 */}
         {layerRings.map((r, i) => (
           <polygon
             key={i}
             points={ringPoints(r)}
-            fill={i === 0 ? 'rgba(79,142,247,0.05)' : 'none'}
-            stroke="currentColor"
-            strokeOpacity={0.15}
+            fill={i === 0 ? 'rgba(255,255,255,0.04)' : 'none'}
+            stroke="rgba(255,255,255,0.55)"
+            strokeOpacity={0.3}
             strokeWidth={1}
           />
         ))}
@@ -61,8 +61,8 @@ export const RadarChart: FC<Props> = ({ data, size = 340 }) => {
             y1={center}
             x2={center + radius * Math.cos(angles[i])}
             y2={center + radius * Math.sin(angles[i])}
-            stroke="currentColor"
-            strokeOpacity={0.12}
+            stroke="rgba(255,255,255,0.35)"
+            strokeOpacity={0.25}
             strokeWidth={1}
           />
         ))}
@@ -70,7 +70,7 @@ export const RadarChart: FC<Props> = ({ data, size = 340 }) => {
         <polygon
           points={valuePoints}
           fill="url(#radarGrad)"
-          fillOpacity={0.5}
+          fillOpacity={0.35}
           stroke="url(#radarStroke)"
           strokeWidth={2}
           strokeLinejoin="round"
@@ -86,13 +86,16 @@ export const RadarChart: FC<Props> = ({ data, size = 340 }) => {
         })}
         {/* 维度标签 + 数值 */}
         {data.map((d, i) => {
-          const lr = radius + 24;
+          const lr = radius + 20;
           const x = center + lr * Math.cos(angles[i]);
           const y = center + lr * Math.sin(angles[i]);
-          const nr = radius + 44;
+          const nr = radius + 34;
           const nx = center + nr * Math.cos(angles[i]);
           const ny = center + nr * Math.sin(angles[i]);
+          // 左侧(end)/中间(middle)标签向左偏移，避免贴边
           const anchor = Math.abs(x - center) < 22 ? 'middle' : x > center ? 'start' : 'end';
+          // 长标签（右/左）在垂直方向稍收紧，避免与数值重叠
+          const labelDy = d.label.length >= 5 ? -7 : 0;
           return (
             <g key={`lbl-${i}`}>
               <text
@@ -100,21 +103,20 @@ export const RadarChart: FC<Props> = ({ data, size = 340 }) => {
                 y={y}
                 textAnchor={anchor}
                 dominantBaseline="middle"
-                fontSize={12.5}
+                fontSize={12}
                 fontWeight={600}
-                fill="currentColor"
-                className="dark:tw-fill-gray-300"
+                fill="rgba(255,255,255,0.92)"
               >
                 {d.label}
               </text>
               <text
                 x={nx}
-                y={ny}
+                y={ny + labelDy}
                 textAnchor={anchor}
                 dominantBaseline="middle"
-                fontSize={11}
+                fontSize={10.5}
                 fontWeight={700}
-                fill="#4f8ef7"
+                fill="#8ab4ff"
               >
                 {d.value}
               </text>
