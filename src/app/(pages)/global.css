@@ -16,3 +16,15 @@ body {
     color: hsl(var(--foreground));
     background-color: hsl(var(--background));
 }
+
+/* 打印样式：导出简历 PDF 时隐藏 header/footer 等干扰元素 */
+@media print {
+    header,
+    footer,
+    .tw-print\:hidden {
+        display: none !important;
+    }
+    body {
+        background: #fff !important;
+    }
+}
