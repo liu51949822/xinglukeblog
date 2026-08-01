@@ -11,14 +11,14 @@ interface Props {
 /**
  * 能力雷达图（纯 SVG，无第三方依赖）
  * 设计要点：
- *  - 数值差异可视化，顶点用圆点 + 数值标注
- *  - 渐变填充 + 多层网格，明暗主题均可读
- *  - 蓝紫渐变配色，贴近站点主色调
+ *  - 明暗主题自适应：网格/轴线/标签使用 CSS currentColor，跟随主题
+ *  - 外圈范围明确，网格柔和
+ *  - 标签与数值分开放置，避免堆叠
  */
-export const RadarChart: FC<Props> = ({ data, size = 340 }) => {
+export const RadarChart: FC<Props> = ({ data, size = 360 }) => {
   const center = size / 2;
-  const radius = size / 2 - 56;
-  const start = -Math.PI / 2; // 从顶部开始
+  const radius = size / 2 - 68;
+  const start = -Math.PI / 2;
   const angles = data.map((_, i) => start + (i * 2 * Math.PI) / data.length);
 
   const layers = 5;
@@ -42,15 +42,15 @@ export const RadarChart: FC<Props> = ({ data, size = 340 }) => {
   return (
     <div className="tw-select-none tw-overflow-visible">
       <svg width={size} height={size} viewBox={`0 0 ${size} ${size}`} style={{ overflow: 'visible' }}>
-        {/* 网格层 */}
+        {/* 网格层（最外圈更粗，内层柔和） */}
         {layerRings.map((r, i) => (
           <polygon
             key={i}
             points={ringPoints(r)}
-            fill={i === 0 ? 'rgba(255,255,255,0.04)' : 'none'}
-            stroke="rgba(255,255,255,0.55)"
-            strokeOpacity={0.3}
-            strokeWidth={1}
+            fill="none"
+            className="tw-stroke-gray-300 dark:tw-stroke-gray-600"
+            strokeOpacity={i === layerRings.length - 1 ? 0.7 : 0.4}
+            strokeWidth={i === layerRings.length - 1 ? 1.5 : 1}
           />
         ))}
         {/* 轴线 */}
@@ -61,8 +61,8 @@ export const RadarChart: FC<Props> = ({ data, size = 340 }) => {
             y1={center}
             x2={center + radius * Math.cos(angles[i])}
             y2={center + radius * Math.sin(angles[i])}
-            stroke="rgba(255,255,255,0.35)"
-            strokeOpacity={0.25}
+            className="tw-stroke-gray-300 dark:tw-stroke-gray-600"
+            strokeOpacity={0.45}
             strokeWidth={1}
           />
         ))}
@@ -70,7 +70,7 @@ export const RadarChart: FC<Props> = ({ data, size = 340 }) => {
         <polygon
           points={valuePoints}
           fill="url(#radarGrad)"
-          fillOpacity={0.35}
+          fillOpacity={0.45}
           stroke="url(#radarStroke)"
           strokeWidth={2}
           strokeLinejoin="round"
@@ -84,18 +84,17 @@ export const RadarChart: FC<Props> = ({ data, size = 340 }) => {
             <circle key={`dot-${i}`} cx={x} cy={y} r={4} fill="#4f8ef7" stroke="#fff" strokeWidth={1.5} />
           );
         })}
-        {/* 维度标签 + 数值 */}
+        {/* 维度标签 + 数值（分开放置避免堆叠） */}
         {data.map((d, i) => {
           const lr = radius + 20;
           const x = center + lr * Math.cos(angles[i]);
           const y = center + lr * Math.sin(angles[i]);
-          const nr = radius + 34;
+          const nr = radius + 38;
           const nx = center + nr * Math.cos(angles[i]);
           const ny = center + nr * Math.sin(angles[i]);
-          // 左侧(end)/中间(middle)标签向左偏移，避免贴边
           const anchor = Math.abs(x - center) < 22 ? 'middle' : x > center ? 'start' : 'end';
-          // 长标签（右/左）在垂直方向稍收紧，避免与数值重叠
-          const labelDy = d.label.length >= 5 ? -7 : 0;
+          // 标签在上，数值在下（间隔足够）
+          const numDy = ny > center ? 14 : -14;
           return (
             <g key={`lbl-${i}`}>
               <text
@@ -105,18 +104,18 @@ export const RadarChart: FC<Props> = ({ data, size = 340 }) => {
                 dominantBaseline="middle"
                 fontSize={12}
                 fontWeight={600}
-                fill="rgba(255,255,255,0.92)"
+                className="tw-fill-gray-700 dark:tw-fill-gray-200"
               >
                 {d.label}
               </text>
               <text
                 x={nx}
-                y={ny + labelDy}
+                y={ny + numDy}
                 textAnchor={anchor}
                 dominantBaseline="middle"
-                fontSize={10.5}
+                fontSize={11}
                 fontWeight={700}
-                fill="#8ab4ff"
+                className="tw-fill-blue-600 dark:tw-fill-blue-400"
               >
                 {d.value}
               </text>
