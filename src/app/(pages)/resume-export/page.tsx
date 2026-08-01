@@ -101,11 +101,12 @@ const ResumeExportPage: FC = () => {
           <div className="tw-text-center tw-border-b tw-pb-4 tw-mb-6">
             <h1 className="tw-text-3xl tw-font-bold">{content.name}</h1>
             <p className="tw-text-gray-600 dark:tw-text-gray-300 tw-mt-1">{content.role}</p>
-            {persion?.email && (
-              <p className="tw-text-sm tw-text-gray-500 tw-mt-1">
-                {content.emailLabel}: {persion.email}
-              </p>
-            )}
+            {/* 联系方式 */}
+            <div className="tw-flex tw-flex-wrap tw-justify-center tw-gap-x-4 tw-gap-y-1 tw-mt-2 tw-text-sm tw-text-gray-500">
+              <span>{content.emailLabel}: {resumeConfig.contact.email}</span>
+              <span>{r.wechatLabel}: {resumeConfig.contact.wechat}</span>
+              <span>GitHub: {resumeConfig.contact.github}</span>
+            </div>
           </div>
 
           {/* 技能 */}

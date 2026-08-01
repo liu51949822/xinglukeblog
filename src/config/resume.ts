@@ -19,6 +19,33 @@ export interface ResumeProject {
   url: string;
 }
 
+export interface ResumeContact {
+  /** 邮箱 */
+  email: string;
+  /** 微信号 */
+  wechat: string;
+  /** GitHub 主页 */
+  github: string;
+  /** CSDN 博客 */
+  csdn: string;
+  /** Gitee 开发库 */
+  gitee: string;
+}
+
+export interface ResumeStatus {
+  /** 求职状态（如：求职中 / 在职看机会 / 可远程） */
+  label: string;
+  /** 徽标颜色（tailwind 渐变类） */
+  color: string;
+}
+
+export interface RadarSkill {
+  /** 维度名 */
+  label: string;
+  /** 熟练度 0-100 */
+  value: number;
+}
+
 export interface ResumeConfig {
   /** 自我介绍（打字机展示，可多条轮播） */
   introLines: string[];
@@ -28,6 +55,12 @@ export interface ResumeConfig {
   projects: ResumeProject[];
   /** 核心能力标签 */
   highlights: string[];
+  /** 联系方式 */
+  contact: ResumeContact;
+  /** 求职状态 */
+  status: ResumeStatus;
+  /** 能力雷达图 */
+  radar: RadarSkill[];
 }
 
 export const resumeConfig: ResumeConfig = {
@@ -92,5 +125,24 @@ export const resumeConfig: ResumeConfig = {
     'React / Next.js 前端',
     'MySQL / Redis / Kafka',
     'Docker / K8s / CI/CD',
+  ],
+  contact: {
+    email: '1240332437@qq.com',
+    wechat: 'callmeprice',
+    github: 'https://github.com/liu51949822',
+    csdn: 'https://blog.csdn.net/weixin_45530192',
+    gitee: 'https://gitee.com/callmeprice/raglib',
+  },
+  status: {
+    label: '求职中 · 接受远程',
+    color: 'tw-from-emerald-500 tw-to-teal-500',
+  },
+  radar: [
+    { label: 'Java 后端', value: 90 },
+    { label: '前端开发', value: 80 },
+    { label: '数据库/中间件', value: 85 },
+    { label: 'DevOps 运维', value: 75 },
+    { label: 'AI 编程', value: 85 },
+    { label: '项目管理', value: 80 },
   ],
 };

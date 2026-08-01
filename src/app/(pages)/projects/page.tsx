@@ -1,14 +1,10 @@
-import React from 'react';
-import type { Metadata } from 'next';
+import { redirect } from 'next/navigation';
 
-export const metadata: Metadata = {
-  title: '我的项目 | XinglukeBlog',
-  description: '项目展示',
-};
-
-const ProjectsPage = () => (
-  <div className="tw-flex tw-h-full tw-w-full tw-items-center tw-justify-center">
-    <h1 className="tw-text-2xl tw-font-bold">项目正在建设中...</h1>
-  </div>
-);
-export default ProjectsPage;
+/**
+ * /projects 已关闭
+ * 项目信息已完整展示在首页「项目经历」区块，含链接。
+ * 直接重定向到首页，避免空页面。
+ */
+export default function ProjectsPage() {
+    redirect('/');
+}

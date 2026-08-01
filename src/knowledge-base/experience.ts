@@ -1,88 +1,62 @@
 /**
- * 求职知识库 - 工作经历 / 项目经历
+ * 求职知识库 - 工作经历 / 项目经历（自动生成）
  * 
- * 基于 config/me.ts 的 timeline 真实信息整理。
+ * 经历与项目知识块从 src/config/resume.ts 自动生成，
+ * 在 /resume-admin 更新经历后，此知识库同步生效，无需手工维护。
  */
 
 import type { KnowledgeChunk } from './profile';
+import { resumeConfig } from '@/config/resume';
 
-export const experienceKnowledge: KnowledgeChunk[] = [
-  {
-    id: 'exp-titan',
-    tags: ['Titan', '无人驾驶', '数据接入', '数据处理', '清洗', '过滤', '筛查', '有效数据', '远程工作'],
-    content:
-      '2024.01 至今：加入 Titan，做无人驾驶相关的数据接入与处理。具体是把大量无人设备产生的原始数据做清洗、过滤、筛查，' +
-      '把有用的那部分整理出来交给下游使用。同时开始接远程兼职，积累了远程办公协作经验。',
-  },
-  {
-    id: 'exp-zhongke',
-    tags: ['中科大脑', '智慧城市', 'UAV', '无人机', '集群', '城市监控', '项目管理'],
-    content:
-      '2022.10 加入中科大脑，负责智慧城市研发工作。担任 UAV 集群城市监控项目的整体负责人，' +
-      '手下带着 3 名外包成员。',
-  },
-  {
-    id: 'exp-sanbao',
-    tags: ['SanBao', '后端研发', 'Java'],
-    content: '2022.04 加入 SanBao，负责后端研发工作。',
-  },
-  {
-    id: 'exp-institute',
-    tags: ['研究所', '江北', '团队管理', '管理', '负责人', '升职'],
-    content:
-      '2021.02 入职江北某研究所，3 个月后升职加薪，收入到了 20 万往上。当上了部门老二，' +
-      '老大常年出差，实际就是我在管，手下 9 个兄弟。',
-  },
-  {
-    id: 'exp-zhongtongfu',
-    tags: ['中通服', '稳定', '运维'],
-    content: '2020.11 入职中通服，负责稳定可靠的系统运维与研发工作。',
-  },
-  {
-    id: 'exp-alibaba-offer',
-    tags: ['阿里', 'P6', 'offer', '南京', '求职'],
-    content:
-      '2020.08 收到阿里巴巴 P6 岗位的 offer，最后选择回南京发展。说明技术底子当时是够大厂 P6 的。',
-  },
-  {
-    id: 'exp-mes',
-    tags: ['MES', '生产系统', '工厂', '信息化', '数字化', 'Jack', '缝制设备', '配套软件', '7家工厂'],
-    content:
-      '2018.07 开始第一个大项目：MES 生产管理系统，是 Jack（全球最大缝制设备生产商）产品的配套软件。' +
-      '在职期间给 7 家工厂提供服务，规模从最小的 500 人到最大的 20000 人。' +
-      '这个项目的难点不在提效率，而在每家工厂都有自己特殊的工作氛围、工艺要求、面向的客户都不一样。' +
-      '要深入了解客户需求、找准优化方向、针对系统做二次改造，靠的是跟客户反复沟通、到现场实际考察，' +
-      '从这些交流里分析出后续合作方向，再持续改进。这个模式有效推动了配套产品销售，' +
-      '实实在在提高了老客户对铺布、样板这类中高端设备的需求和采购。后续项目基本都从这套经验上演化出来。',
-  },
-  {
-    id: 'exp-iot',
-    tags: ['物联网', 'IoT', '转岗', '研发团队'],
-    content:
-      '2018.04 加入集团物联网研发团队，从机械工程师内部转岗为软件研发工程师。' +
-      '因从小对计算机兴趣浓厚，主动申请转岗并成功。',
-  },
-  {
-    id: 'exp-start',
-    tags: ['毕业', '自动化', '机械', '助理工程师', '职业生涯', '入行'],
-    content:
-      '2017.06 自动化专业毕业，因 NX 绘图能力强成为一名机械助理工程师，' +
-      '负责制图和首件生产监测。2018 年转入物联网研发团队，开启软件职业生涯。',
-  },
+/** 每条经历的关键词（从内容提取 + 补充行业词） */
+const EXPERIENCE_KEYWORDS: Record<string, string[]> = {
+  '未来': ['未来', '规划', '创业', '主业'],
+  '至今': ['至今', '创业', '兼职', '远程', '自由职业'],
+  '2024.01': ['Titan', '无人驾驶', '数据处理', '数据接入', '清洗', '过滤', '筛查', '远程'],
+  '2022.10': ['中科大脑', '智慧城市', 'UAV', '无人机', '集群', '监控', '项目管理'],
+  '2021.02': ['研究所', '团队', '管理', '负责人', '晋升'],
+  '2018.07': ['MES', '生产系统', 'Jack', '缝制设备', '配套软件', '7家工厂', '信息化', '数字化'],
+  '2018.04': ['物联网', 'IoT', '转岗', '研发'],
+  '2017.06': ['自动化', '机械', '助理工程师', '入行', '毕业'],
+};
+
+/**
+ * 从简历配置自动生成经历知识块
+ */
+function buildExperienceChunks(): KnowledgeChunk[] {
+  return resumeConfig.experiences.map((exp, index) => ({
+    id: `exp-auto-${index}`,
+    tags: EXPERIENCE_KEYWORDS[exp.time] || [exp.time, '经历', '工作'],
+    content: `${exp.time}：${exp.content}`,
+  }));
+}
+
+/**
+ * 从简历配置自动生成项目知识块
+ */
+function buildProjectChunks(): KnowledgeChunk[] {
+  return resumeConfig.projects.map((project, index) => ({
+    id: `project-auto-${index}`,
+    tags: [project.title, '项目', '作品', '案例', '项目经历'],
+    content: `${project.title}：${project.desc}`,
+  }));
+}
+
+/**
+ * 固定知识块（无法从配置自动生成的补充信息）
+ */
+const staticKnowledge: KnowledgeChunk[] = [
   {
     id: 'exp-freelance',
-    tags: ['创业', '兼职', '远程', '独立开发', '自由职业'],
+    tags: ['创业', '兼职', '远程', '独立开发', '自由职业', '合作方式'],
     content:
-      '一直在折腾个人创业，也接远程兼职，能独立把一个项目从头做到交付，' +
-      '靠这些兼职收入覆盖生活开销没问题。',
+      '本人持续接受远程合作，可独立将项目从零开发到交付上线，兼职收入可覆盖日常开销。',
   },
-  {
-    id: 'exp-projects',
-    tags: ['项目', '作品', '案例', 'IMPS', 'MES', '黑灯生产', '智慧城市', '智网', 'CSDN', '博客', 'gitee'],
-    content:
-      '代表性项目：' +
-      '1) IMPS MES 生产管理系统（mes.uchat.com.cn）—— Jack（全球最大缝制设备商）配套软件，服务 7 家工厂 500~20000 人；' +
-      '2) 无人驾驶数据处理 —— 大量无人设备数据的清洗、过滤、筛查，输出有效数据给下游；' +
-      '3) 博客/开源 —— CSDN 技术博客（blog.csdn.net/weixin_45530192）、Next.js 全栈博客、Gitee AI 云开发库。',
-  },
+];
+
+/** 自动生成的全部经历/项目知识块 */
+export const experienceKnowledge: KnowledgeChunk[] = [
+  ...buildExperienceChunks(),
+  ...buildProjectChunks(),
+  ...staticKnowledge,
 ];

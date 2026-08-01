@@ -1,14 +1,17 @@
 'use client';
 
 import type { FC } from 'react';
+import { useState } from 'react';
 import Link from 'next/link';
+import { Mail, Github, MessageCircle } from 'lucide-react';
 import { about } from '@/config/me';
 import { resumeConfig } from '@/config/resume';
-import { useResumeExperiences } from '@/store/resume';
+import { useResumeExperiences, useResumeStatus } from '@/store/resume';
 import { useLocale } from '@/i18n/store';
 import { getTranslation } from '@/i18n/translations';
 import { HomeBackground } from './background';
 import { TypedText } from '../text/typed';
+import { RadarChart } from './RadarChart';
 
 /**
  * 简历式主页
@@ -19,6 +22,16 @@ export const ResumeHome: FC = () => {
   const locale = useLocale();
   const t = getTranslation(locale);
   const experiences = useResumeExperiences();
+  const status = useResumeStatus();
+  const [copied, setCopied] = useState(false);
+
+  const copyWechat = async () => {
+    try {
+      await navigator.clipboard.writeText(resumeConfig.contact.wechat);
+      setCopied(true);
+      setTimeout(() => setCopied(false), 1500);
+    } catch { /* ignore */ }
+  };
 
   // 技能分组
   const skillGroups = [
@@ -63,6 +76,16 @@ export const ResumeHome: FC = () => {
           <h1 className="tw-text-5xl tw-font-bold tw-bg-gradient-to-r tw-from-blue-500 tw-to-purple-500 tw-bg-clip-text tw-text-transparent">
             {persion?.name || t.home.name}
           </h1>
+
+          {/* 求职状态徽标 */}
+          {status.label && (
+            <div className="tw-flex tw-justify-center">
+              <span className={`tw-inline-block tw-px-4 tw-py-1.5 tw-rounded-full tw-bg-gradient-to-r ${status.color} tw-text-white tw-text-sm tw-font-medium tw-shadow-md`}>
+                {status.label}
+              </span>
+            </div>
+          )}
+
           <p className="tw-text-xl tw-text-gray-800 dark:tw-text-gray-200">{t.home.role}</p>
           <p className="tw-text-sm tw-text-gray-600 dark:tw-text-gray-400">{t.home.brief}</p>
 
@@ -74,21 +97,58 @@ export const ResumeHome: FC = () => {
             />
           </div>
 
-          {persion?.email && (
-            <p className="tw-text-sm tw-text-blue-600 dark:tw-text-blue-400">
-              📧 {t.home.emailLabel}: {persion.email}
-            </p>
-          )}
+          {/* 联系方式卡片 */}
+          <div className="tw-flex tw-justify-center tw-gap-3 tw-pt-2 tw-flex-wrap">
+            {/* 微信 */}
+            <button
+              onClick={copyWechat}
+              className="tw-inline-flex tw-items-center tw-gap-2 tw-px-4 tw-py-2 tw-rounded-lg tw-bg-green-600 tw-text-white hover:tw-bg-green-700 tw-transition-colors tw-text-sm"
+              title={copied ? t.home.copyTip : `${t.home.wechatLabel}: ${resumeConfig.contact.wechat}`}
+            >
+              <MessageCircle className="tw-size-4" />
+              {copied ? t.home.copyTip : t.home.wechatLabel}
+            </button>
+            {/* 邮箱 */}
+            <a
+              href={`mailto:${resumeConfig.contact.email}`}
+              className="tw-inline-flex tw-items-center tw-gap-2 tw-px-4 tw-py-2 tw-rounded-lg tw-bg-blue-600 tw-text-white hover:tw-bg-blue-700 tw-transition-colors tw-text-sm"
+            >
+              <Mail className="tw-size-4" />
+              {t.home.emailLabel}
+            </a>
+            {/* GitHub */}
+            <a
+              href={resumeConfig.contact.github}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="tw-inline-flex tw-items-center tw-gap-2 tw-px-4 tw-py-2 tw-rounded-lg tw-bg-gray-800 tw-text-white hover:tw-bg-gray-900 tw-transition-colors tw-text-sm"
+            >
+              <Github className="tw-size-4" />
+              {t.home.githubLabel}
+            </a>
+          </div>
+
           <div className="tw-flex tw-justify-center tw-gap-3 tw-pt-3 tw-flex-wrap">
-            <Link href="/myself" className="tw-px-5 tw-py-2 tw-rounded-lg tw-bg-blue-600 tw-text-white hover:tw-bg-blue-700 tw-transition-colors">
+            <Link href="/myself" className="tw-px-5 tw-py-2 tw-rounded-lg tw-bg-blue-500 tw-text-white hover:tw-bg-blue-600 tw-transition-colors tw-text-sm">
               {t.home.aboutBtn}
             </Link>
-            <Link href="/deepseek" className="tw-px-5 tw-py-2 tw-rounded-lg tw-bg-purple-600 tw-text-white hover:tw-bg-purple-700 tw-transition-colors">
+            <Link href="/deepseek" className="tw-px-5 tw-py-2 tw-rounded-lg tw-bg-purple-500 tw-text-white hover:tw-bg-purple-600 tw-transition-colors tw-text-sm">
               {t.home.askBtn}
             </Link>
-            <Link href="/resume-export" className="tw-px-5 tw-py-2 tw-rounded-lg tw-bg-emerald-600 tw-text-white hover:tw-bg-emerald-700 tw-transition-colors">
+            <Link href="/resume-export" className="tw-px-5 tw-py-2 tw-rounded-lg tw-bg-emerald-500 tw-text-white hover:tw-bg-emerald-600 tw-transition-colors tw-text-sm">
               {t.home.exportBtn}
             </Link>
+          </div>
+        </section>
+
+        {/* ── 能力雷达图 ── */}
+        <section className="tw-space-y-5">
+          <div className="tw-flex tw-items-center tw-gap-3">
+            <h2 className="tw-text-2xl tw-font-bold tw-text-gray-900 dark:tw-text-gray-100">{t.home.radarTitle}</h2>
+            <span className="tw-h-px tw-flex-1 tw-bg-gray-300/50 dark:tw-bg-gray-600/50" />
+          </div>
+          <div className="tw-flex tw-justify-center tw-bg-white/70 dark:tw-bg-gray-800/70 tw-backdrop-blur tw-rounded-xl tw-p-6 tw-shadow-md">
+            <RadarChart data={resumeConfig.radar} />
           </div>
         </section>
 
@@ -128,7 +188,7 @@ export const ResumeHome: FC = () => {
             <div className="tw-h-px tw-bg-emerald-300/40 md:tw-h-10 md:tw-w-px" />
             <p className="tw-text-gray-700 dark:tw-text-gray-300 tw-text-sm tw-flex-1">{t.home.aiAgentDesc}</p>
             <a
-              href="https://gitee.com"
+              href="https://gitee.com/callmeprice/raglib"
               target="_blank"
               rel="noopener noreferrer"
               className="tw-shrink-0 tw-px-4 tw-py-2 tw-rounded-lg tw-bg-emerald-600 tw-text-white tw-text-sm hover:tw-bg-emerald-700 tw-transition-colors"

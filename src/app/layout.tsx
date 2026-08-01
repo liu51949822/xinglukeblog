@@ -4,6 +4,8 @@ import './styles/index.css';
 
 import type { FC, PropsWithChildren } from 'react';
 
+import { Analytics } from './_components/analytics/Analytics';
+
 export const metadata: Metadata = {
     title: {
         default: '行路客 · 全栈工程师简历 | Java/Spring/React/Next.js',
@@ -46,7 +48,11 @@ export const metadata: Metadata = {
 
 const RootLayout: FC<PropsWithChildren> = ({ children }) => (
     <html lang="zh-CN">
-        <body>{children}</body>
+        <body>
+            {children}
+            {/* 访问统计埋点（百度 + Google） */}
+            <Analytics />
+        </body>
     </html>
 );
 

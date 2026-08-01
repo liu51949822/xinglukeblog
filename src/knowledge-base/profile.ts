@@ -1,11 +1,11 @@
 /**
- * 求职知识库 - 个人信息
+ * 求职知识库 - 个人信息与技能（技能部分自动生成）
  * 
- * 这是 RAG 问答的数据来源之一。基于 config/me.ts 的真实信息整理。
- * 内容字段说明：
- *  - tags: 检索关键词（用于关键词匹配）
- *  - content: 知识块内容（回答时作为上下文）
+ * 技能类知识块从 src/config/me.ts 的 panels 自动生成，
+ * 基本信息、求职方向、知识库说明为固定知识块。
  */
+
+import { about } from '@/config/me';
 
 export interface KnowledgeChunk {
   /** 知识块唯一 id */
@@ -17,9 +17,58 @@ export interface KnowledgeChunk {
 }
 
 /**
- * 个人信息知识库
+ * 从 about.panels 自动生成技能知识块
  */
-export const profileKnowledge: KnowledgeChunk[] = [
+function buildSkillChunks(): KnowledgeChunk[] {
+  const panels = about.panels;
+  if (!panels) return [];
+
+  const groups = [
+    {
+      id: 'frontend-skills',
+      title: '前端技能',
+      tags: ['前端', '技能', '技术栈', 'React', 'Next.js', 'JavaScript', 'TypeScript'],
+      data: panels.front?.data || [],
+    },
+    {
+      id: 'backend-skills',
+      title: '后端技能',
+      tags: ['后端', 'Java', 'Spring', '技能', '技术栈', '微服务'],
+      data: panels.back?.data || [],
+    },
+    {
+      id: 'database-middleware',
+      title: '数据库与中间件',
+      tags: ['数据库', '中间件', 'MySQL', 'PostgreSQL', 'Redis', 'Kafka', 'MongoDB', 'MQTT'],
+      data: panels.dataAndMiddleware?.data || [],
+    },
+    {
+      id: 'devops-skills',
+      title: '服务器与运维',
+      tags: ['运维', 'DevOps', 'Docker', 'Kubernetes', 'Linux', 'CI', 'Jenkins', 'Git'],
+      data: panels.devOps?.data || [],
+    },
+    {
+      id: 'learning-skills',
+      title: '正在学习的技能',
+      tags: ['学习', '正在学', '新技能', 'React Native', 'Express'],
+      data: panels.doingSkill?.data || [],
+    },
+  ];
+
+  return groups
+    .filter((g) => g.data.length > 0)
+    .map((g) => ({
+      id: g.id,
+      tags: g.tags,
+      content: `${g.title}：${g.data.join('、')}。`,
+    }));
+}
+
+/**
+ * 固定知识块（无法从配置自动生成，需手工维护）
+ */
+const staticKnowledge: KnowledgeChunk[] = [
   {
     id: 'basic-info',
     tags: ['姓名', '名字', '称呼', '基本信息', '联系方式', '邮箱', '性别', '我是谁', '你是谁', '这个人', '行路客是谁'],
@@ -42,46 +91,13 @@ export const profileKnowledge: KnowledgeChunk[] = [
       '我是一个个人能力知识库问答助手，围绕工程师「行路客」整理的一份数字档案。' +
       '问任何关于他的技能、经历、项目、求职方向的问题，我都会基于档案内容回答。' +
       '这个知识库基于 Next.js 15 全栈博客构建，采用 RAG（检索增强生成）方案：' +
-      '把技能/经历/项目拆成 19 条结构化知识块，用中文 n-gram 分词 + 关键词权重打分检索最相关内容，' +
-      '再拼给 DeepSeek 大模型生成自然回答。' +
-      '目前的程度：常见问题（技能、项目、求职）能答得不错，回答口语化；' +
-      '不足：没有向量库，只靠关键词召回，问得太偏或太抽象的问题可能答不准，知识块需手工维护；' +
-      '上下游：上游是我整理的简历配置（src/config、src/knowledge-base），下游是前端问答界面；' +
+      '技能、经历、项目分别从简历配置（src/config）自动生成知识块，' +
+      '用中文 n-gram 分词 + 关键词权重打分检索最相关内容，再拼给 DeepSeek 大模型生成自然回答。' +
+      '目前的程度：常见问题（技能、项目、求职）能答得不错，回答自然；' +
+      '不足：没有向量库，只靠关键词召回，问得太偏或太抽象的问题可能答不准；' +
+      '上下游：上游是简历配置（src/config/resume.ts、src/config/me.ts），下游是前端问答界面；' +
       '同类产品：类似 Airtable AI、Notion AI、各类基于知识库的智能问答机器人，' +
       '但这里是专为个人求职展示定制、代码开源的轻量实现。',
-  },
-  {
-    id: 'frontend-skills',
-    tags: ['前端', '技能', '技术栈', 'React', 'Next.js', 'JavaScript', 'TypeScript', 'Vue'],
-    content:
-      '前端技能：HTML、CSS、JavaScript、TypeScript、React、Next.js、Node.js、Tailwind CSS、Bootstrap、jQuery。' +
-      '能独立完成现代前端应用的开发与构建。',
-  },
-  {
-    id: 'backend-skills',
-    tags: ['后端', 'Java', 'Spring', '技能', '技术栈', '微服务'],
-    content:
-      '后端技能：Java（多年经验）、Spring Boot、Spring Security、Spring Data JPA、Spring Cloud、Hono、Node.js。' +
-      '熟悉微服务架构与安全认证体系。',
-  },
-  {
-    id: 'database-middleware',
-    tags: ['数据库', '中间件', 'MySQL', 'PostgreSQL', 'Redis', 'Kafka', 'MongoDB', 'MQTT'],
-    content:
-      '数据库和中间件：MySQL、PostgreSQL、TDengine（时序数据库）、MongoDB、Redis、Kafka、MQTT、RabbitMQ、Pandas。' +
-      '覆盖关系型、NoSQL、时序、缓存、消息队列等主流技术。',
-  },
-  {
-    id: 'devops-skills',
-    tags: ['运维', 'DevOps', 'Docker', 'Kubernetes', 'Linux', 'CI', 'Jenkins', 'Git'],
-    content:
-      '服务器与运维技能：Docker、Kubernetes、Jenkins、Git、GitHub、GitHub Actions、Linux、Ubuntu、Windows Server。' +
-      '熟悉容器化部署与 CI/CD 自动化流程。',
-  },
-  {
-    id: 'learning-skills',
-    tags: ['学习', '正在学', '演化', 'React Native', 'Express', '新技能'],
-    content: '正在学习的技能：React Native、Express。一直在追新技术。',
   },
   {
     id: 'ai-coding',
@@ -97,4 +113,10 @@ export const profileKnowledge: KnowledgeChunk[] = [
       '大模型应用实践：在 Gitee 上维护一套个人云端开发库，把常用的写法和流程规范整理成 Markdown 文档（SOP），' +
       '让 AI Agent 照着这些文档配合干活。这套库越用越顺，AI 越来越懂我的习惯和规范。',
   },
+];
+
+/** 个人信息与技能知识块（技能自动生成 + 固定知识块） */
+export const profileKnowledge: KnowledgeChunk[] = [
+  ...buildSkillChunks(),
+  ...staticKnowledge,
 ];
