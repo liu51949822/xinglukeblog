@@ -8,9 +8,10 @@ import { useResumeStore } from '@/store/resume';
 import { resumeConfig, type ResumeExperience } from '@/config/resume';
 
 /**
- * 隐藏路由：简历经历编排
+ * 隐藏路由：简历经历编排（统一数据源）
  * 访问地址（不在导航展示）：/resume-admin
- * 功能：导入/编辑个人经历，重新排序，保存后首页生效
+ * 功能：导入/编辑个人经历文档，重新排序。
+ * 保存后同时影响：首页「关键经历」 + 「关于我」页时间线。
  */
 const ResumeAdminPage: FC = () => {
   const router = useRouter();
@@ -100,6 +101,9 @@ const ResumeAdminPage: FC = () => {
           <h1 className="tw-text-2xl tw-font-bold">📝 简历经历编排</h1>
           <Link href="/" className="tw-text-blue-600 tw-text-sm">← 返回首页</Link>
         </div>
+        <p className="tw-text-xs tw-text-gray-500 tw-mb-4">
+          保存后同时更新：首页「关键经历」 + 「关于我」页时间线。默认显示下方配置文件内容，导入文档后覆盖。
+        </p>
 
         {/* 导入区 */}
         <div className="tw-bg-white dark:tw-bg-gray-800 tw-rounded-xl tw-p-5 tw-shadow-md tw-mb-6">
