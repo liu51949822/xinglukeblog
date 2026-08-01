@@ -141,7 +141,7 @@ export const ResumeHome: FC = () => {
             <h2 className="tw-text-2xl tw-font-bold tw-text-gray-900 dark:tw-text-gray-100">{t.home.radarTitle}</h2>
             <span className="tw-h-px tw-flex-1 tw-bg-gray-300/50 dark:tw-bg-gray-600/50" />
           </div>
-          <div className="tw-flex tw-justify-center tw-bg-white tw-rounded-xl tw-p-6 tw-shadow-md dark:tw-bg-gray-800">
+          <div className="tw-flex tw-justify-center tw-bg-white/30 dark:tw-bg-gray-800/30 tw-backdrop-blur-xl tw-rounded-xl tw-p-6 tw-shadow-md tw-border tw-border-white/40 dark:tw-border-gray-700/40">
             <RadarChart data={resumeConfig.radar} />
           </div>
         </section>
