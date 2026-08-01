@@ -1,10 +1,12 @@
 import type { FC } from 'react';
 
 import { cn } from '@/app/_components/shadcn/utils';
-// import { House, BookOpen, User, Link as LinkIcon, Compass, MessageSquare } from 'lucide-react';
-import { House, User,  Compass, MessageSquare,Rocket } from 'lucide-react';
+import { House, User, Compass, MessageSquare, Rocket } from 'lucide-react';
 
 import Link from 'next/link';
+
+import { useLocale } from '@/i18n/store';
+import { getTranslation } from '@/i18n/translations';
 
 import {
     NavigationMenu,
@@ -17,70 +19,72 @@ import $styles from './nav.module.css';
 
 const items = [
     {
-        title: '首页',
+        titleKey: 'home',
         href: '/',
         icon: House,
     },
-    // {
-    //     title: '博客',
-    //     href: '/blog',
-    //     icon: BookOpen,
-    // },
     {
-        title: '关于我',
+        titleKey: 'about',
         href: '/myself',
         icon: User,
     },
-    // {
-    //     title: '友链',
-    //     href: '/bylink',
-    //     icon: LinkIcon,
-    // },
-        
     {
-        title: '导航',
+        titleKey: 'webnav',
         href: '/webnav',
         icon: Compass,
     },
     {
-        title: '留言',
+        titleKey: 'message',
         href: '/message',
         icon: MessageSquare,
     },
-      {
-        title: '大模型',
+    {
+        titleKey: 'knowledge',
         href: '/deepseek',
         icon: Rocket,
     },
 ];
-export const HeaderNav: FC = () => (
-    <div className={$styles.nav}>
-        <NavigationMenu className={$styles.menus}>
-            <NavigationMenuList>
-                {items.map((item) => (
-                    <NavigationMenuItem key={item.href} className={cn($styles['menu-item'])}>
-                        <Link href={item.href} passHref legacyBehavior>
-                            <NavigationMenuLink className={cn(navigationMenuTriggerStyle())}>
-                                {item.icon && <item.icon className="tw-mr-1" />}
-                                {item.title}
-                            </NavigationMenuLink>
-                        </Link>
-                    </NavigationMenuItem>
-                ))}
-            </NavigationMenuList>
-        </NavigationMenu>
-    </div>
-);
 
-export const MobileNav: FC = () => (
-    <div className={$styles.mobileNav}>
-        <ul>
-            {items.map((item) => (
-                <li key={item.href} className={$styles['mobile-menu-item']}>
-                    {item.icon && <item.icon className="tw-mr-2" />}
-                    <Link href={item.href}>{item.title}</Link>
-                </li>
-            ))}
-        </ul>
-    </div>
-);
+const useNavTitles = () => {
+    const locale = useLocale();
+    const t = getTranslation(locale);
+    return items.map((item) => ({ ...item, title: t.nav[item.titleKey] }));
+};
+
+export const HeaderNav: FC = () => {
+    const navItems = useNavTitles();
+    return (
+        <div className={$styles.nav}>
+            <NavigationMenu className={$styles.menus}>
+                <NavigationMenuList>
+                    {navItems.map((item) => (
+                        <NavigationMenuItem key={item.href} className={cn($styles['menu-item'])}>
+                            <Link href={item.href} passHref legacyBehavior>
+                                <NavigationMenuLink className={cn(navigationMenuTriggerStyle())}>
+                                    {item.icon && <item.icon className="tw-mr-1" />}
+                                    {item.title}
+                                </NavigationMenuLink>
+                            </Link>
+                        </NavigationMenuItem>
+                    ))}
+                </NavigationMenuList>
+            </NavigationMenu>
+        </div>
+    );
+};
+
+export const MobileNav: FC = () => {
+    const navItems = useNavTitles();
+    return (
+        <div className={$styles.mobileNav}>
+            <ul>
+                {navItems.map((item) => (
+                    <li key={item.href} className={$styles['mobile-menu-item']}>
+                        {item.icon && <item.icon className="tw-mr-2" />}
+                        <Link href={item.href}>{item.title}</Link>
+                    </li>
+                ))}
+            </ul>
+        </div>
+    );
+};
