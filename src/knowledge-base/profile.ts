@@ -74,15 +74,15 @@ const staticKnowledge: KnowledgeChunk[] = [
     tags: ['姓名', '名字', '称呼', '基本信息', '联系方式', '邮箱', '性别', '我是谁', '你是谁', '这个人', '行路客是谁'],
     content:
       '姓名：行路客（刘）；性别：男；邮箱：1240332437@qq.com。' +
-      '求职定位：软件工程师（全栈），主要写 Java，靠 AI 辅助什么语言都能上手。',
+      '求职定位：全栈工程师，Java 后端为主，靠 AI 辅助什么语言都能上手。',
   },
   {
     id: 'career-position',
     tags: ['求职', '岗位', '职位', '定位', '方向', '目标', '找什么工作'],
     content:
-      '求职目标：软件工程师岗位，不区分具体方向。核心优势是 Java 多年经验（后端全栈），' +
-      '配合 AI 写代码（vibing coding），什么语言都能快速上手。既会 Java 后端（Spring 全家桶），' +
-      '也能做前端（React/Next.js），还会运维（Docker/Linux/CI-CD）。',
+      '求职定位：全栈工程师。核心优势是前后端都能独立交付：Java 后端为主（Spring 全家桶），' +
+      '前端 React/Next.js 熟练，运维部署（Docker/Linux/CI-CD）也能搞定。' +
+      '配合 AI 写代码（vibing coding），跨语言快速上手，适合需要一人顶多岗的团队。',
   },
   {
     id: 'kb-intro',

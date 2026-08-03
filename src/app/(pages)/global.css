@@ -28,3 +28,43 @@ body {
         background: #fff !important;
     }
 }
+
+/* ─── 浮动机器人游走动画 ─── */
+@keyframes bot-hop {
+    0% { transform: translate(0, 0) scale(1) rotate(0); }
+    20% { transform: translate(0, -14px) scale(1.08) rotate(-6deg); }
+    40% { transform: translate(0, 0) scale(0.95) rotate(3deg); }
+    60% { transform: translate(0, -10px) scale(1.05) rotate(6deg); }
+    80% { transform: translate(0, 0) scale(1) rotate(-2deg); }
+    100% { transform: translate(0, 0) scale(1) rotate(0); }
+}
+@keyframes bot-spin {
+    0% { transform: rotate(0) scale(1); }
+    50% { transform: rotate(360deg) scale(1.1); }
+    100% { transform: rotate(720deg) scale(1); }
+}
+@keyframes bot-wobble {
+    0% { transform: rotate(-10deg) translateX(0); }
+    25% { transform: rotate(10deg) translateX(4px); }
+    50% { transform: rotate(-8deg) translateX(-4px); }
+    75% { transform: rotate(8deg) translateX(3px); }
+    100% { transform: rotate(0) translateX(0); }
+}
+@keyframes bot-dash {
+    0% { transform: translateX(0) scaleX(1); }
+    30% { transform: translateX(12px) scaleX(1.15) rotate(-4deg); }
+    60% { transform: translateX(-10px) scaleX(0.9) rotate(4deg); }
+    100% { transform: translateX(0) scaleX(1); }
+}
+@keyframes bot-jump {
+    0% { transform: translateY(0) scale(1); }
+    30% { transform: translateY(-18px) scale(1.1) rotate(-8deg); }
+    55% { transform: translateY(0) scale(0.9); }
+    75% { transform: translateY(-8px) scale(1.05) rotate(8deg); }
+    100% { transform: translateY(0) scale(1); }
+}
+.bot-move-hop { animation: bot-hop 0.9s ease-in-out; }
+.bot-move-spin { animation: bot-spin 0.9s ease-in-out; }
+.bot-move-wobble { animation: bot-wobble 0.9s ease-in-out; }
+.bot-move-dash { animation: bot-dash 0.9s ease-in-out; }
+.bot-move-jump { animation: bot-jump 0.9s ease-in-out; }

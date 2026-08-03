@@ -7,7 +7,7 @@ import html2canvas from 'html2canvas';
 import { jsPDF } from 'jspdf';
 import { about } from '@/config/me';
 import { resumeConfig } from '@/config/resume';
-import { useResumeExperiences } from '@/store/resume';
+import { useResumeExperiences, useResumeProjects, useResumePreference } from '@/store/resume';
 import { useLocale } from '@/i18n/store';
 import { getTranslation } from '@/i18n/translations';
 
@@ -42,18 +42,22 @@ const ResumeExportPage: FC = () => {
     { title: content.devops, data: panels?.devOps?.data || [] },
   ];
 
-  // 项目（跟随简历语言：中文用 zh 字典，英文用 en 字典）
-  const projectList = resumeLang === 'zh'
-    ? getTranslation('zh').home.projects
-    : getTranslation('en').home.projects;
+  // 项目（从统一配置读取，按简历语言取中/英文）
+  const projectsConfig = useResumeProjects();
+  const bi = (b: { zh: string; en: string }) => (resumeLang === 'en' ? b.en : b.zh);
+  const projectList = projectsConfig.map((p) => ({
+    title: bi(p.title),
+    desc: bi(p.desc),
+    tech: p.tech,
+    highlights: p.highlights.map(bi),
+    responsibility: p.responsibility ? bi(p.responsibility) : '',
+  }));
 
-  // 经历（跟随简历语言：中文用配置经历，英文用 en 字典；无英文时回退中文）
-  const expList = resumeLang === 'en'
-    ? getTranslation('en').home.experiences.map((content, i) => {
-        const time = experiences[i]?.time || '';
-        return { time, content };
-      })
-    : experiences;
+  // 经历（从统一配置读取，按简历语言取中/英文）
+  const expList = experiences.map((e) => ({
+    time: e.time,
+    content: bi(e.content),
+  }));
 
   // 导出 PDF：html2canvas 截图简历区域 → jsPDF 生成多页 PDF 下载
   const handleExport = async () => {
@@ -170,6 +174,14 @@ const ResumeExportPage: FC = () => {
             </div>
           </div>
 
+          {/* 求职意向 */}
+          <div className="tw-flex tw-flex-wrap tw-justify-center tw-gap-x-4 tw-gap-y-1 tw-text-sm tw-text-gray-600 tw-mb-4">
+            <span>{r.prefCity}: {bi(useResumePreference().city)}</span>
+            <span>{r.prefSalary}: {bi(useResumePreference().salary)}</span>
+            <span>{r.prefAvailable}: {bi(useResumePreference().availability)}</span>
+            <span>{r.prefType}: {bi(useResumePreference().type)}</span>
+          </div>
+
           {/* 技能 */}
           {showSkills && (
             <div className="tw-mb-6">
@@ -194,6 +206,19 @@ const ResumeExportPage: FC = () => {
                   <div key={p.title}>
                     <h3 className="tw-text-sm tw-font-semibold">{p.title}</h3>
                     <p className="tw-text-sm tw-text-gray-600 dark:tw-text-gray-400">{p.desc}</p>
+                    {p.responsibility && (
+                      <p className="tw-text-xs tw-text-gray-700 tw-mt-0.5">职责：{p.responsibility}</p>
+                    )}
+                    {p.tech && p.tech.length > 0 && (
+                      <p className="tw-text-xs tw-text-blue-700 tw-mt-0.5">技术栈：{p.tech.join('、')}</p>
+                    )}
+                    {p.highlights && p.highlights.length > 0 && (
+                      <ul className="tw-text-xs tw-text-gray-500 tw-mt-1 tw-space-y-0.5">
+                        {p.highlights.map((h) => (
+                          <li key={h}>• {h}</li>
+                        ))}
+                      </ul>
+                    )}
                   </div>
                 ))}
               </div>

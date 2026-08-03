@@ -5,6 +5,7 @@ import { Auth } from '../_components/auth/provider';
 import './global.css';
 import { Footer } from '../_components/layout/footer';
 import { Header } from '../_components/layout/header';
+import { FloatingAnimeBot } from '../_components/deepseek/FloatingAnimeBot';
 import { Toaster } from '../_components/shadcn/ui/toaster';
 import Theme from '../_components/theme';
 import $styles from './layout.module.css';
@@ -25,6 +26,8 @@ const AppLayout: FC<PropsWithChildren<{ modal: ReactNode }>> = ({ children, moda
             </div>
             {modal}
             <Toaster />
+            {/* 全页面二次元浮动机器人 */}
+            <FloatingAnimeBot />
         </Theme>
     </Auth>
 );

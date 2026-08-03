@@ -27,7 +27,7 @@ function buildExperienceChunks(): KnowledgeChunk[] {
   return resumeConfig.experiences.map((exp, index) => ({
     id: `exp-auto-${index}`,
     tags: EXPERIENCE_KEYWORDS[exp.time] || [exp.time, '经历', '工作'],
-    content: `${exp.time}：${exp.content}`,
+    content: `${exp.time}：${exp.content.zh}`,
   }));
 }
 
@@ -37,8 +37,8 @@ function buildExperienceChunks(): KnowledgeChunk[] {
 function buildProjectChunks(): KnowledgeChunk[] {
   return resumeConfig.projects.map((project, index) => ({
     id: `project-auto-${index}`,
-    tags: [project.title, '项目', '作品', '案例', '项目经历'],
-    content: `${project.title}：${project.desc}`,
+    tags: [project.title.zh, '项目', '作品', '案例', '项目经历'],
+    content: `${project.title.zh}：${project.desc.zh}`,
   }));
 }
 

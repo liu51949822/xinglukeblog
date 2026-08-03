@@ -12,6 +12,28 @@ import Script from 'next/script';
  * NEXT_PUBLIC_GA_MEASUREMENT_ID。未配置则自动跳过。
  */
 
+/**
+ * 事件追踪：记录关键交互（联系方式点击、简历下载等）
+ * 同时上报百度统计和 Google Analytics（若已配置）
+ */
+export function trackEvent(category: string, action: string, label?: string) {
+  try {
+    // Google Analytics 4
+    if (typeof window !== 'undefined' && (window as any).gtag) {
+      (window as any).gtag('event', action, {
+        event_category: category,
+        event_label: label || '',
+      });
+    }
+    // 百度统计
+    if (typeof window !== 'undefined' && (window as any)._hmt) {
+      (window as any)._hmt.push(['_trackEvent', category, action, label || '']);
+    }
+  } catch (e) {
+    // 静默失败
+  }
+}
+
 export function Analytics() {
   const baiduId = process.env.NEXT_PUBLIC_BAIDU_ANALYTICS_ID;
   const gaId = process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID;

@@ -6,7 +6,15 @@ import Link from 'next/link';
 import { Mail, Github, MessageCircle } from 'lucide-react';
 import { about } from '@/config/me';
 import { resumeConfig } from '@/config/resume';
-import { useResumeExperiences, useResumeStatus } from '@/store/resume';
+import {
+  useResumeExperiences,
+  useResumeStatus,
+  useResumePosition,
+  useResumeValue,
+  useResumeIntroLines,
+  useResumePreference,
+  useResumeProjects,
+} from '@/store/resume';
 import { useLocale } from '@/i18n/store';
 import { getTranslation } from '@/i18n/translations';
 import { HomeBackground } from './background';
@@ -24,9 +32,43 @@ export const ResumeHome: FC = () => {
   const t = getTranslation(locale);
   const experiences = useResumeExperiences();
   const status = useResumeStatus();
+  const position = useResumePosition();
+  const value = useResumeValue();
+  const introLines = useResumeIntroLines();
+  const preference = useResumePreference();
+  const projectsConfig = useResumeProjects();
   const [showWechat, setShowWechat] = useState(false);
 
   const openWechat = () => setShowWechat(true);
+
+  // 按当前语言取双语内容
+  const bi = (b: { zh: string; en: string }) => (locale === 'en' ? b.en : b.zh);
+  // 经历/项目/雷达/状态内容
+  const expList = experiences.map((e) => ({ time: e.time, content: bi(e.content) }));
+  const statusLabel = bi(status.label);
+  const primary = bi(position.primary);
+  const secondary = position.secondary.map(bi);
+  const positionSummary = bi(position.summary);
+  const valueTitle = bi(value.title);
+  const valuePoints = value.points.map(bi);
+  const introTexts = introLines.map(bi);
+  const projectList = projectsConfig.map((p) => ({
+    ...p,
+    title: bi(p.title),
+    desc: bi(p.desc),
+    highlights: p.highlights.map(bi),
+    responsibility: p.responsibility ? bi(p.responsibility) : '',
+  }));
+  // 求职意向
+  const pref = preference;
+  const preferenceItems = [
+    { label: t.home.prefCity, value: bi(pref.city) },
+    { label: t.home.prefSalary, value: bi(pref.salary) },
+    { label: t.home.prefAvailable, value: bi(pref.availability) },
+    { label: t.home.prefType, value: bi(pref.type) },
+  ];
+  const radarData = resumeConfig.radar.map((r) => ({ label: bi(r.label), value: r.value }));
+  const highlightList = resumeConfig.highlights.map(bi);
 
   // 技能分组
   const skillGroups = [
@@ -35,12 +77,6 @@ export const ResumeHome: FC = () => {
     { title: t.home.database, data: panels?.dataAndMiddleware?.data || [] },
     { title: t.home.devops, data: panels?.devOps?.data || [] },
   ];
-
-  // 项目
-  const projects = t.home.projects.map((p, i) => ({
-    ...p,
-    url: resumeConfig.projects[i]?.url || '#',
-  }));
 
   // 5W 卡片数据
   const fiveW = [
@@ -73,22 +109,34 @@ export const ResumeHome: FC = () => {
           </h1>
 
           {/* 求职状态徽标 */}
-          {status.label && (
+          {statusLabel && (
             <div className="tw-flex tw-justify-center">
               <span className={`tw-inline-block tw-px-4 tw-py-1.5 tw-rounded-full tw-bg-gradient-to-r ${status.color} tw-text-white tw-text-sm tw-font-medium tw-shadow-md`}>
-                {status.label}
+                {statusLabel}
               </span>
             </div>
           )}
 
-          <p className="tw-text-xl tw-text-gray-800 dark:tw-text-gray-200">{t.home.role}</p>
-          <p className="tw-text-sm tw-text-gray-600 dark:tw-text-gray-400">{t.home.brief}</p>
+          {/* 岗位定位：主标签 + 副标签 */}
+          <div className="tw-flex tw-justify-center tw-items-center tw-gap-2 tw-flex-wrap">
+            <span className="tw-px-4 tw-py-1.5 tw-rounded-lg tw-bg-blue-600 tw-text-white tw-text-lg tw-font-bold">
+              {primary}
+            </span>
+            {secondary.map((s) => (
+              <span key={s} className="tw-px-3 tw-py-1 tw-rounded-full tw-bg-white/70 dark:tw-bg-gray-800/70 tw-backdrop-blur tw-text-sm tw-text-gray-700 dark:tw-text-gray-200">
+                {s}
+              </span>
+            ))}
+          </div>
+          <p className="tw-text-sm tw-text-gray-600 dark:tw-text-gray-400 tw-max-w-2xl tw-mx-auto">
+            {positionSummary}
+          </p>
 
           {/* 打字机自我介绍 */}
           <div className="tw-flex tw-justify-center tw-min-h-[28px]">
             <TypedText
               className="tw-font-normal tw-text-lg tw-text-gray-800 dark:tw-text-gray-200"
-              data={resumeConfig.introLines}
+              data={introTexts}
             />
           </div>
 
@@ -142,7 +190,39 @@ export const ResumeHome: FC = () => {
             <span className="tw-h-px tw-flex-1 tw-bg-gray-300/50 dark:tw-bg-gray-600/50" />
           </div>
           <div className="tw-flex tw-justify-center tw-p-4">
-            <RadarChart data={resumeConfig.radar} />
+            <RadarChart data={radarData} />
+          </div>
+        </section>
+
+        {/* ── 求职意向 ── */}
+        <section className="tw-space-y-5">
+          <div className="tw-flex tw-items-center tw-gap-3">
+            <h2 className="tw-text-2xl tw-font-bold tw-text-gray-900 dark:tw-text-gray-100">{t.home.prefTitle}</h2>
+            <span className="tw-h-px tw-flex-1 tw-bg-gray-300/50 dark:tw-bg-gray-600/50" />
+          </div>
+          <div className="tw-grid tw-grid-cols-2 md:tw-grid-cols-4 tw-gap-4">
+            {preferenceItems.map((item) => (
+              <div key={item.label} className="tw-bg-white/70 dark:tw-bg-gray-800/70 tw-backdrop-blur tw-rounded-xl tw-p-4 tw-shadow-md tw-text-center">
+                <div className="tw-text-xs tw-text-gray-500 dark:tw-text-gray-400">{item.label}</div>
+                <div className="tw-text-sm tw-font-semibold tw-text-gray-800 dark:tw-text-gray-200 tw-mt-1">{item.value}</div>
+              </div>
+            ))}
+          </div>
+        </section>
+
+        {/* ── 价值陈述：我能帮团队解决什么 ── */}
+        <section className="tw-space-y-5">
+          <div className="tw-flex tw-items-center tw-gap-3">
+            <h2 className="tw-text-2xl tw-font-bold tw-text-gray-900 dark:tw-text-gray-100">💼 {valueTitle}</h2>
+            <span className="tw-h-px tw-flex-1 tw-bg-gray-300/50 dark:tw-bg-gray-600/50" />
+          </div>
+          <div className="tw-grid tw-grid-cols-1 md:tw-grid-cols-2 tw-gap-4">
+            {valuePoints.map((point, idx) => (
+              <div key={idx} className="tw-bg-gradient-to-br tw-from-blue-500/10 tw-to-indigo-500/10 tw-backdrop-blur tw-rounded-xl tw-p-5 tw-shadow-md tw-flex tw-items-start tw-gap-3">
+                <span className="tw-mt-0.5 tw-w-2 tw-h-2 tw-rounded-full tw-bg-blue-500 tw-flex-shrink-0" />
+                <p className="tw-text-sm tw-text-gray-800 dark:tw-text-gray-200">{point}</p>
+              </div>
+            ))}
           </div>
         </section>
 
@@ -199,7 +279,7 @@ export const ResumeHome: FC = () => {
             <span className="tw-h-px tw-flex-1 tw-bg-gray-300/50 dark:tw-bg-gray-600/50" />
           </div>
           <div className="tw-grid tw-grid-cols-1 md:tw-grid-cols-3 tw-gap-4">
-            {projects.map((p) => (
+            {projectList.map((p) => (
               <a
                 key={p.title}
                 href={p.url}
@@ -208,7 +288,35 @@ export const ResumeHome: FC = () => {
                 className="tw-bg-white/70 dark:tw-bg-gray-800/70 tw-backdrop-blur tw-rounded-xl tw-p-5 tw-shadow-md hover:tw-shadow-lg tw-transition-shadow tw-flex tw-flex-col tw-gap-2"
               >
                 <h3 className="tw-font-semibold tw-text-gray-800 dark:tw-text-gray-100">{p.title}</h3>
-                <p className="tw-text-sm tw-text-gray-600 dark:tw-text-gray-400 tw-flex-1">{p.desc}</p>
+                <p className="tw-text-sm tw-text-gray-600 dark:tw-text-gray-400">{p.desc}</p>
+                {/* 技术栈标签 */}
+                {p.tech && p.tech.length > 0 && (
+                  <div className="tw-flex tw-flex-wrap tw-gap-1 tw-mt-1">
+                    {p.tech.map((tech) => (
+                      <span key={tech} className="tw-px-2 tw-py-0.5 tw-rounded tw-bg-blue-50 dark:tw-bg-gray-700 tw-text-xs tw-text-blue-700 dark:tw-text-blue-300">
+                        {tech}
+                      </span>
+                    ))}
+                  </div>
+                )}
+                {/* 我的职责 */}
+                {p.responsibility && (
+                  <div className="tw-mt-1 tw-flex tw-items-start tw-gap-1.5 tw-text-xs tw-text-gray-700 dark:tw-text-gray-300">
+                    <span className="tw-mt-1 tw-w-1 tw-h-1 tw-rounded-full tw-bg-indigo-500 tw-flex-shrink-0" />
+                    {p.responsibility}
+                  </div>
+                )}
+                {/* 成果 */}
+                {p.highlights && p.highlights.length > 0 && (
+                  <ul className="tw-space-y-1 tw-mt-1 tw-flex-1">
+                    {p.highlights.map((h) => (
+                      <li key={h} className="tw-flex tw-items-start tw-gap-1.5 tw-text-xs tw-text-gray-600 dark:tw-text-gray-400">
+                        <span className="tw-mt-1 tw-w-1 tw-h-1 tw-rounded-full tw-bg-green-500 tw-flex-shrink-0" />
+                        {h}
+                      </li>
+                    ))}
+                  </ul>
+                )}
                 <span className="tw-text-xs tw-text-blue-600 dark:tw-text-blue-400">{t.home.viewProject} →</span>
               </a>
             ))}
@@ -222,7 +330,7 @@ export const ResumeHome: FC = () => {
             <span className="tw-h-px tw-flex-1 tw-bg-gray-300/50 dark:tw-bg-gray-600/50" />
           </div>
           <div className="tw-relative tw-pl-6 tw-space-y-4 tw-border-l-2 tw-border-gray-200/60 dark:tw-border-gray-700/60">
-            {experiences.map((item) => (
+            {expList.map((item) => (
               <div key={`${item.time}-${item.content}`} className="tw-relative">
                 {/* 时间线圆点 */}
                 <span className="tw-absolute -tw-left-[30px] tw-top-1.5 tw-w-3 tw-h-3 tw-rounded-full tw-bg-green-500 tw-ring-4 tw-ring-green-500/20" />
