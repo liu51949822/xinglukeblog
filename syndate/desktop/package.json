@@ -26,8 +26,10 @@
     "appId": "com.syndate.desktop",
     "productName": "SynData",
     "directories": {
-      "output": "dist"
+      "output": "dist",
+      "buildResources": "build"
     },
+    "icon": "build/icon.png",
     "files": [
       "main.js",
       "preload.js",

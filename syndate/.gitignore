@@ -20,3 +20,6 @@ android/.expo/
 
 # misc
 .DS_Store
+
+# 桌面端图标需提交（electron-builder 构建资源）
+!desktop/build/icon.png
