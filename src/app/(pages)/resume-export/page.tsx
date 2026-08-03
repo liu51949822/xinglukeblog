@@ -1,8 +1,10 @@
 'use client';
 
 import type { FC } from 'react';
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import Link from 'next/link';
+import html2canvas from 'html2canvas';
+import { jsPDF } from 'jspdf';
 import { about } from '@/config/me';
 import { resumeConfig } from '@/config/resume';
 import { useResumeExperiences } from '@/store/resume';
@@ -12,7 +14,7 @@ import { getTranslation } from '@/i18n/translations';
 /**
  * 简历 PDF 导出页
  * 访问地址：/resume-export
- * 功能：可选中文简历 / 英文简历，编排章节后用浏览器打印导出为 PDF
+ * 功能：可选中文简历 / 英文简历，编排章节后一键导出 PDF 文件下载
  */
 const ResumeExportPage: FC = () => {
   const { persion, panels } = about;
@@ -20,6 +22,8 @@ const ResumeExportPage: FC = () => {
   const locale = useLocale();
   const t = getTranslation(locale);
   const r = t.resumeExport;
+  const resumeRef = useRef<HTMLDivElement>(null);
+  const [exporting, setExporting] = useState(false);
 
   // 简历语言：默认跟随站点语言
   const [resumeLang, setResumeLang] = useState<'zh' | 'en'>(locale === 'en' ? 'en' : 'zh');
@@ -51,8 +55,46 @@ const ResumeExportPage: FC = () => {
       })
     : experiences;
 
-  const handlePrint = () => {
-    window.print();
+  // 导出 PDF：html2canvas 截图简历区域 → jsPDF 生成多页 PDF 下载
+  const handleExport = async () => {
+    if (!resumeRef.current || exporting) return;
+    setExporting(true);
+    try {
+      const canvas = await html2canvas(resumeRef.current, {
+        scale: 2,
+        useCORS: true,
+        backgroundColor: '#ffffff',
+        logging: false,
+      });
+      const imgData = canvas.toDataURL('image/jpeg', 0.95);
+      // A4 尺寸 (mm)
+      const pdf = new jsPDF('p', 'mm', 'a4');
+      const pageWidth = pdf.internal.pageSize.getWidth();
+      const pageHeight = pdf.internal.pageSize.getHeight();
+      const imgWidth = pageWidth;
+      const imgHeight = (canvas.height * imgWidth) / canvas.width;
+      let heightLeft = imgHeight;
+      let position = 0;
+
+      pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+      heightLeft -= pageHeight;
+
+      // 内容超出一页时分页
+      while (heightLeft > 0) {
+        position = heightLeft - imgHeight;
+        pdf.addPage();
+        pdf.addImage(imgData, 'JPEG', 0, position, imgWidth, imgHeight);
+        heightLeft -= pageHeight;
+      }
+
+      const filename = `行路客-简历-${resumeLang === 'zh' ? '中文' : 'English'}.pdf`;
+      pdf.save(filename);
+    } catch (e) {
+      console.error('导出 PDF 失败:', e);
+      alert('导出失败，请重试');
+    } finally {
+      setExporting(false);
+    }
   };
 
   return (
@@ -61,7 +103,12 @@ const ResumeExportPage: FC = () => {
       <div className="tw-print:hidden tw-max-w-3xl tw-mx-auto tw-px-4 tw-mb-6">
         <div className="tw-flex tw-items-center tw-justify-between">
           <h1 className="tw-text-xl tw-font-bold">{r.pageTitle}</h1>
-          <Link href="/" className="tw-text-blue-600 tw-text-sm">{r.back}</Link>
+          <Link
+            href="/"
+            className="tw-relative tw-z-20 tw-inline-block tw-px-3 tw-py-1.5 tw-text-blue-600 tw-text-sm tw-bg-white dark:tw-bg-gray-800 tw-rounded-lg tw-shadow-sm tw-border tw-border-gray-200 dark:tw-border-gray-700 hover:tw-bg-blue-50 dark:hover:tw-bg-gray-700 tw-transition-colors"
+          >
+            {r.back}
+          </Link>
         </div>
 
         {/* 语言选择 + 章节编排 */}
@@ -99,17 +146,18 @@ const ResumeExportPage: FC = () => {
             ))}
           </div>
           <button
-            onClick={handlePrint}
-            className="tw-ml-auto tw-px-5 tw-py-2 tw-rounded-lg tw-bg-blue-600 tw-text-white tw-text-sm hover:tw-bg-blue-700"
+            onClick={handleExport}
+            disabled={exporting}
+            className="tw-ml-auto tw-px-5 tw-py-2 tw-rounded-lg tw-bg-blue-600 tw-text-white tw-text-sm hover:tw-bg-blue-700 disabled:tw-opacity-60"
           >
-            {r.exportBtn}
+            {exporting ? '导出中...' : r.exportBtn}
           </button>
         </div>
       </div>
 
-      {/* 简历内容（打印区） */}
+      {/* 简历内容（导出区，html2canvas 截图） */}
       <div className="tw-max-w-3xl tw-mx-auto tw-px-4">
-        <div className="tw-bg-white dark:tw-bg-gray-800 tw-rounded-xl tw-p-8 tw-shadow-md">
+        <div ref={resumeRef} className="tw-bg-white tw-rounded-xl tw-p-8 tw-shadow-md">
           {/* 头部 */}
           <div className="tw-text-center tw-border-b tw-pb-4 tw-mb-6">
             <h1 className="tw-text-3xl tw-font-bold">{content.name}</h1>

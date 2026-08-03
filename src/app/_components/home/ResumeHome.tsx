@@ -94,13 +94,13 @@ export const ResumeHome: FC = () => {
 
           {/* 联系方式卡片：微信弹二维码，邮箱显示完整地址可点击 */}
           <div className="tw-flex tw-justify-center tw-gap-3 tw-pt-2 tw-flex-wrap">
-            {/* 微信：点击弹二维码弹窗 */}
+            {/* 微信：显示完整微信号，点击弹二维码 */}
             <button
               onClick={openWechat}
               className="tw-inline-flex tw-items-center tw-gap-2 tw-px-4 tw-py-2 tw-rounded-lg tw-bg-green-600 tw-text-white hover:tw-bg-green-700 tw-transition-colors tw-text-sm"
             >
               <MessageCircle className="tw-size-4" />
-              {t.home.wechatLabel}
+              {resumeConfig.contact.wechat}
             </button>
             {/* 邮箱：显示完整邮箱，点击打开邮件客户端 */}
             <a

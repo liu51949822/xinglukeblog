@@ -128,7 +128,7 @@ export const resumeConfig: ResumeConfig = {
   ],
   contact: {
     email: '1240332437@qq.com',
-    wechat: 'callmeprice',
+    wechat: 'ReadyToServeForAll',
     github: 'https://github.com/liu51949822',
     csdn: 'https://blog.csdn.net/weixin_45530192',
     gitee: 'https://gitee.com/callmeprice/raglib',
