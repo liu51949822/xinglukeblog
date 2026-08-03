@@ -29,6 +29,20 @@ body {
     }
 }
 
+/* ─── 二次元机器人动画 ─── */
+@keyframes bot-blink {
+    0%, 90%, 100% { transform: scaleY(1); }
+    93%, 96% { transform: scaleY(0.1); }
+}
+@keyframes bot-twirl {
+    0%, 100% { transform: rotate(-8deg); }
+    50% { transform: rotate(8deg); }
+}
+@keyframes bot-float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-4px); }
+}
+
 /* ─── 浮动机器人游走动画 ─── */
 @keyframes bot-hop {
     0% { transform: translate(0, 0) scale(1) rotate(0); }

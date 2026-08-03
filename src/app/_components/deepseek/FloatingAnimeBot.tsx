@@ -3,6 +3,7 @@
 import type { FC, ReactNode } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { X } from 'lucide-react';
+import { CuteBot } from './CuteBot';
 
 /**
  * 全页面二次元浮动机器人
@@ -58,37 +59,14 @@ const USER_PRESET = [
   '今天累吗',
 ];
 
-/** 二次元卡通机器人 SVG */
-const AnimeBot: FC<{ className?: string }> = ({ className }) => (
-  <svg viewBox="0 0 100 100" className={className} xmlns="http://www.w3.org/2000/svg">
-    {/* 光环 */}
-    <circle cx="50" cy="45" r="38" fill="#fff7e6" />
-    {/* 身体 */}
-    <rect x="25" y="50" width="50" height="42" rx="18" fill="#6c8cff" />
-    {/* 肚子 */}
-    <rect x="35" y="58" width="30" height="28" rx="12" fill="#ffd9a0" />
-    {/* 头 */}
-    <circle cx="50" cy="32" r="22" fill="#ffd9a0" />
-    {/* 头发 */}
-    <path d="M28 30 Q30 10 50 8 Q70 10 72 30 L68 24 Q66 14 50 12 Q34 14 32 24 Z" fill="#4a4a5a" />
-    {/* 呆毛 */}
-    <path d="M50 8 Q55 0 60 2 Q56 6 52 8 Z" fill="#ff8fab" />
-    {/* 眼睛 */}
-    <circle cx="42" cy="30" r="5" fill="#333" />
-    <circle cx="58" cy="30" r="5" fill="#333" />
-    <circle cx="44" cy="28" r="1.8" fill="#fff" />
-    <circle cx="60" cy="28" r="1.8" fill="#fff" />
-    {/* 腮红 */}
-    <circle cx="37" cy="37" r="3" fill="#ffb3c1" opacity="0.7" />
-    <circle cx="63" cy="37" r="3" fill="#ffb3c1" opacity="0.7" />
-    {/* 嘴 */}
-    <path d="M45 40 Q50 45 55 40" stroke="#e07a5f" strokeWidth="1.5" fill="none" strokeLinecap="round" />
-  </svg>
-);
+/** 二次元卡通机器人（纯 CSS 动画版） */
 
-export const FloatingAnimeBot: FC = () => {
+export const FloatingAnimeBot: FC<{ listening?: boolean; speaking?: boolean }> = ({
+  listening = false,
+  speaking = false,
+}) => {
   const [position, setPosition] = useState<{ x: number; y: number } | null>(null);
-  const [collapsed, setCollapsed] = useState(false);
+  const [hidden, setHidden] = useState(false);
   const [chats, setChats] = useState<ChatBubble[]>([]);
   const [showPanel, setShowPanel] = useState(false);
   const [inputText, setInputText] = useState('');
@@ -103,7 +81,9 @@ export const FloatingAnimeBot: FC = () => {
   });
   const idRef = useRef(0);
   const showPanelRef = useRef(false);
+  const hiddenRef = useRef(false);
   showPanelRef.current = showPanel;
+  hiddenRef.current = hidden;
   // 移动动作序列（每次随机挑一个，短时间不重复）
   const MOVE_ANIMS = ['bot-move-hop', 'bot-move-spin', 'bot-move-wobble', 'bot-move-dash', 'bot-move-jump'];
   const lastAnimRef = useRef('');
@@ -131,8 +111,8 @@ export const FloatingAnimeBot: FC = () => {
     // 每 6~12 秒移动一次（更频繁）
     const scheduleMove = () => {
       interval = setTimeout(() => {
-        // 拖拽中或面板打开时不移动
-        if (!dragRef.current.dragging && !showPanelRef.current) {
+        // 拖拽中、面板打开或完全隐藏时不移动
+        if (!dragRef.current.dragging && !showPanelRef.current && !hiddenRef.current) {
           setMoving(true);
           moveToRandom();
           // 移动结束后清状态
@@ -150,6 +130,11 @@ export const FloatingAnimeBot: FC = () => {
     let timeout: ReturnType<typeof setTimeout>;
     const schedule = () => {
       timeout = setTimeout(() => {
+        // 完全隐藏时不主动对话
+        if (hiddenRef.current) {
+          schedule();
+          return;
+        }
         const msg = BOT_MESSAGES[Math.floor(Math.random() * BOT_MESSAGES.length)];
         addChat('bot', msg);
         // 有概率用户会回应一句
@@ -225,7 +210,7 @@ export const FloatingAnimeBot: FC = () => {
   return (
     <>
       {/* 对话面板 */}
-      {showPanel && (
+      {showPanel && !hidden && (
         <div
           style={{
             position: 'fixed',
@@ -274,7 +259,8 @@ export const FloatingAnimeBot: FC = () => {
         </div>
       )}
 
-      {/* 机器人本体（可拖拽） */}
+      {/* 机器人本体（可拖拽），隐藏时不渲染 */}
+      {!hidden && (
       <div
         style={style}
         onPointerDown={onPointerDown}
@@ -283,46 +269,34 @@ export const FloatingAnimeBot: FC = () => {
         className="tw-select-none tw-cursor-grab tw-touch-none"
         title="拖拽移动"
       >
-        {collapsed ? (
-          <button
-            onClick={() => setCollapsed(false)}
-            className="tw-w-14 tw-h-14 tw-rounded-full tw-bg-gradient-to-br tw-from-pink-400 tw-to-purple-500 tw-text-white tw-shadow-xl tw-flex tw-items-center tw-justify-center tw-border-2 tw-border-white tw-animate-bounce"
-          >
-            <span className="tw-text-2xl">🧸</span>
-          </button>
-        ) : (
-          <div className="tw-relative">
-            {/* 阴影光晕 */}
-            <div className="tw-absolute tw-inset-0 tw-rounded-full tw-bg-pink-400/30 tw-blur-lg tw-scale-110 tw-animate-pulse" />
-            {/* 二次元形象 */}
-            <div
-              className={`tw-relative tw-w-16 tw-h-16 tw-rounded-full tw-bg-gradient-to-br tw-from-pink-300 tw-to-purple-400 tw-shadow-xl tw-flex tw-items-center tw-justify-center tw-border-2 tw-border-white ${
-                moving && moveAnim ? moveAnim : ''
-              }`}
-              onClick={() => setShowPanel((v) => !v)}
-            >
-              <AnimeBot className="tw-w-12 tw-h-12" />
-              {/* 未读提示 */}
-              {chats.length > 0 && !showPanel && (
-                <span className="tw-absolute tw-top-0 tw-right-0 tw-w-5 tw-h-5 tw-rounded-full tw-bg-red-500 tw-text-white tw-text-[10px] tw-flex tw-items-center tw-justify-center tw-animate-pulse">
-                  {chats.length}
-                </span>
-              )}
-            </div>
-            {/* 收起按钮 */}
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setCollapsed(true);
-              }}
-              className="tw-absolute -tw-top-1 -tw-left-1 tw-w-5 tw-h-5 tw-rounded-full tw-bg-gray-500 tw-text-white tw-flex tw-items-center tw-justify-center tw-shadow"
-              title="收起"
-            >
-              <X className="tw-w-3 tw-h-3" />
-            </button>
-          </div>
-        )}
+        {/* 关闭按钮 */}
+        <button
+          onClick={(e) => {
+            e.stopPropagation();
+            setHidden(true);
+          }}
+          className="tw-absolute tw-top-0 tw-right-0 tw-w-5 tw-h-5 tw-rounded-full tw-bg-gray-500 tw-text-white tw-flex tw-items-center tw-justify-center tw-shadow hover:tw-bg-gray-600"
+          title="完全关闭"
+        >
+          <X className="tw-w-3 tw-h-3" />
+        </button>
       </div>
+      )}
+
+      {/* 完全关闭后：页面右下角唤回按钮 */}
+      {hidden && (
+        <button
+          onClick={() => {
+            setHidden(false);
+            setShowPanel(false);
+            setChats([]);
+          }}
+          className="tw-fixed tw-bottom-4 tw-right-4 tw-w-10 tw-h-10 tw-rounded-full tw-bg-pink-400/80 tw-backdrop-blur tw-text-white tw-shadow-lg tw-flex tw-items-center tw-justify-center tw-border tw-border-white/50 hover:tw-bg-pink-500 tw-transition-colors"
+          title="唤回机器人"
+        >
+          <span className="tw-text-lg">🧸</span>
+        </button>
+      )}
     </>
   );
 };
