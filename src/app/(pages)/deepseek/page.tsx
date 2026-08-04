@@ -6,8 +6,8 @@ export const generateMetadata = async(_metadata: Record<string, any>,
 ): Promise<Metadata> => {
   const parentTitle = (await parent).title?.absolute ?? 'XinglukeBlog';
   return {
-    title: `deepseek | ${parentTitle}`,
-    description: '有什么想说的请说话。',
+    title: `求职知识库问答 | ${parentTitle}`,
+    description: '基于个人能力知识库的智能问答，了解技能、经历、项目与求职方向。',
   };
 }; 
 

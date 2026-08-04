@@ -1,0 +1,11 @@
+# robots.txt - 行路客求职网站
+# 允许所有搜索引擎抓取，但排除隐藏管理路由
+
+User-agent: *
+Allow: /
+
+# 隐藏管理路由（不对搜索引擎开放）
+Disallow: /resume-admin
+
+# sitemap 位置
+Sitemap: https://www.xingluke.cn/sitemap.xml
