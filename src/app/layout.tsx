@@ -48,6 +48,10 @@ export const metadata: Metadata = {
 
 const RootLayout: FC<PropsWithChildren> = ({ children }) => (
     <html lang="zh-CN">
+        <head>
+            {/* 百度站长平台验证 */}
+            <meta name="baidu-site-verification" content="codeva-F0GpwAkA7F" />
+        </head>
         <body>
             {children}
             {/* 访问统计埋点（百度 + Google） */}
