@@ -60,7 +60,7 @@ jobs:
             .next/export-marker.json .next/images-manifest.json .next/next-minimal-server.js.nft.json \
             .next/next-server.js.nft.json .next/package.json .next/prerender-manifest.json \
             .next/react-loadable-manifest.json .next/required-server-files.json .next/routes-manifest.json \
-            public package.json src/database
+            public package.json src/database scripts/deploy.sh
 
       - name: Deploy to server
         uses: appleboy/scp-action@v0.1.7
@@ -81,4 +81,10 @@ jobs:
           password: ${{ secrets.SERVER_PASSWORD }}
           port: ${{ secrets.SERVER_PORT }}
           script: |
-            bash /opt/xinglukeblog/deploy.sh
+            # 先把部署脚本复制到 /tmp（避免 rm -rf 时被删）
+            cp /tmp/deploy.tar.gz /tmp/deploy_ci.tar.gz
+            # 从 tar 里提取 deploy.sh 到 /tmp
+            tar xzf /tmp/deploy_ci.tar.gz -C /tmp scripts/deploy.sh 2>/dev/null || true
+            # 执行部署（deploy.sh 内部会处理解压和启动）
+            cp /tmp/scripts/deploy.sh /tmp/deploy.sh 2>/dev/null || true
+            bash /tmp/deploy.sh
