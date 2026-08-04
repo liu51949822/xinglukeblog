@@ -156,11 +156,15 @@ export const FloatingAnimeBot: FC<{ listening?: boolean; speaking?: boolean }> =
   }, []);
 
   const addChat = (from: 'bot' | 'user', text: string) => {
+    // 完全隐藏后：不添加任何聊天、不弹面板、不触发后续事件
+    if (hiddenRef.current) return;
     const id = ++idRef.current;
     setChats((prev) => [...prev.slice(-6), { id, text, from }]);
     setShowPanel(true);
-    // 5 秒后收起面板
-    setTimeout(() => setShowPanel(false), 5000);
+    // 5 秒后收起面板（若期间被隐藏则无操作）
+    setTimeout(() => {
+      if (!hiddenRef.current) setShowPanel(false);
+    }, 5000);
   };
 
   // 拖拽（pointer 事件，区分点击）
@@ -273,7 +277,12 @@ export const FloatingAnimeBot: FC<{ listening?: boolean; speaking?: boolean }> =
         <button
           onClick={(e) => {
             e.stopPropagation();
+            // 彻底关闭：隐藏 + 立即关面板 + 清空对话与游走状态
             setHidden(true);
+            setShowPanel(false);
+            setChats([]);
+            setPosition(null);
+            setMoving(false);
           }}
           className="tw-absolute tw-top-0 tw-right-0 tw-w-5 tw-h-5 tw-rounded-full tw-bg-gray-500 tw-text-white tw-flex tw-items-center tw-justify-center tw-shadow hover:tw-bg-gray-600"
           title="完全关闭"
