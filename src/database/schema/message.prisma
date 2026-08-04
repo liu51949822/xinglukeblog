@@ -1,0 +1,9 @@
+// 留言板数据模型
+model Message {
+  id        String   @id @default(cuid())
+  name      String
+  content   String
+  createdAt DateTime @default(now())
+
+  @@map("messages")
+}

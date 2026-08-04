@@ -9,6 +9,7 @@ import { createHonoApp } from './common/app';
 import { postPath, postRoutes } from './post/routes';
 import { tagPath, tagRoutes } from './tag/routes';
 import { deepseekPath, deepseekRoutes } from './deepseek/routes';
+import { messagePath, messageRoutes } from './message/routes';
 import { testPath, testRoutes } from './test/routes';
 const app = createHonoApp().basePath(appConfig.apiPath);
 app.get('/', (c) => c.text('API'));
@@ -18,6 +19,7 @@ app.route(tagPath, tagRoutes)
     .route(postPath, postRoutes)
     .route(authPath, authRoutes)
     .route(deepseekPath, deepseekRoutes)
+    .route(messagePath, messageRoutes)
     .route(testPath, testRoutes);   
 
 app.get(
