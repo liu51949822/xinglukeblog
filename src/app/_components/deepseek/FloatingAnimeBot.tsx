@@ -270,9 +270,24 @@ export const FloatingAnimeBot: FC<{ listening?: boolean; speaking?: boolean }> =
         onPointerDown={onPointerDown}
         onPointerMove={onPointerMove}
         onPointerUp={onPointerUp}
-        className="tw-select-none tw-cursor-grab tw-touch-none"
+        className="tw-select-none tw-cursor-grab tw-touch-none tw-w-16 tw-h-16"
         title="拖拽移动"
       >
+        {/* 二次元形象（点击弹面板） */}
+        <div
+          className={`tw-relative tw-w-16 tw-h-16 tw-rounded-full tw-bg-gradient-to-br tw-from-pink-300 tw-to-purple-400 tw-shadow-xl tw-flex tw-items-center tw-justify-center tw-border-2 tw-border-white ${
+            moving && moveAnim ? moveAnim : ''
+          }`}
+          onClick={() => setShowPanel((v) => !v)}
+        >
+          <CuteBot size={56} listening={listening} speaking={speaking} />
+          {/* 未读提示 */}
+          {chats.length > 0 && !showPanel && (
+            <span className="tw-absolute tw-top-0 tw-right-0 tw-w-5 tw-h-5 tw-rounded-full tw-bg-red-500 tw-text-white tw-text-[10px] tw-flex tw-items-center tw-justify-center tw-animate-pulse">
+              {chats.length}
+            </span>
+          )}
+        </div>
         {/* 关闭按钮 */}
         <button
           onClick={(e) => {
