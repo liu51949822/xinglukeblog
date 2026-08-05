@@ -12,8 +12,8 @@ importers:
         specifier: 0.0.45
         version: 0.0.45(zod@3.25.76)
       '@ai-sdk/react':
-        specifier: 0.0.29
-        version: 0.0.29(react@19.1.0)(zod@3.25.76)
+        specifier: 0.0.70
+        version: 0.0.70(react@19.1.0)(zod@3.25.76)
       '@ant-design/cssinjs':
         specifier: ^1.23.0
         version: 1.23.0(react-dom@19.1.0(react@19.1.0))(react@19.1.0)
@@ -459,19 +459,6 @@ packages:
       zod:
         optional: true
 
-  '@ai-sdk/provider-utils@1.0.5':
-    resolution: {integrity: sha512-XfOawxk95X3S43arn2iQIFyWGMi0DTxsf9ETc6t7bh91RPWOOPYN1tsmS5MTKD33OGJeaDQ/gnVRzXUCRBrckQ==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.0.0
-    peerDependenciesMeta:
-      zod:
-        optional: true
-
-  '@ai-sdk/provider@0.0.14':
-    resolution: {integrity: sha512-gaQ5Y033nro9iX1YUjEDFDRhmMcEiCk56LJdIUbX5ozEiCNCfpiBpEqrjSp/Gp5RzBS2W0BVxfG7UGW6Ezcrzg==}
-    engines: {node: '>=18'}
-
   '@ai-sdk/provider@0.0.18':
     resolution: {integrity: sha512-LF4aUAKDTKIHa2e7ozwRJDMhUC9cs7t224sUilG1HfyFWyyh+01oPZwMob/hj111SozZkvXIukN0BIa+sXS0mw==}
     engines: {node: '>=18'}
@@ -479,18 +466,6 @@ packages:
   '@ai-sdk/provider@0.0.26':
     resolution: {integrity: sha512-dQkfBDs2lTYpKM8389oopPdQgIU007GQyCbuPPrV+K6MtSII3HBfE0stUIMXUb44L+LK1t6GXPP7wjSzjO6uKg==}
     engines: {node: '>=18'}
-
-  '@ai-sdk/react@0.0.29':
-    resolution: {integrity: sha512-eTxTmEW0yTCBrfE5iZ/llBsruBbLCpuO6xHWJBjkm8JcA3aWKafMgqULlDcq1wOkb44By1aBQw3NjxF/UIc1Xw==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      react: ^18 || ^19
-      zod: ^3.0.0
-    peerDependenciesMeta:
-      react:
-        optional: true
-      zod:
-        optional: true
 
   '@ai-sdk/react@0.0.70':
     resolution: {integrity: sha512-GnwbtjW4/4z7MleLiW+TOZC2M29eCg1tOUpuEiYFMmFNZK8mkrqM0PFZMo6UsYeUYMWqEOOcPOU9OQVJMJh7IQ==}
@@ -520,15 +495,6 @@ packages:
       svelte: ^3.0.0 || ^4.0.0 || ^5.0.0
     peerDependenciesMeta:
       svelte:
-        optional: true
-
-  '@ai-sdk/ui-utils@0.0.20':
-    resolution: {integrity: sha512-6MRWigzXfuxUcAYEFMLP6cLbALJkg12Iz1Sl+wuPMpB6aw7di2ePiTuNakFUYjgP7TNsW4UxzpypBqqJ1KNB0A==}
-    engines: {node: '>=18'}
-    peerDependencies:
-      zod: ^3.0.0
-    peerDependenciesMeta:
-      zod:
         optional: true
 
   '@ai-sdk/ui-utils@0.0.50':
@@ -6009,11 +5975,6 @@ packages:
   svg-tags@1.0.0:
     resolution: {integrity: sha512-ovssysQTa+luh7A5Weu3Rta6FJlFBBbInjOh722LIt6klpU2/HtdUbszju/G4devcvk8PGt7FCLv5wftu3THUA==}
 
-  swr@2.2.5:
-    resolution: {integrity: sha512-QtxqyclFeAsxEUeZIYmsaQ0UjimSq1RZ9Un7I68/0ClKK/U3LoyQunwkQfJZr2fc22DfIXLNDc2wFyTEikCUpg==}
-    peerDependencies:
-      react: ^16.11.0 || ^17.0.0 || ^18.0.0
-
   swr@2.4.1:
     resolution: {integrity: sha512-2CC6CiKQtEwaEeNiqWTAw9PGykW8SR5zZX8MZk6TeAvEAnVS7Visz8WzphqgtQ8v2xz/4Q5K+j+SeMaKXeeQIA==}
     peerDependencies:
@@ -6569,19 +6530,6 @@ snapshots:
     optionalDependencies:
       zod: 3.25.76
 
-  '@ai-sdk/provider-utils@1.0.5(zod@3.25.76)':
-    dependencies:
-      '@ai-sdk/provider': 0.0.14
-      eventsource-parser: 1.1.2
-      nanoid: 3.3.6
-      secure-json-parse: 2.7.0
-    optionalDependencies:
-      zod: 3.25.76
-
-  '@ai-sdk/provider@0.0.14':
-    dependencies:
-      json-schema: 0.4.0
-
   '@ai-sdk/provider@0.0.18':
     dependencies:
       json-schema: 0.4.0
@@ -6589,15 +6537,6 @@ snapshots:
   '@ai-sdk/provider@0.0.26':
     dependencies:
       json-schema: 0.4.0
-
-  '@ai-sdk/react@0.0.29(react@19.1.0)(zod@3.25.76)':
-    dependencies:
-      '@ai-sdk/provider-utils': 1.0.5(zod@3.25.76)
-      '@ai-sdk/ui-utils': 0.0.20(zod@3.25.76)
-      swr: 2.2.5(react@19.1.0)
-    optionalDependencies:
-      react: 19.1.0
-      zod: 3.25.76
 
   '@ai-sdk/react@0.0.70(react@19.1.0)(zod@3.25.76)':
     dependencies:
@@ -6625,13 +6564,6 @@ snapshots:
       svelte: 5.53.7
     transitivePeerDependencies:
       - zod
-
-  '@ai-sdk/ui-utils@0.0.20(zod@3.25.76)':
-    dependencies:
-      '@ai-sdk/provider-utils': 1.0.5(zod@3.25.76)
-      secure-json-parse: 2.7.0
-    optionalDependencies:
-      zod: 3.25.76
 
   '@ai-sdk/ui-utils@0.0.50(zod@3.25.76)':
     dependencies:
@@ -13135,12 +13067,6 @@ snapshots:
     optional: true
 
   svg-tags@1.0.0: {}
-
-  swr@2.2.5(react@19.1.0):
-    dependencies:
-      client-only: 0.0.1
-      react: 19.1.0
-      use-sync-external-store: 1.6.0(react@19.1.0)
 
   swr@2.4.1(react@19.1.0):
     dependencies:

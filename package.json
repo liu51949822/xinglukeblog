@@ -30,7 +30,7 @@
     },
     "dependencies": {
         "@ai-sdk/openai": "0.0.45",
-        "@ai-sdk/react": "0.0.29",
+        "@ai-sdk/react": "0.0.70",
         "@ant-design/cssinjs": "^1.23.0",
         "@ant-design/nextjs-registry": "^1.0.2",
         "@ant-design/v5-patch-for-react-19": "^1.0.3",
