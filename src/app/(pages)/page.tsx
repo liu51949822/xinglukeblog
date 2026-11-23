@@ -7,31 +7,61 @@ export const generateMetadata = async (
     _metadata: Record<string, any>,
     parent: ResolvingMetadata,
 ): Promise<Metadata> => ({
-    title: `全栈工程师简历 | 行路客（Java/Spring/React/Next.js）`,
+    title: '刘仁杰 Liu Renjie | Senior AI Agent / Applied AI Engineer',
     description:
-        '行路客 · 全栈软件工程师。Java 为核心，AI Coding 全语言胜任。MES 生产系统服务全球最大缝制设备商 7 家工厂（500~20000人）、无人驾驶数据处理、智慧城市 UAV 监控。接受远程工作。',
+        '刘仁杰 / Liu Renjie，Senior AI Agent / Applied AI Engineer，专注 Agent Platform & Backend。9 年后端与平台经验，聚焦生产级 Agent、语音 AI、MCP/RAG 与 Multi-Agent，开放全球远程与跨时区合作，曾远程协作纽约团队。',
     keywords: [
-        '全栈工程师', 'Java开发', 'Spring Boot', 'React', 'Next.js',
-        'MES生产系统', '无人驾驶数据处理', '智慧城市', '远程工作', 'Java工程师求职',
+        '刘仁杰',
+        'Liu Renjie',
+        'Senior AI Agent Engineer',
+        'Applied AI Engineer',
+        'Agent Platform & Backend',
+        'Production Agent',
+        'Voice AI',
+        'MCP',
+        'RAG',
+        'Multi-Agent',
+        'Cross-timezone Remote',
+        '远程工作',
     ],
+    openGraph: {
+        title: '刘仁杰 Liu Renjie | Senior AI Agent / Applied AI Engineer',
+        description:
+            'Agent Platform & Backend，9 年后端与平台经验，专注生产级 Agent、语音 AI、MCP/RAG 与 Multi-Agent，开放全球远程与跨时区合作，曾远程协作纽约团队。',
+        type: 'website',
+        locale: 'zh_CN',
+        siteName: '行路客的小站',
+    },
 });
 
 // 简历结构化数据（schema.org Person），提升搜索引擎识别
 const personJsonLd = {
     '@context': 'https://schema.org',
     '@type': 'Person',
-    name: '行路客',
-    jobTitle: '全栈软件工程师',
+    name: '刘仁杰',
+    alternateName: 'Liu Renjie',
+    jobTitle: 'Senior AI Agent / Applied AI Engineer',
+    description:
+        'Agent Platform & Backend，9 年后端与平台经验，专注生产级 Agent、语音 AI、MCP/RAG 与 Multi-Agent，开放全球远程与跨时区合作，曾远程协作纽约团队。',
     email: 'mailto:1240332437@qq.com',
     knowsAbout: [
-        'Java', 'Spring Boot', 'Spring Cloud', 'React', 'Next.js',
-        'TypeScript', 'PostgreSQL', 'Redis', 'Kafka', 'Docker', 'Kubernetes',
+        'Agent Platform & Backend',
+        'Production AI Agents',
+        'Voice AI',
+        'Model Context Protocol (MCP)',
+        'Retrieval-Augmented Generation (RAG)',
+        'Multi-Agent Systems',
+        'Backend Engineering',
+        'Platform Engineering',
+        'Java',
+        'Spring Boot',
+        'PostgreSQL',
+        'Redis',
+        'Kafka',
+        'Docker',
+        'Kubernetes',
     ],
-    hasCredential: '软件工程师（全栈，Java 核心）',
-    sameAs: [
-        'https://blog.csdn.net/weixin_45530192',
-        'https://github.com/liu51949822',
-    ],
+    sameAs: ['https://blog.csdn.net/weixin_45530192', 'https://github.com/liu51949822'],
 };
 
 const HomePage: FC = async () => (

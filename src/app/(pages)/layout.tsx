@@ -10,10 +10,9 @@ import { Toaster } from '../_components/shadcn/ui/toaster';
 import Theme from '../_components/theme';
 import $styles from './layout.module.css';
 export const metadata: Metadata = {
-    title: '行路客的小站',
+    title: '刘仁杰 Liu Renjie | Senior AI Agent / Applied AI Engineer',
     description:
-        '行路客的小站,记录技术文档和分享生活点滴,专注于全栈开发、编程语言、数据库、云计算等技术领域的知识分享与交流。',
-
+        '刘仁杰 / Liu Renjie 的行路客博客。Senior AI Agent / Applied AI Engineer，专注 Agent Platform & Backend，拥有 9 年后端与平台经验，分享生产级 Agent、语音 AI、MCP/RAG 与 Multi-Agent 实践，开放全球远程与跨时区合作，曾远程协作纽约团队。',
 };
 
 const AppLayout: FC<PropsWithChildren<{ modal: ReactNode }>> = ({ children, modal }) => (
