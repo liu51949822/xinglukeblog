@@ -81,6 +81,7 @@ export const ResumeHome: FC = () => {
         { title: t.home.backend, data: panels?.back?.data || [] },
         { title: t.home.database, data: panels?.dataAndMiddleware?.data || [] },
         { title: t.home.devops, data: panels?.devOps?.data || [] },
+        { title: t.home.remoteCollaboration, data: panels?.remoteCollaboration?.data || [] },
     ].filter((group) => group.data.length > 0);
 
     // 5W 卡片数据

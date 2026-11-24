@@ -61,6 +61,12 @@ function buildSkillChunks(): KnowledgeChunk[] {
             tags: ['项目实践', '语音', '记忆', '人工确认', 'Memory', 'HITL'],
             data: panels.doingSkill?.data || [],
         },
+        {
+            id: 'remote-collaboration-tools',
+            title: panels.remoteCollaboration?.title || '远程协作工具',
+            tags: ['远程', '协作', '工具', '技术栈', 'remote', 'collaboration', '跨时区', '异步'],
+            data: panels.remoteCollaboration?.data || [],
+        },
     ];
 
     return groups

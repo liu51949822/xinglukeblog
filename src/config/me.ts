@@ -65,6 +65,22 @@ export const about: AboutMeProps = {
                 'ELK',
             ],
         },
+        remoteCollaboration: {
+            title: '远程协作工具 / Remote Collaboration Tools',
+            data: [
+                'Slack',
+                'Dash',
+                'Zoom',
+                'Google Meet',
+                'Microsoft Teams',
+                'Notion',
+                'Jira',
+                'Linear',
+                'GitHub / Pull Requests',
+                'GitLab',
+                '飞书 / Feishu',
+            ],
+        },
         doingSkill: {
             title: '项目实践 / Project Practice',
             data: [

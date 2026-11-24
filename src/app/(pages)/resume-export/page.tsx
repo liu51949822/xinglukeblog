@@ -57,6 +57,7 @@ const ResumeExportPage: FC = () => {
         { title: content.backend, data: panels?.back?.data || [] },
         { title: content.database, data: panels?.dataAndMiddleware?.data || [] },
         { title: content.devops, data: panels?.devOps?.data || [] },
+        { title: content.remoteCollaboration, data: panels?.remoteCollaboration?.data || [] },
     ].filter((group) => group.data.length > 0);
 
     // 项目（从统一配置读取，按简历语言取中/英文）
