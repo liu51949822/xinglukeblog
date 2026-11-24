@@ -24,12 +24,6 @@ const chatSchema = z.object({
   ).min(1, "At least one message is required"),
 });
 
-// 错误响应模式
-const errorResponseSchema = z.object({
-  error: z.string(),
-  details: z.any().optional(),
-});
-
 export const deepseekRoutes = app.post(
   `/chat`,
   describeRoute({
@@ -93,6 +87,7 @@ export const deepseekRoutes = app.post(
         400
       );
     }
+    return undefined;
   }),
   async (c) => {
     try {
@@ -139,5 +134,4 @@ export const deepseekRoutes = app.post(
     }
   }
 );
-
 

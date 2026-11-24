@@ -1,6 +1,5 @@
 // src/server/chat/schema.ts
 import { z } from 'zod';
-import type { DeepSeekRequestBody } from './type';
 
 export const chatRequestSchema = z.object({
   messages: z.array(

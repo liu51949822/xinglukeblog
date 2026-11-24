@@ -5,6 +5,7 @@ import { postApi } from '@/api/post';
 import { checkAuth } from '@/app/_components/auth/checking';
 import { PostPageForm } from '@/app/_components/blog/form/page';
 import { cn } from '@/app/_components/shadcn/utils';
+import { postSchema } from '@/server/post/schema';
 import { isNil } from 'lodash';
 import { notFound, redirect } from 'next/navigation';
 
@@ -29,7 +30,7 @@ const PostEditPage: FC<{ params: Promise<{ item: string }> }> = async ({ params 
         if (result.status !== 404) throw new Error((await result.json()).message);
         return notFound();
     }
-    const post = await result.json();
+    const post = postSchema.parse(await result.json());
     return (
         <div className="tw-page-item">
             <div className={cn($styles.item, 'tw-page-container')}>

@@ -1,6 +1,6 @@
 "use client"
 
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState } from "react"
 import { cn } from "@/app/_components/shadcn/utils"
 
 interface InteractiveGridPatternProps extends React.SVGProps<SVGSVGElement> {

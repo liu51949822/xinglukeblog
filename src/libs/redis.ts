@@ -8,4 +8,5 @@ export const redis = new Redis(process.env.REDIS_URL || 'redis://localhost:6379'
     password: process.env.REDIS_PASSWORD || undefined,
     db: !isNil(process.env.REDIS_DB) ? Number.parseInt(process.env.REDIS_DB) : undefined,
     keyPrefix: process.env.REDIS_KEYPREFIX || 'nextapp:',
+    lazyConnect: true,
 });

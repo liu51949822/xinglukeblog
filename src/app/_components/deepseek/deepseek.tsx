@@ -2,7 +2,6 @@
 
 import { useChat } from '@ai-sdk/react';
 import { Send, Mic, Square, Volume2, VolumeX } from 'lucide-react';
-import { useState } from 'react';
 import Background from '../background/background';
 import { useLocale } from '@/i18n/store';
 import { getTranslation } from '@/i18n/translations';
@@ -24,7 +23,6 @@ export default function DeepSeekChat() {
 
   // 语音对话
   const voice = useVoiceChat();
-  const [autoSpeak, setAutoSpeak] = useState(true);
 
   // 处理语音识别结果：识别完自动发送
   const handleVoiceToggle = async () => {

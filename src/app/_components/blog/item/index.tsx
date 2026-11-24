@@ -7,6 +7,7 @@ import { getNestLinks } from '@/app/_components/blog/utils';
 import { MdxRender } from '@/app/_components/mdx/render';
 import { cn } from '@/app/_components/shadcn/utils';
 import { formatTime } from '@/libs/time';
+import { postSchema } from '@/server/post/schema';
 import { isNil } from 'lodash';
 import { Calendar, Tag, User } from 'lucide-react';
 import Image from 'next/image';
@@ -24,7 +25,7 @@ export const PostItemIndex: FC<{ item: string }> = async ({ item }) => {
         if (result.status !== 404) throw new Error((await result.json()).message);
         return notFound();
     }
-    const post = await result.json();
+    const post = postSchema.parse(await result.json());
     const breadcrumbs: IBlogBreadcrumbItem[] = [...getNestLinks(post.categories, 'post')];
 
     breadcrumbs.push({

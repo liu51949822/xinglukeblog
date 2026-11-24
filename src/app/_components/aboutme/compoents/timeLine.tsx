@@ -34,7 +34,7 @@ const getMotionSide = (side: 'left' | 'right' | null | undefined): FadeInMotionP
 
 export const AboutTimeline: FC<Props> = ({ data }) => (
     <Timeline positions="center">
-        {data.map((item, index) => (
+        {data?.map((item, index) => (
             <TimelineItem status="done" key={index.toFixed()}>
                 <TimelineHeading
                     side={index % 2 === 0 ? 'left' : 'right'}

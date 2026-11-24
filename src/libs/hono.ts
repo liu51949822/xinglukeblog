@@ -37,14 +37,10 @@ export const buildClient = <T extends Hono<any, any, any>>(route?: string) =>
         headers: getHeadersWithAccessToken(async () => getCookie(ACCESS_TOKEN_COOKIE_NAME)),
     });
 
-export const fetchApi = async <
-    T extends Hono<any, any, any>,
-    F extends (c: C) => Promise<any>,
-    C = ReturnType<typeof hc<T>>,
->(
+export const fetchApi = async <C, R extends Response>(
     client: C,
-    run: F,
-): Promise<ReturnType<F>> => {
+    run: (client: C) => Promise<R>,
+): Promise<R> => {
     const result = await run(client);
     if (!result.ok && result.status === 401) {
         if (typeof window === 'undefined') {
@@ -52,7 +48,7 @@ export const fetchApi = async <
         } else {
             await deleteCookie(ACCESS_TOKEN_COOKIE_NAME);
             window.location.href = '/auth/login';
-            return new Promise(() => {}); // 防止后续代码执行
+            return new Promise<never>(() => {}); // 防止后续代码执行
         }
     }
     return result;

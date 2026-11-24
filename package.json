@@ -2,6 +2,9 @@
     "name": "nextapp",
     "version": "0.1.0",
     "private": true,
+    "engines": {
+        "node": ">=22 <25"
+    },
     "scripts": {
         "dev": "rimraf -rf .next && next dev",
         "build": "rimraf -rf .next && next build",

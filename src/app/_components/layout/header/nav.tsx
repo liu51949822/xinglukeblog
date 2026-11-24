@@ -43,7 +43,7 @@ const items = [
         href: '/deepseek',
         icon: Rocket,
     },
-];
+] as const;
 
 const useNavTitles = () => {
     const locale = useLocale();

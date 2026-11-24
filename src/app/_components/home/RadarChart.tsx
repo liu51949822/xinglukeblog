@@ -2,6 +2,7 @@
 
 import type { FC } from 'react';
 import type { RadarSkill } from '@/config/resume';
+import { useLocale } from '@/i18n/store';
 
 interface Props {
   data: RadarSkill[];
@@ -16,6 +17,7 @@ interface Props {
  *  - 标签与数值分开放置，避免堆叠
  */
 export const RadarChart: FC<Props> = ({ data, size = 360 }) => {
+  const locale = useLocale();
   const center = size / 2;
   const radius = size / 2 - 68;
   const start = -Math.PI / 2;
@@ -106,7 +108,7 @@ export const RadarChart: FC<Props> = ({ data, size = 360 }) => {
                 fontWeight={600}
                 className="tw-fill-gray-700 dark:tw-fill-gray-200"
               >
-                {d.label}
+                {d.label[locale]}
               </text>
               <text
                 x={nx}

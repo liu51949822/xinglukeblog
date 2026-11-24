@@ -63,7 +63,7 @@
 ## 🚀 快速开始 | Quick Start
 
 ### 环境要求 | Prerequisites
-- Node.js ≥ 18
+- Node.js 22 LTS（当前 JWT 依赖链不兼容 Node.js 25+）
 - pnpm ≥ 9
 - PostgreSQL ≥ 14
 - Redis ≥ 6

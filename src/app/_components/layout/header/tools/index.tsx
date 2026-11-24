@@ -1,8 +1,6 @@
 import type { FC } from 'react';
 
 import { AuthProtector } from '@/app/_components/auth/checking';
-import { Button } from '@/app/_components/shadcn/ui/button';
-import { Loader2 } from 'lucide-react';
 
 import { ApiDocButton } from './api-doc';
 import { PostCreateButton } from './post-create';

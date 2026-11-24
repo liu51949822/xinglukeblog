@@ -15,7 +15,7 @@ const app = createHonoApp().basePath(appConfig.apiPath);
 app.get('/', (c) => c.text('API'));
 app.notFound((c) => c.json({ message: 'Not Found', ok: false }, 404));
 app.route(tagPath, tagRoutes)
-    // .route(categoryPath, categoryRoutes)
+    .route(categoryPath, categoryRoutes)
     .route(postPath, postRoutes)
     .route(authPath, authRoutes)
     .route(deepseekPath, deepseekRoutes)

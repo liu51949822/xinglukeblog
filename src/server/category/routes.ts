@@ -56,14 +56,14 @@ export const categoryRoutes = app
             summary: '分类树查询',
             description: '树形嵌套结构的分类数据查询',
             responses: {
-                ...
-        }),
-        zValidator('param', categoryListRequestParamsSchema, defaultValidatorErrorHandler),
-        async (c) => {
-            try {createSuccessResponse(categoryTreeSchema),
+                ...createSuccessResponse(categoryTreeSchema),
                 ...createValidatorErrorResponse(),
                 ...createServerErrorResponse('查询分类树数据失败'),
             },
+        }),
+        zValidator('param', categoryListRequestParamsSchema, defaultValidatorErrorHandler),
+        async (c) => {
+            try {
                 const { parent } = c.req.valid('param');
                 const result = await queryCategoryTree(parent);
                 return c.json(result, 200);

@@ -102,6 +102,7 @@ export const messageRoutes = app
           400
         );
       }
+      return undefined;
     }),
     async (c) => {
       try {

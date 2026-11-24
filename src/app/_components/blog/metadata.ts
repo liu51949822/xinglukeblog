@@ -3,6 +3,9 @@ import type { Metadata, ResolvingMetadata } from 'next';
 import { categoryApi } from '@/api/category';
 import { postApi } from '@/api/post';
 import { tagApi } from '@/api/tag';
+import { categoryListSchema } from '@/server/category/schema';
+import { postSchema } from '@/server/post/schema';
+import { tagSchema } from '@/server/tag/schema';
 import { isNil } from 'lodash';
 
 export interface IBlogMetadata {
@@ -28,7 +31,7 @@ export const getBlogMetadata = async ({
     if (!isNil(categories) && categories.length > 0) {
         const result = await categoryApi.breadcrumb(categories[categories.length - 1]);
         if (!result.ok) return {};
-        const data = await result.json();
+        const data = categoryListSchema.parse(await result.json());
         if (data.length > 0) {
             title = `${data[data.length - 1].name} | `;
             keywords = [...keywords, ...data.map((i) => i.name)];
@@ -37,7 +40,7 @@ export const getBlogMetadata = async ({
     if (!isNil(tag)) {
         const result = await tagApi.detail(tag);
         if (result.ok) {
-            const data = await result.json();
+            const data = tagSchema.parse(await result.json());
             if (!isNil(data)) title = `${title}${data.text} | `;
             keywords.push(tag);
         }
@@ -55,7 +58,7 @@ export const getPostItemMetadata = async ({ params, parent }: IPostMetadata): Pr
     const { item } = await params;
     const result = await postApi.detail(item);
     if (!result.ok) return {};
-    const post = await result.json();
+    const post = postSchema.parse(await result.json());
     const title = `${post.title} - ${(await parent).title?.absolute}`;
     const keywords =
         isNil(post.keywords) || post.keywords.length === 0

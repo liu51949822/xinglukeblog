@@ -391,7 +391,13 @@ export const translations = {
     },
 } as const;
 
-export type Translation = typeof translations.zh;
+type WidenTranslation<T> = T extends string
+    ? string
+    : T extends readonly (infer Item)[]
+      ? readonly WidenTranslation<Item>[]
+      : { [Key in keyof T]: WidenTranslation<T[Key]> };
+
+export type Translation = WidenTranslation<typeof translations.zh>;
 export type TranslationKey = keyof Translation;
 
 /**

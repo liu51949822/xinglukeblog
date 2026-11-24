@@ -1,6 +1,6 @@
 'use client';
 
-import type { FC, ReactNode } from 'react';
+import type { FC } from 'react';
 import { useEffect, useRef, useState } from 'react';
 import { X } from 'lucide-react';
 import { CuteBot } from './CuteBot';
@@ -94,7 +94,6 @@ export const FloatingAnimeBot: FC<{ listening?: boolean; speaking?: boolean }> =
     // 自动在全页面随机游走（拖拽/对话时暂停）
     useEffect(() => {
         let interval: ReturnType<typeof setInterval>;
-        let raf: number;
 
         const moveToRandom = () => {
             const w = window.innerWidth;

@@ -124,12 +124,6 @@ export function InteractiveGridPattern({
         window.removeEventListener(event, updateDimensions)
       })
       
-      if (sizeMode === 'document') {
-        // 清理 MutationObserver
-        const observers = performance.getEntriesByType("navigation")
-        // 这里需要保存 observer 引用以便清理
-      }
-      
       clearTimeout(timeoutId)
     }
   }, [autoSize, sizeMode])

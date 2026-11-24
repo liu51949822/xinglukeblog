@@ -1,6 +1,7 @@
 import type { CategoryItem } from '@/server/category/type';
 
 import { categoryApi } from '@/api/category';
+import { categoryListSchema } from '@/server/category/schema';
 import { isNil } from 'lodash';
 
 import type { IBlogBreadcrumbItem } from './breadcrumb';
@@ -10,7 +11,7 @@ export const getCategories = async (categories?: string[]): Promise<CategoryItem
         const latest = categories[categories.length - 1];
         const result = await categoryApi.breadcrumb(latest);
         if (!result.ok) throw new Error((await result.json()).message);
-        const items = await result.json();
+        const items = categoryListSchema.parse(await result.json());
         if (items.length !== categories.length) return false;
         if (
             !items.every(

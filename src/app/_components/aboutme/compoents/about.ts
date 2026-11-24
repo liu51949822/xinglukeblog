@@ -1,6 +1,5 @@
 import type { TimelineType } from './timeLine';
 import type { BaseProps ,
-  AboutMeType,
   Person
 } from './base';
 

@@ -1,14 +1,11 @@
 import { describeRoute } from "hono-openapi";
-import { validator } from "hono-openapi/zod";
 import { z } from "zod";
 
 // import  type { chatRequestSchema } from "./schema";
 import { createErrorResult } from "../common/error";
 import { createHonoApp } from "../common/app";
-import { defaultValidatorErrorHandler } from "../common/error";
 import {
   createSuccessResponse,
-  createValidatorErrorResponse,
   createServerErrorResponse,
 } from "../common/response";
 
@@ -17,23 +14,6 @@ const app = createHonoApp();
 export const testPath = "/test";
 export type TestApiType = typeof testRoutes;
 export const testTags = ["测试接口"];
-
-// 请求体Schema
-const testChatRequestSchema = z.object({
-  messages: z.array(
-    z.object({
-      role: z.enum(["user", "assistant", "system"]),
-      content: z.string().min(1, "消息内容不能为空"),
-    })
-  ).min(1, "至少需要一条消息"),
-});
-
-// 响应体Schema
-const testChatResponseSchema = z.object({
-  message: z.string(),
-  data: z.string(),
-  timestamp: z.string().datetime(),
-});
 
 export const testRoutes = app
   .get(

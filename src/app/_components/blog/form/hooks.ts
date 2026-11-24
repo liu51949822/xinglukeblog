@@ -6,7 +6,7 @@ import type { DeepNonNullable } from 'utility-types';
 
 import { postApi } from '@/api/post';
 import { useToast } from '@/app/_components/shadcn/hooks/use-toast';
-import { getPostItemRequestSchema } from '@/server/post/schema';
+import { getPostItemRequestSchema, postSchema } from '@/server/post/schema';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { isNil, trim } from 'lodash';
 import { useRouter } from 'next/navigation';
@@ -25,7 +25,7 @@ export const isSlugUniqueForFrontend = (id?: string) => async (val?: string | nu
     if (isNil(val) || !val.length) return true;
     const result = await postApi.detailBySlug(val);
     if (!result.ok) return false;
-    const post = await result.json();
+    const post = postSchema.nullable().parse(await result.json());
     if (isNil(post) || post.id === id) return true;
     return false;
 };
@@ -99,13 +99,13 @@ export const usePostFormSubmitHandler = (
                 if (params.type === 'update') {
                     const res = await postApi.update(params.id, data);
                     if (!res.ok) throw new Error((await res.json()).message);
-                    post = await res.json();
+                    post = postSchema.nullable().parse(await res.json());
                 }
                 // 创建文章
                 else {
                     const res = await postApi.create(data);
                     if (!res.ok) throw new Error((await res.json()).message);
-                    post = await res.json();
+                    post = postSchema.nullable().parse(await res.json());
                 }
                 // 创建或更新文章后跳转到文章详情页
                 // 注意,这里不要用push,防止在详情页后退后返回到创建或编辑页面的弹出框
